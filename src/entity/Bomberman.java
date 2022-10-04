@@ -25,8 +25,8 @@ public class Bomberman extends Entity {
     }
 
     public void setDefaultValues() {
-        x = 100;
-        y = 100;
+        x = 48;
+        y = 48;
         speed = 4;
         direction = "down";
     }

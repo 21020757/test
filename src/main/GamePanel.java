@@ -1,5 +1,6 @@
 package main;
 
+import Tiles.TileManager;
 import entity.Bomberman;
 
 import javax.swing.*;
@@ -12,7 +13,7 @@ public class GamePanel extends JPanel implements Runnable {
 
     public final int tileSize = orignalTileSize * scale; // Tile size --- 48x48
     final int maxScreenCol = 16;
-    final int maxScreenRow = 12;
+    final int maxScreenRow = 13;
     final int screenWidth = tileSize * maxScreenCol;
     final int screenHeight = tileSize * maxScreenRow;
     KeyHandler keyH = new KeyHandler();
@@ -20,7 +21,7 @@ public class GamePanel extends JPanel implements Runnable {
     Bomberman bomberman = new Bomberman(this, keyH);
     //FPS
     int FPS = 60;
-
+    TileManager tile = new TileManager(this);
     public GamePanel() {
         this.setPreferredSize(new Dimension(screenWidth, screenHeight));
         this.setBackground(Color.BLACK);
@@ -64,6 +65,7 @@ public class GamePanel extends JPanel implements Runnable {
     public void paintComponent(Graphics g) {
         super.paintComponent(g);
         Graphics2D g2 = (Graphics2D) g;
+        tile.draw(g2);
         bomberman.draw(g2);
         g2.dispose();
     }
