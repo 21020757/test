@@ -18,12 +18,6 @@ public class GamePanel extends JPanel implements Runnable {
     KeyHandler keyH = new KeyHandler();
     Thread gameThread;
     Bomberman bomberman = new Bomberman(this, keyH);
-
-    //player's default pos
-    int playerX = 100;
-    int playerY = 100;
-    int playerSpeed = 4;
-
     //FPS
     int FPS = 60;
 
