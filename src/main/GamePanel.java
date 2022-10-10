@@ -14,11 +14,16 @@ public class GamePanel extends JPanel implements Runnable {
     public final int tileSize = orignalTileSize * scale; // Tile size --- 48x48
     final int maxScreenCol = 16;
     final int maxScreenRow = 13;
-    final int screenWidth = tileSize * maxScreenCol;
-    final int screenHeight = tileSize * maxScreenRow;
+    public final int screenWidth = tileSize * maxScreenCol;
+    public final int screenHeight = tileSize * maxScreenRow;
     KeyHandler keyH = new KeyHandler();
     Thread gameThread;
-    Bomberman bomberman = new Bomberman(this, keyH);
+    public Bomberman bomberman = new Bomberman(this, keyH);
+    //World Settings
+    public final int maxWorldCol = 31;
+    public final int maxWorldRow = 13;
+    public final int wordWidth = tileSize * maxWorldCol;
+    public final int wordHeight = tileSize * maxWorldRow;
     //FPS
     int FPS = 60;
     TileManager tile = new TileManager(this);

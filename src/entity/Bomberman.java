@@ -16,17 +16,19 @@ public class Bomberman extends Entity {
     public static final int intervalImageChange = 9;
     public boolean notMoving;
     public String preDirection;
+    public final int ScreenX;
     public Bomberman(GamePanel gp, KeyHandler keyH) {
         this.gp = gp;
         this.keyH = keyH;
+        ScreenX = gp.tileSize;
         preDirection = "down";
         setDefaultValues();
         getPlayerImage();
     }
 
     public void setDefaultValues() {
-        x = 48;
-        y = 48;
+        x = gp.tileSize;
+        y = gp.tileSize;
         speed = 4;
         direction = "down";
     }
@@ -127,6 +129,6 @@ public class Bomberman extends Entity {
                 }
             }
         }
-        g2.drawImage(image, x, y, gp.tileSize, gp.tileSize, null);
+        g2.drawImage(image, ScreenX, y, gp.tileSize, gp.tileSize, null);
     }
 }

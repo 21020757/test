@@ -18,7 +18,7 @@ public class TileManager {
     public TileManager(GamePanel gp) {
         this.gp = gp;
         tile = new Tile[5];
-        map = new char[13][31];
+        map = new char[gp.maxWorldRow][gp.maxWorldCol];
         getTileImage();
         loadMap();
     }
@@ -38,12 +38,12 @@ public class TileManager {
     }
 
     public void loadMap() {
-        try{
+        try {
             InputStream is = getClass().getResourceAsStream("/Tiles/map.txt");
             BufferedReader br = new BufferedReader(new InputStreamReader(is));
-            for (int i = 0 ; i <13; i++) {
+            for (int i = 0; i < gp.maxWorldRow; i++) {
                 String line = br.readLine();
-                for (int j =0; j < 31; j++) {
+                for (int j = 0; j < gp.maxWorldCol; j++) {
                     map[i][j] = line.charAt(j);
                 }
             }
@@ -52,16 +52,18 @@ public class TileManager {
 
         }
     }
+
     public void draw(Graphics2D g2) {
         for (int i = 0; i < 13; i++) {
             for (int j = 0; j < 31; j++) {
                 char s = map[i][j];
+                int ScreenX = j * 48 - gp.bomberman.x + gp.bomberman.ScreenX;
                 if (s == ' ') {
-                    g2.drawImage(tile[0].image, j * gp.tileSize, i * gp.tileSize, gp.tileSize, gp.tileSize, null);
+                    g2.drawImage(tile[0].image, ScreenX, i * gp.tileSize, gp.tileSize, gp.tileSize, null);
                 } else if (s == '#') {
-                    g2.drawImage(tile[1].image, j * gp.tileSize, i * gp.tileSize, gp.tileSize, gp.tileSize, null);
+                    g2.drawImage(tile[1].image, ScreenX, i * gp.tileSize, gp.tileSize, gp.tileSize, null);
                 } else {
-                    g2.drawImage(tile[2].image, j * gp.tileSize, i * gp.tileSize, gp.tileSize, gp.tileSize, null);
+                    g2.drawImage(tile[2].image, ScreenX, i * gp.tileSize, gp.tileSize, gp.tileSize, null);
                 }
             }
         }
