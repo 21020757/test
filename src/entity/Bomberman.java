@@ -35,18 +35,18 @@ public class Bomberman extends Entity {
 
     public void getPlayerImage() {
         try {
-            up = ImageIO.read(Objects.requireNonNull(getClass().getResourceAsStream("/bomberman/player/player_up.png")));
-            down = ImageIO.read(Objects.requireNonNull(getClass().getResourceAsStream("/bomberman/player/player_down.png")));
-            left = ImageIO.read(Objects.requireNonNull(getClass().getResourceAsStream("/bomberman/player/player_left.png")));
-            right = ImageIO.read(Objects.requireNonNull(getClass().getResourceAsStream("/bomberman/player/player_right.png")));
-            up1 = ImageIO.read(Objects.requireNonNull(getClass().getResourceAsStream("/bomberman/player/player_up_1.png")));
-            up2 = ImageIO.read(Objects.requireNonNull(getClass().getResourceAsStream("/bomberman/player/player_up_2.png")));
-            down1 = ImageIO.read(Objects.requireNonNull(getClass().getResourceAsStream("/bomberman/player/player_down_1.png")));
-            down2 = ImageIO.read(Objects.requireNonNull(getClass().getResourceAsStream("/bomberman/player/player_down_2.png")));
-            left1 = ImageIO.read(Objects.requireNonNull(getClass().getResourceAsStream("/bomberman/player/player_left_1.png")));
-            left2 = ImageIO.read(Objects.requireNonNull(getClass().getResourceAsStream("/bomberman/player/player_left_2.png")));
-            right1 = ImageIO.read(Objects.requireNonNull(getClass().getResourceAsStream("/bomberman/player/player_right_1.png")));
-            right2 = ImageIO.read(Objects.requireNonNull(getClass().getResourceAsStream("/bomberman/player/player_right_2.png")));
+            up = ImageIO.read(Objects.requireNonNull(getClass().getResourceAsStream("/sprites/player/player_up.png")));
+            down = ImageIO.read(Objects.requireNonNull(getClass().getResourceAsStream("/sprites/player/player_down.png")));
+            left = ImageIO.read(Objects.requireNonNull(getClass().getResourceAsStream("/sprites/player/player_left.png")));
+            right = ImageIO.read(Objects.requireNonNull(getClass().getResourceAsStream("/sprites/player/player_right.png")));
+            up1 = ImageIO.read(Objects.requireNonNull(getClass().getResourceAsStream("/sprites/player/player_up_1.png")));
+            up2 = ImageIO.read(Objects.requireNonNull(getClass().getResourceAsStream("/sprites/player/player_up_2.png")));
+            down1 = ImageIO.read(Objects.requireNonNull(getClass().getResourceAsStream("/sprites/player/player_down_1.png")));
+            down2 = ImageIO.read(Objects.requireNonNull(getClass().getResourceAsStream("/sprites/player/player_down_2.png")));
+            left1 = ImageIO.read(Objects.requireNonNull(getClass().getResourceAsStream("/sprites/player/player_left_1.png")));
+            left2 = ImageIO.read(Objects.requireNonNull(getClass().getResourceAsStream("/sprites/player/player_left_2.png")));
+            right1 = ImageIO.read(Objects.requireNonNull(getClass().getResourceAsStream("/sprites/player/player_right_1.png")));
+            right2 = ImageIO.read(Objects.requireNonNull(getClass().getResourceAsStream("/sprites/player/player_right_2.png")));
 
         } catch (IOException e) {
             e.printStackTrace();

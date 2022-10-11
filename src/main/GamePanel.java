@@ -2,6 +2,7 @@ package main;
 
 import Tiles.TileManager;
 import entity.Bomberman;
+import object.SuperObject;
 
 import javax.swing.*;
 import java.awt.*;
@@ -17,8 +18,11 @@ public class GamePanel extends JPanel implements Runnable {
     public final int screenWidth = tileSize * maxScreenCol;
     public final int screenHeight = tileSize * maxScreenRow;
     KeyHandler keyH = new KeyHandler();
+    //Create object
     Thread gameThread;
+    public AssetSetter aSetter = new AssetSetter(this);
     public Bomberman bomberman = new Bomberman(this, keyH);
+    public SuperObject[] obj = new SuperObject[10];
     //World Settings
     public final int maxWorldCol = 31;
     public final int maxWorldRow = 13;
