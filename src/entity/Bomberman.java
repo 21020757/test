@@ -66,6 +66,7 @@ public class Bomberman extends Entity {
     }
 
     public void update() {
+        System.out.println(x + " " + y);
         if (keyH.upPressed || keyH.downPressed
                 || keyH.leftPressed || keyH.rightPressed || keyH.spacePressed) {
             notMoving = false;
@@ -88,8 +89,8 @@ public class Bomberman extends Entity {
             } else if (keyH.spacePressed) {
                 if (bomb == null) {
                     bomb = new Bomb();
-                    bomb.x = (x + ((gp.scale * gp.tileSize) / 2)) / (gp.scale * gp.tileSize);
-                    bomb.y = (y + ((gp.scale * gp.tileSize) / 2)) / (gp.scale * gp.tileSize);
+                    bomb.x = x;
+                    bomb.y = y;
                 }
             }
 
@@ -127,6 +128,7 @@ public class Bomberman extends Entity {
 
     public void draw(Graphics2D g2) {
         BufferedImage image = null;
+        BufferedImage bombImg = null;
         if (notMoving) {
             switch (preDirection) {
                 case "up" -> image = up;
@@ -169,13 +171,13 @@ public class Bomberman extends Entity {
 
         if (bomb != null) {
             if (indexAniBomb == 0) {
-                image = bomb0;
+                bombImg = bomb0;
             } else if (indexAniBomb == 1) {
-                image = bomb1;
+                bombImg = bomb1;
             } else if (indexAniBomb == 2) {
-                image = bomb2;
+                bombImg = bomb2;
             }
-            g2.drawImage(image, bomb.x, bomb.y, gp.tileSize, gp.tileSize, null);
+            g2.drawImage(bombImg, bomb.x, bomb.y, gp.tileSize, gp.tileSize, null);
         }
 
         if (x >= 8 * 48 && x <= 23 * 48) {
