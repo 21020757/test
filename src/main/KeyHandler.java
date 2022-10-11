@@ -1,10 +1,13 @@
 package main;
 
+import entity.Bomberman;
+import object.Bomb;
+
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 
 public class KeyHandler implements KeyListener {
-    public boolean upPressed, downPressed, leftPressed, rightPressed;
+    public boolean upPressed, downPressed, leftPressed, rightPressed, spacePressed;
 
     @Override
     public void keyTyped(KeyEvent e) {
@@ -22,6 +25,8 @@ public class KeyHandler implements KeyListener {
             leftPressed = true;
         } else if (code == KeyEvent.VK_D) {
             rightPressed = true;
+        } else if (code == KeyEvent.VK_SPACE) {
+            spacePressed = true;
         }
     }
 
@@ -37,6 +42,8 @@ public class KeyHandler implements KeyListener {
             leftPressed = false;
         } else if (code == KeyEvent.VK_D) {
             rightPressed = false;
+        } else if (code == KeyEvent.VK_SPACE) {
+            spacePressed = false;
         }
     }
 }

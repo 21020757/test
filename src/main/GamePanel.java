@@ -10,7 +10,7 @@ import java.awt.*;
 public class GamePanel extends JPanel implements Runnable {
     // SCREEN SETTINGS
     final int orignalTileSize = 16; //16x16 tile
-    final int scale = 3;
+    public final int scale = 3;
 
     public final int tileSize = orignalTileSize * scale; // Tile size --- 48x48
     final int maxScreenCol = 16;
@@ -49,6 +49,7 @@ public class GamePanel extends JPanel implements Runnable {
         double drawInterval = 1000000000/FPS;
         double nextDrawTime = System.nanoTime() + drawInterval;
         while (gameThread != null) {
+
             update();
 
             repaint();
@@ -76,6 +77,7 @@ public class GamePanel extends JPanel implements Runnable {
         Graphics2D g2 = (Graphics2D) g;
         tile.draw(g2);
         bomberman.draw(g2);
+
         g2.dispose();
     }
 }
