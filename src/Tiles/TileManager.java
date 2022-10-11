@@ -3,6 +3,7 @@ package Tiles;
 import main.GamePanel;
 
 import javax.imageio.ImageIO;
+import javax.management.DescriptorRead;
 import java.awt.*;
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -54,16 +55,35 @@ public class TileManager {
     }
 
     public void draw(Graphics2D g2) {
-        for (int i = 0; i < 13; i++) {
-            for (int j = 0; j < 31; j++) {
+        for (int i = 0; i < gp.maxWorldRow; i++) {
+            for (int j = 0; j < gp.maxWorldCol; j++) {
                 char s = map[i][j];
-                int ScreenX = j * 48 - gp.bomberman.x + gp.bomberman.ScreenX;
-                if (s == ' ') {
-                    g2.drawImage(tile[0].image, ScreenX, i * gp.tileSize, gp.tileSize, gp.tileSize, null);
-                } else if (s == '#') {
-                    g2.drawImage(tile[1].image, ScreenX, i * gp.tileSize, gp.tileSize, gp.tileSize, null);
+                if (gp.bomberman.x >= gp.screenWidth/2 && gp.bomberman.x <= gp.wordWidth - gp.screenWidth/2) {
+                    int ScreenX = j * 48 - gp.bomberman.x + gp.screenWidth/2;
+                    if (s == ' ') {
+                        g2.drawImage(tile[0].image, ScreenX, i * gp.tileSize, gp.tileSize, gp.tileSize, null);
+                    } else if (s == '#') {
+                        g2.drawImage(tile[1].image, ScreenX, i * gp.tileSize, gp.tileSize, gp.tileSize, null);
+                    } else {
+                        g2.drawImage(tile[2].image, ScreenX, i * gp.tileSize, gp.tileSize, gp.tileSize, null);
+                    }
+                } else if (gp.bomberman.x < gp.screenWidth/2){
+                    if (s == ' ') {
+                        g2.drawImage(tile[0].image, j * gp.tileSize, i * gp.tileSize, gp.tileSize, gp.tileSize, null);
+                    } else if (s == '#') {
+                        g2.drawImage(tile[1].image, j * gp.tileSize, i * gp.tileSize, gp.tileSize, gp.tileSize, null);
+                    } else {
+                        g2.drawImage(tile[2].image, j * gp.tileSize, i * gp.tileSize, gp.tileSize, gp.tileSize, null);
+                    }
                 } else {
-                    g2.drawImage(tile[2].image, ScreenX, i * gp.tileSize, gp.tileSize, gp.tileSize, null);
+                    int ScreenX = j * gp.tileSize - gp.wordWidth + gp.screenWidth;
+                    if (s == ' ') {
+                        g2.drawImage(tile[0].image, ScreenX, i * gp.tileSize, gp.tileSize, gp.tileSize, null);
+                    } else if (s == '#') {
+                        g2.drawImage(tile[1].image, ScreenX, i * gp.tileSize, gp.tileSize, gp.tileSize, null);
+                    } else {
+                        g2.drawImage(tile[2].image, ScreenX, i * gp.tileSize, gp.tileSize, gp.tileSize, null);
+                    }
                 }
             }
         }

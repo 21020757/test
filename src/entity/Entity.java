@@ -6,7 +6,6 @@ import java.awt.image.BufferedImageFilter;
 
 public abstract class Entity {
     public int x, y;
-    public int ScreenX,ScreenY;
     public int speed;
 
     //load image
