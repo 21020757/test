@@ -19,7 +19,7 @@ public class Bomberman extends Entity {
     public String preDirection;
     public int ScreenX;
 
-    Bomb bomb;
+    public Bomb bomb;
 
     public BufferedImage bomb0, bomb1, bomb2, exploded, exploded1, exploded2;
     public int frameBomb = 0, intervalBomb = 7, indexAniBomb = 0;
@@ -177,7 +177,21 @@ public class Bomberman extends Entity {
             } else if (indexAniBomb == 2) {
                 bombImg = bomb2;
             }
-            g2.drawImage(bombImg, bomb.x, bomb.y, gp.tileSize, gp.tileSize, null);
+            if (x < 8 * 48) {
+                g2.drawImage(bombImg, bomb.x, bomb.y, gp.tileSize, gp.tileSize, null);
+            } else if (bomb.x < 8 * 48 && x >= 8 * 48) {
+                int bombScreenX = bomb.x - x + 8 * 48;
+                g2.drawImage(bombImg, bombScreenX, bomb.y, gp.tileSize, gp.tileSize, null);
+            } else if (bomb.x >= 8 * 48 && bomb.x <= 23 * 48 && x >= 8 * 48 && x <= 23 * 48) {
+                int bombScreenX = ScreenX + bomb.x - x;
+                g2.drawImage(bombImg, bombScreenX, bomb.y, gp.tileSize, gp.tileSize, null);
+            } else if (x > 23 * 48) {
+                int bombScreenX = bomb.x - gp.wordWidth + gp.screenWidth;
+                g2.drawImage(bombImg, bombScreenX, bomb.y, gp.tileSize, gp.tileSize, null);
+            } else if (bomb.x > 23 * 48 && x <= 23 * 48) {
+                int bombScreenX = bomb.x - x + gp.screenWidth / 2;
+                g2.drawImage(bombImg, bombScreenX, bomb.y, gp.tileSize, gp.tileSize, null);
+            }
         }
 
         if (x >= 8 * 48 && x <= 23 * 48) {

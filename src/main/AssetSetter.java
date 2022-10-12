@@ -11,6 +11,5 @@ public class AssetSetter {
 
     public void setObject() {
         gp.obj[0] = new OBJ_Bomb();
-
     }
 }
