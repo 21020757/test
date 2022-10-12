@@ -59,7 +59,7 @@ public class TileManager {
             for (int j = 0; j < gp.maxWorldCol; j++) {
                 char s = map[i][j];
                 if (gp.bomberman.x >= gp.screenWidth/2 && gp.bomberman.x <= gp.wordWidth - gp.screenWidth/2) {
-                    int ScreenX = j * 48 - gp.bomberman.x + gp.screenWidth/2;
+                    int ScreenX = j * gp.tileSize - gp.bomberman.x + gp.screenWidth/2;
                     if (s == ' ') {
                         g2.drawImage(tile[0].image, ScreenX, i * gp.tileSize, gp.tileSize, gp.tileSize, null);
                     } else if (s == '#') {

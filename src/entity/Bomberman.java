@@ -177,27 +177,27 @@ public class Bomberman extends Entity {
             } else if (indexAniBomb == 2) {
                 bombImg = bomb2;
             }
-            if (x < 8 * 48) {
+            if (x < gp.screenWidth / 2) {
                 g2.drawImage(bombImg, bomb.x, bomb.y, gp.tileSize, gp.tileSize, null);
-            } else if (bomb.x < 8 * 48 && x >= 8 * 48) {
-                int bombScreenX = bomb.x - x + 8 * 48;
+            } else if (bomb.x < gp.screenWidth / 2 && x >= gp.screenWidth / 2) {
+                int bombScreenX = bomb.x - x + gp.screenWidth / 2;
                 g2.drawImage(bombImg, bombScreenX, bomb.y, gp.tileSize, gp.tileSize, null);
-            } else if (bomb.x >= 8 * 48 && bomb.x <= 23 * 48 && x >= 8 * 48 && x <= 23 * 48) {
+            } else if (bomb.x >= gp.screenWidth / 2 && bomb.x <= gp.wordWidth - gp.screenWidth / 2 && x >= gp.screenWidth / 2 && x <= gp.wordWidth - gp.screenWidth / 2) {
                 int bombScreenX = ScreenX + bomb.x - x;
                 g2.drawImage(bombImg, bombScreenX, bomb.y, gp.tileSize, gp.tileSize, null);
-            } else if (x > 23 * 48) {
+            } else if (x > gp.wordWidth - gp.screenWidth / 2) {
                 int bombScreenX = bomb.x - gp.wordWidth + gp.screenWidth;
                 g2.drawImage(bombImg, bombScreenX, bomb.y, gp.tileSize, gp.tileSize, null);
-            } else if (bomb.x > 23 * 48 && x <= 23 * 48) {
+            } else if (bomb.x > gp.wordWidth - gp.screenWidth / 2 && x <= gp.wordWidth - gp.screenWidth / 2) {
                 int bombScreenX = bomb.x - x + gp.screenWidth / 2;
                 g2.drawImage(bombImg, bombScreenX, bomb.y, gp.tileSize, gp.tileSize, null);
             }
         }
 
-        if (x >= 8 * 48 && x <= 23 * 48) {
+        if (x >= gp.screenWidth / 2 && x <= gp.wordWidth - gp.screenWidth / 2) {
             ScreenX = gp.screenWidth / 2;
             g2.drawImage(image, ScreenX, y, gp.tileSize, gp.tileSize, null);
-        } else if (x < 8 * 48) {
+        } else if (x < gp.screenWidth / 2) {
             g2.drawImage(image, x, y, gp.tileSize, gp.tileSize, null);
         } else {
             ScreenX = x - gp.wordWidth + gp.screenWidth;
