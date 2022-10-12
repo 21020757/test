@@ -28,11 +28,11 @@ public class TileManager {
         try {
 
             tile[0] = new Tile();
-            tile[0].image = ImageIO.read(getClass().getResourceAsStream("/Tiles/grass.png"));
+            tile[0].image = ImageIO.read(getClass().getResourceAsStream("/sprites/map/grass.png"));
             tile[1] = new Tile();
-            tile[1].image = ImageIO.read(getClass().getResourceAsStream("/Tiles/wall.png"));
+            tile[1].image = ImageIO.read(getClass().getResourceAsStream("/sprites/map/wall.png"));
             tile[2] = new Tile();
-            tile[2].image = ImageIO.read(getClass().getResourceAsStream("/Tiles/brick.png"));
+            tile[2].image = ImageIO.read(getClass().getResourceAsStream("/sprites/map/brick.png"));
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -59,7 +59,7 @@ public class TileManager {
             for (int j = 0; j < gp.maxWorldCol; j++) {
                 char s = map[i][j];
                 if (gp.bomberman.x >= gp.screenWidth/2 && gp.bomberman.x <= gp.wordWidth - gp.screenWidth/2) {
-                    int ScreenX = j * 48 - gp.bomberman.x + gp.screenWidth/2;
+                    int ScreenX = j * gp.tileSize - gp.bomberman.x + gp.screenWidth/2;
                     if (s == ' ') {
                         g2.drawImage(tile[0].image, ScreenX, i * gp.tileSize, gp.tileSize, gp.tileSize, null);
                     } else if (s == '#') {
