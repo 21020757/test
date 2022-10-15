@@ -1,7 +1,7 @@
 package main;
 
-import entity.Bomberman;
-import object.Bomb;
+import GameObject.entity.Bomberman;
+import GameObject.object.Bomb;
 
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;

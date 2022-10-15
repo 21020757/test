@@ -1,15 +1,15 @@
 package main;
 
-import Tiles.TileManager;
-import entity.Bomberman;
-import object.SuperObject;
+import GameObject.Tiles.TileManager;
+import GameObject.entity.Bomberman;
+import GameObject.object.SuperObject;
 
 import javax.swing.*;
 import java.awt.*;
 
 public class GamePanel extends JPanel implements Runnable {
     // SCREEN SETTINGS
-    public final int orignalTileSize = 16; //16x16 tile
+    final int orignalTileSize = 16; //16x16 tile
     public final int scale = 3;
 
     public final int tileSize = orignalTileSize * scale; // Tile size --- 48x48

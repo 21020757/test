@@ -1,6 +1,6 @@
 package main;
 
-import object.OBJ_Bomb;
+import GameObject.object.OBJ_Bomb;
 
 public class AssetSetter {
     GamePanel gp;
