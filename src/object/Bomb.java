@@ -1,7 +1,5 @@
 package object;
 
-import java.awt.image.BufferedImage;
-
 public class Bomb {
     public int x, y;
     public boolean exploded;
