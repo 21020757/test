@@ -166,7 +166,6 @@ public class Bomberman extends Entity {
 
     public void draw(Graphics2D g2) {
         BufferedImage image = null;
-        BufferedImage bombImg = null;
         if (notMoving) {
             switch (preDirection) {
                 case "up" -> image = up;
@@ -208,30 +207,33 @@ public class Bomberman extends Entity {
         }
 
         if (bomb != null) {
-            if (bomb.exploded) {
-                g2.drawImage(fontExplosion[indexAniExplosion], bomb.x, bomb.y, gp.tileSize, gp.tileSize, null);
-                g2.drawImage(upExplosion[indexAniExplosion], bomb.x, bomb.y - gp.tileSize, gp.tileSize, gp.tileSize, null);
-                g2.drawImage(downExplosion[indexAniExplosion], bomb.x, bomb.y + gp.tileSize, gp.tileSize, gp.tileSize, null);
-                g2.drawImage(leftExplosion[indexAniExplosion], bomb.x - gp.tileSize, bomb.y, gp.tileSize, gp.tileSize, null);
-                g2.drawImage(rightExplosion[indexAniExplosion], bomb.x + gp.tileSize, bomb.y, gp.tileSize, gp.tileSize, null);
-
-            } else {
-                g2.drawImage(bombing[indexAniBomb], bomb.x, bomb.y, gp.tileSize, gp.tileSize, null);
-            }
+            int bombX = bomb.x;
+            int bombY = bomb.y;
             if (x < gp.screenWidth / 2) {
-                g2.drawImage(bombImg, bomb.x, bomb.y, gp.tileSize, gp.tileSize, null);
+                g2.drawImage(bombing[indexAniBomb], bomb.x, bomb.y, gp.tileSize, gp.tileSize, null);
             } else if (bomb.x < gp.screenWidth / 2 && x >= gp.screenWidth / 2) {
                 int bombScreenX = bomb.x - x + gp.screenWidth / 2;
-                g2.drawImage(bombImg, bombScreenX, bomb.y, gp.tileSize, gp.tileSize, null);
+                bombX = bombScreenX;
+                g2.drawImage(bombing[indexAniBomb], bombScreenX, bomb.y, gp.tileSize, gp.tileSize, null);
             } else if (bomb.x >= gp.screenWidth / 2 && bomb.x <= gp.wordWidth - gp.screenWidth / 2 && x >= gp.screenWidth / 2 && x <= gp.wordWidth - gp.screenWidth / 2) {
                 int bombScreenX = ScreenX + bomb.x - x;
-                g2.drawImage(bombImg, bombScreenX, bomb.y, gp.tileSize, gp.tileSize, null);
+                bombX = bombScreenX;
+                g2.drawImage(bombing[indexAniBomb], bombScreenX, bomb.y, gp.tileSize, gp.tileSize, null);
             } else if (x > gp.wordWidth - gp.screenWidth / 2) {
                 int bombScreenX = bomb.x - gp.wordWidth + gp.screenWidth;
-                g2.drawImage(bombImg, bombScreenX, bomb.y, gp.tileSize, gp.tileSize, null);
+                bombX = bombScreenX;
+                g2.drawImage(bombing[indexAniBomb], bombScreenX, bomb.y, gp.tileSize, gp.tileSize, null);
             } else if (bomb.x > gp.wordWidth - gp.screenWidth / 2 && x <= gp.wordWidth - gp.screenWidth / 2) {
                 int bombScreenX = bomb.x - x + gp.screenWidth / 2;
-                g2.drawImage(bombImg, bombScreenX, bomb.y, gp.tileSize, gp.tileSize, null);
+                bombX = bombScreenX;
+                g2.drawImage(bombing[indexAniBomb], bombScreenX, bomb.y, gp.tileSize, gp.tileSize, null);
+            }
+            if (bomb.exploded) {
+                g2.drawImage(fontExplosion[indexAniExplosion], bombX, bombY, gp.tileSize, gp.tileSize, null);
+                g2.drawImage(upExplosion[indexAniExplosion], bombX, bombY - gp.tileSize, gp.tileSize, gp.tileSize, null);
+                g2.drawImage(downExplosion[indexAniExplosion],bombX, bombY + gp.tileSize, gp.tileSize, gp.tileSize, null);
+                g2.drawImage(leftExplosion[indexAniExplosion], bombX - gp.tileSize, bombY, gp.tileSize, gp.tileSize, null);
+                g2.drawImage(rightExplosion[indexAniExplosion], bombX + gp.tileSize, bombY, gp.tileSize, gp.tileSize, null);
             }
         }
 
