@@ -21,8 +21,15 @@ public class Bomberman extends Entity {
 
     public Bomb bomb;
 
-    public BufferedImage bomb0, bomb1, bomb2, exploded, exploded1, exploded2;
+    public BufferedImage[] bombing = new BufferedImage[3];
+    public BufferedImage[] fontExplosion = new BufferedImage[3];
+    public BufferedImage[] upExplosion = new BufferedImage[3];
+    public BufferedImage[] downExplosion = new BufferedImage[3];
+    public BufferedImage[] leftExplosion = new BufferedImage[3];
+    public BufferedImage[] rightExplosion = new BufferedImage[3];
+
     public int frameBomb = 0, intervalBomb = 7, indexAniBomb = 0;
+    public int frameExplosion = 0, intervalExplosion = 4, indexAniExplosion = 0;
 
     public Bomberman(GamePanel gp, KeyHandler keyH) {
         this.gp = gp;
@@ -56,9 +63,31 @@ public class Bomberman extends Entity {
             right2 = ImageIO.read(Objects.requireNonNull(getClass().getResourceAsStream("/sprites/player/player_right_2.png")));
 
             //Bomb
-            bomb0 = ImageIO.read(Objects.requireNonNull(getClass().getResourceAsStream("/sprites/object/bomb.png")));
-            bomb1 = ImageIO.read(Objects.requireNonNull(getClass().getResourceAsStream("/sprites/object/bomb_1.png")));
-            bomb2 = ImageIO.read(Objects.requireNonNull(getClass().getResourceAsStream("/sprites/object/bomb_2.png")));
+            bombing[0] = ImageIO.read(Objects.requireNonNull(getClass().getResourceAsStream("/sprites/object/bomb.png")));
+            bombing[1] = ImageIO.read(Objects.requireNonNull(getClass().getResourceAsStream("/sprites/object/bomb_1.png")));
+            bombing[2] = ImageIO.read(Objects.requireNonNull(getClass().getResourceAsStream("/sprites/object/bomb_2.png")));
+
+
+            fontExplosion[0] = ImageIO.read(Objects.requireNonNull(getClass().getResourceAsStream("/sprites/object/bomb_exploded.png")));
+            fontExplosion[1] = ImageIO.read(Objects.requireNonNull(getClass().getResourceAsStream("/sprites/object/bomb_exploded1.png")));
+            fontExplosion[2] = ImageIO.read(Objects.requireNonNull(getClass().getResourceAsStream("/sprites/object/bomb_exploded2.png")));
+
+            upExplosion[0] = ImageIO.read(Objects.requireNonNull(getClass().getResourceAsStream("/sprites/object/explosion_vertical_top_last.png")));
+            upExplosion[1] = ImageIO.read(Objects.requireNonNull(getClass().getResourceAsStream("/sprites/object/explosion_vertical_top_last1.png")));
+            upExplosion[2] = ImageIO.read(Objects.requireNonNull(getClass().getResourceAsStream("/sprites/object/explosion_vertical_top_last2.png")));
+
+            downExplosion[0] = ImageIO.read(Objects.requireNonNull(getClass().getResourceAsStream("/sprites/object/explosion_vertical_down_last.png")));
+            downExplosion[1] = ImageIO.read(Objects.requireNonNull(getClass().getResourceAsStream("/sprites/object/explosion_vertical_down_last1.png")));
+            downExplosion[2] = ImageIO.read(Objects.requireNonNull(getClass().getResourceAsStream("/sprites/object/explosion_vertical_down_last2.png")));
+
+            leftExplosion[0] = ImageIO.read(Objects.requireNonNull(getClass().getResourceAsStream("/sprites/object/explosion_horizontal_left_last.png")));
+            leftExplosion[1] = ImageIO.read(Objects.requireNonNull(getClass().getResourceAsStream("/sprites/object/explosion_horizontal_left_last1.png")));
+            leftExplosion[2] = ImageIO.read(Objects.requireNonNull(getClass().getResourceAsStream("/sprites/object/explosion_horizontal_left_last2.png")));
+
+            rightExplosion[0] = ImageIO.read(Objects.requireNonNull(getClass().getResourceAsStream("/sprites/object/explosion_horizontal_right_last.png")));
+            rightExplosion[1] = ImageIO.read(Objects.requireNonNull(getClass().getResourceAsStream("/sprites/object/explosion_horizontal_right_last1.png")));
+            rightExplosion[2] = ImageIO.read(Objects.requireNonNull(getClass().getResourceAsStream("/sprites/object/explosion_horizontal_right_last2.png")));
+
 
         } catch (IOException e) {
             e.printStackTrace();
@@ -107,6 +136,7 @@ public class Bomberman extends Entity {
         }
 
         if (bomb != null) {
+            //bomb animation
             frameBomb++;
             if (frameBomb == intervalBomb) {
                 frameBomb = 0;
@@ -119,8 +149,17 @@ public class Bomberman extends Entity {
                     bomb.exploded = true;
                 }
             }
+            //bomb explode animation
             if (bomb.exploded) {
-                bomb = null;
+                frameExplosion++;
+                if (frameExplosion == intervalExplosion) {
+                    frameExplosion = 0;
+                    indexAniExplosion++;
+                    if (indexAniExplosion == 3) {
+                        indexAniExplosion = 0;
+                        bomb = null;
+                    }
+                }
             }
         }
     }
@@ -169,12 +208,15 @@ public class Bomberman extends Entity {
         }
 
         if (bomb != null) {
-            if (indexAniBomb == 0) {
-                bombImg = bomb0;
-            } else if (indexAniBomb == 1) {
-                bombImg = bomb1;
-            } else if (indexAniBomb == 2) {
-                bombImg = bomb2;
+            if (bomb.exploded) {
+                g2.drawImage(fontExplosion[indexAniExplosion], bomb.x, bomb.y, gp.tileSize, gp.tileSize, null);
+                g2.drawImage(upExplosion[indexAniExplosion], bomb.x, bomb.y - gp.tileSize, gp.tileSize, gp.tileSize, null);
+                g2.drawImage(downExplosion[indexAniExplosion], bomb.x, bomb.y + gp.tileSize, gp.tileSize, gp.tileSize, null);
+                g2.drawImage(leftExplosion[indexAniExplosion], bomb.x - gp.tileSize, bomb.y, gp.tileSize, gp.tileSize, null);
+                g2.drawImage(rightExplosion[indexAniExplosion], bomb.x + gp.tileSize, bomb.y, gp.tileSize, gp.tileSize, null);
+
+            } else {
+                g2.drawImage(bombing[indexAniBomb], bomb.x, bomb.y, gp.tileSize, gp.tileSize, null);
             }
             if (x < gp.screenWidth / 2) {
                 g2.drawImage(bombImg, bomb.x, bomb.y, gp.tileSize, gp.tileSize, null);
