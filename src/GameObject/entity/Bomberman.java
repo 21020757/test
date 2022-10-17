@@ -20,8 +20,6 @@ public class Bomberman extends Entity {
     public String preDirection;
     public int ScreenX;
 
-    int width = 32;
-    int heigth = 48;
     //About bomb
     public Bomb bomb;
     public BufferedImage[] bombing = new BufferedImage[3];
@@ -271,67 +269,7 @@ public class Bomberman extends Entity {
         }
     }
 
-    public Rectangle getBound(int x, int y) {
-        return new Rectangle(x, y + 48, width, heigth);
-    }
 
-    public boolean collisionUP() {
-        int a = x % gp.tileSize;
-        int b = y % gp.tileSize;
-        int Bomberx = x / gp.tileSize;
-        int Bombery = y / gp.tileSize;
-        if (this.getBound(x, y - 1).intersects(TileManager.obj[Bombery - 1][Bomberx].getBound()) && (TileManager.obj[Bombery - 1][Bomberx] instanceof Wall || TileManager.obj[Bombery - 1][Bomberx] instanceof Brick)) {
-            return true;
-        } else if (this.getBound(x, y - 1).intersects(TileManager.obj[Bombery - 1][Bomberx].getBound()) && (TileManager.obj[Bombery - 1][Bomberx] instanceof Wall || TileManager.obj[Bombery - 1][Bomberx] instanceof Brick) && a > 16) {
-            return true;
-        } else if (this.getBound(x, y - 1).intersects(TileManager.obj[Bombery - 1][Bomberx + 1].getBound()) && (TileManager.obj[Bombery - 1][Bomberx - 1] instanceof Wall || TileManager.obj[Bombery - 1][Bomberx + 1] instanceof Brick) && a > 16) {
-            return true;
-        } else {
-            return false;
-        }
 
-    }
-
-    public boolean collisionDown() {
-        int a = x % gp.tileSize;
-        int b = y % gp.tileSize;
-        int Bomberx = x / gp.tileSize;
-        int Bombery = y / gp.tileSize;
-        if (this.getBound(x, y + 1).intersects(TileManager.obj[Bombery + 1][Bomberx].getBound()) && (TileManager.obj[Bombery + 1][Bomberx] instanceof Wall || TileManager.obj[Bombery + 1][Bomberx] instanceof Brick)) {
-            return true;
-        } else if (this.getBound(x, y + 1).intersects(TileManager.obj[Bombery + 1][Bomberx].getBound()) && (TileManager.obj[Bombery + 1][Bomberx] instanceof Wall || TileManager.obj[Bombery + 1][Bomberx] instanceof Brick) && a > 16) {
-            return true;
-        } else if (this.getBound(x, y + 1).intersects(TileManager.obj[Bombery + 1][Bomberx + 1].getBound()) && (TileManager.obj[Bombery + 1][Bomberx + 1] instanceof Wall || TileManager.obj[Bombery + 1][Bomberx + 1] instanceof Brick) && a > 16) {
-            return true;
-        } else {
-            return false;
-        }
-    }
-
-    public boolean collisionRight() {
-        int a = x % gp.tileSize;
-        int b = y % gp.tileSize;
-        int Bomberx = x / gp.tileSize;
-        int Bombery = y / gp.tileSize;
-        if (this.getBound(x + 1, y - 1).intersects(TileManager.obj[Bombery][Bomberx + 1].getBound()) && (TileManager.obj[Bombery][Bomberx + 1] instanceof Wall || TileManager.obj[Bombery][Bomberx + 1] instanceof Brick)) {
-            return true;
-        } else if (this.getBound(x + 1, y - 1).intersects(TileManager.obj[Bombery + 1][Bomberx + 1].getBound()) && (TileManager.obj[Bombery + 1][Bomberx + 1] instanceof Wall || TileManager.obj[Bombery + 1][Bomberx + 1] instanceof Brick)) {
-            return true;
-        } else {
-            return false;
-        }
-    }
-
-    public boolean collisionLeft() {
-        int Bomberx = x / gp.tileSize;
-        int Bombery = y / gp.tileSize;
-        if (this.getBound(x - 1, y - 1).intersects(TileManager.obj[Bombery][Bomberx - 1].getBound()) && (TileManager.obj[Bombery][Bomberx - 1] instanceof Wall || TileManager.obj[Bombery][Bomberx - 1] instanceof Brick)) {
-            return true;
-        } else if (this.getBound(x - 1, y - 1).intersects(TileManager.obj[Bombery + 1][Bomberx - 1].getBound()) && (TileManager.obj[Bombery + 1][Bomberx - 1] instanceof Wall || TileManager.obj[Bombery + 1][Bomberx - 1] instanceof Brick)) {
-            return true;
-        } else {
-            return false;
-        }
-    }
 
 }
