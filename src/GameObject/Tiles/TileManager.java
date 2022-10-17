@@ -62,7 +62,7 @@ public class TileManager {
         for (int i = 0; i < gp.maxWorldRow; i++) {
             for (int j = 0; j < gp.maxWorldCol; j++) {
                 char s = map[i][j];
-                if (gp.bomberman.x >= gp.screenWidth / 2 && gp.bomberman.x <= gp.wordWidth - gp.screenWidth / 2) {
+                if (gp.bomberman.x >= gp.screenWidth / 2 && gp.bomberman.x <= gp.worldWidth - gp.screenWidth / 2) {
                     int ScreenX = j * gp.tileSize - gp.bomberman.x + gp.screenWidth / 2;
                     if (s == ' ') {
                         g2.drawImage(obj[i][j].image, ScreenX, i * gp.tileSize, gp.tileSize, gp.tileSize, null);
@@ -81,7 +81,7 @@ public class TileManager {
                         g2.drawImage(obj[i][j].image, j * gp.tileSize, i * gp.tileSize, gp.tileSize, gp.tileSize, null);
                     }
                 } else {
-                    int ScreenX = j * gp.tileSize - gp.wordWidth + gp.screenWidth;
+                    int ScreenX = j * gp.tileSize - gp.worldWidth + gp.screenWidth;
                     if (s == ' ') {
                         g2.drawImage(obj[i][j].image, ScreenX, i * gp.tileSize, gp.tileSize, gp.tileSize, null);
                     } else if (s == '#') {

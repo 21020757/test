@@ -2,6 +2,8 @@ package main;
 
 import GameObject.Tiles.TileManager;
 import GameObject.entity.Bomberman;
+import GameObject.entity.Enemies;
+import GameObject.entity.Entity;
 import GameObject.object.SuperObject;
 
 import javax.swing.*;
@@ -9,7 +11,7 @@ import java.awt.*;
 
 public class GamePanel extends JPanel implements Runnable {
     // SCREEN SETTINGS
-    final int orignalTileSize = 16; //16x16 tile
+    public final int orignalTileSize = 16; //16x16 tile
     public final int scale = 3;
 
     public final int tileSize = orignalTileSize * scale; // Tile size --- 48x48
@@ -23,11 +25,13 @@ public class GamePanel extends JPanel implements Runnable {
     public AssetSetter aSetter = new AssetSetter(this);
     public Bomberman bomberman = new Bomberman(this, keyH);
     public SuperObject[] obj = new SuperObject[10];
+    public Entity enemy = new Enemies(this);
+
     //World Settings
     public final int maxWorldCol = 31;
     public final int maxWorldRow = 13;
-    public final int wordWidth = tileSize * maxWorldCol;
-    public final int wordHeight = tileSize * maxWorldRow;
+    public final int worldWidth = tileSize * maxWorldCol;
+    public final int worldHeight = tileSize * maxWorldRow;
     //FPS
     int FPS = 60;
     TileManager tile = new TileManager(this);
@@ -70,6 +74,7 @@ public class GamePanel extends JPanel implements Runnable {
 
     public void update() {
         bomberman.update();
+        enemy.update();
     }
 
     public void paintComponent(Graphics g) {
@@ -77,7 +82,7 @@ public class GamePanel extends JPanel implements Runnable {
         Graphics2D g2 = (Graphics2D) g;
         tile.draw(g2);
         bomberman.draw(g2);
-
+        enemy.draw(g2);
         g2.dispose();
     }
 }

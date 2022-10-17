@@ -12,25 +12,30 @@ import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
 import java.util.Objects;
-import java.util.logging.Handler;
 
 public class Bomberman extends Entity {
-    GamePanel gp;
     public static KeyHandler keyH;
     public static final int intervalImageChange = 9;
     public boolean notMoving;
     public String preDirection;
     public int ScreenX;
 
-    public Bomb bomb;
     int width = 32;
     int heigth = 48;
-    public BufferedImage bomb0, bomb1, bomb2, exploded, exploded1, exploded2;
+    //About bomb
+    public Bomb bomb;
+    public BufferedImage[] bombing = new BufferedImage[3];
+    public BufferedImage[] fontExplosion = new BufferedImage[3];
+    public BufferedImage[] upExplosion = new BufferedImage[3];
+    public BufferedImage[] downExplosion = new BufferedImage[3];
+    public BufferedImage[] leftExplosion = new BufferedImage[3];
+    public BufferedImage[] rightExplosion = new BufferedImage[3];
     public int frameBomb = 0, intervalBomb = 7, indexAniBomb = 0;
+    public int frameExplosion = 0, intervalExplosion = 4, indexAniExplosion = 0;
 
     public Bomberman(GamePanel gp, KeyHandler keyH) {
-        this.gp = gp;
-        this.keyH = keyH;
+        super(gp);
+        Bomberman.keyH = keyH;
         preDirection = "down";
         setDefaultValues();
         getPlayerImage();
@@ -40,7 +45,7 @@ public class Bomberman extends Entity {
     public void setDefaultValues() {
         x = gp.tileSize;
         y = gp.tileSize;
-        speed = 1;
+        speed = 4;
         direction = "down";
     }
 
@@ -61,9 +66,29 @@ public class Bomberman extends Entity {
             right2 = ImageIO.read(Objects.requireNonNull(getClass().getResourceAsStream("/GameObject/sprites/player/player_right_2.png")));
 
             //Bomb
-            bomb0 = ImageIO.read(Objects.requireNonNull(getClass().getResourceAsStream("/GameObject/sprites/object/bomb.png")));
-            bomb1 = ImageIO.read(Objects.requireNonNull(getClass().getResourceAsStream("/GameObject/sprites/object/bomb_1.png")));
-            bomb2 = ImageIO.read(Objects.requireNonNull(getClass().getResourceAsStream("/GameObject/sprites/object/bomb_2.png")));
+            bombing[0] = ImageIO.read(Objects.requireNonNull(getClass().getResourceAsStream("/GameObject/sprites/object/bomb.png")));
+            bombing[1] = ImageIO.read(Objects.requireNonNull(getClass().getResourceAsStream("/GameObject/sprites/object/bomb_1.png")));
+            bombing[2] = ImageIO.read(Objects.requireNonNull(getClass().getResourceAsStream("/GameObject/sprites/object/bomb_2.png")));
+
+            fontExplosion[0] = ImageIO.read(Objects.requireNonNull(getClass().getResourceAsStream("/GameObject/sprites/object/bomb_exploded.png")));
+            fontExplosion[1] = ImageIO.read(Objects.requireNonNull(getClass().getResourceAsStream("/GameObject/sprites/object/bomb_exploded1.png")));
+            fontExplosion[2] = ImageIO.read(Objects.requireNonNull(getClass().getResourceAsStream("/GameObject/sprites/object/bomb_exploded2.png")));
+
+            upExplosion[0] = ImageIO.read(Objects.requireNonNull(getClass().getResourceAsStream("/GameObject/sprites/object/explosion_vertical_top_last.png")));
+            upExplosion[1] = ImageIO.read(Objects.requireNonNull(getClass().getResourceAsStream("/GameObject/sprites/object/explosion_vertical_top_last1.png")));
+            upExplosion[2] = ImageIO.read(Objects.requireNonNull(getClass().getResourceAsStream("/GameObject/sprites/object/explosion_vertical_top_last2.png")));
+
+            downExplosion[0] = ImageIO.read(Objects.requireNonNull(getClass().getResourceAsStream("/GameObject/sprites/object/explosion_vertical_down_last.png")));
+            downExplosion[1] = ImageIO.read(Objects.requireNonNull(getClass().getResourceAsStream("/GameObject/sprites/object/explosion_vertical_down_last1.png")));
+            downExplosion[2] = ImageIO.read(Objects.requireNonNull(getClass().getResourceAsStream("/GameObject/sprites/object/explosion_vertical_down_last2.png")));
+
+            leftExplosion[0] = ImageIO.read(Objects.requireNonNull(getClass().getResourceAsStream("/GameObject/sprites/object/explosion_horizontal_left_last.png")));
+            leftExplosion[1] = ImageIO.read(Objects.requireNonNull(getClass().getResourceAsStream("/GameObject/sprites/object/explosion_horizontal_left_last1.png")));
+            leftExplosion[2] = ImageIO.read(Objects.requireNonNull(getClass().getResourceAsStream("/GameObject/sprites/object/explosion_horizontal_left_last2.png")));
+
+            rightExplosion[0] = ImageIO.read(Objects.requireNonNull(getClass().getResourceAsStream("/GameObject/sprites/object/explosion_horizontal_right_last.png")));
+            rightExplosion[1] = ImageIO.read(Objects.requireNonNull(getClass().getResourceAsStream("/GameObject/sprites/object/explosion_horizontal_right_last1.png")));
+            rightExplosion[2] = ImageIO.read(Objects.requireNonNull(getClass().getResourceAsStream("/GameObject/sprites/object/explosion_horizontal_right_last2.png")));
 
         } catch (IOException e) {
             e.printStackTrace();
@@ -149,14 +174,21 @@ public class Bomberman extends Entity {
                 }
             }
             if (bomb.exploded) {
-                bomb = null;
+                frameExplosion++;
+                if (frameExplosion == intervalExplosion) {
+                    frameExplosion = 0;
+                    indexAniExplosion++;
+                    if (indexAniExplosion == 3) {
+                        indexAniExplosion = 0;
+                        bomb = null;
+                    }
+                }
             }
         }
     }
 
     public void draw(Graphics2D g2) {
         BufferedImage image = null;
-        BufferedImage bombImg = null;
         if (notMoving) {
             switch (preDirection) {
                 case "up" -> image = up;
@@ -198,37 +230,43 @@ public class Bomberman extends Entity {
         }
 
         if (bomb != null) {
-            if (indexAniBomb == 0) {
-                bombImg = bomb0;
-            } else if (indexAniBomb == 1) {
-                bombImg = bomb1;
-            } else if (indexAniBomb == 2) {
-                bombImg = bomb2;
-            }
+            int bombX = bomb.x;
+            int bombY = bomb.y;
             if (x < gp.screenWidth / 2) {
-                g2.drawImage(bombImg, bomb.x, bomb.y, gp.tileSize, gp.tileSize, null);
-            } else if (bomb.x < gp.screenWidth / 2 && x >= gp.screenWidth / 2) {
+                g2.drawImage(bombing[indexAniBomb], bomb.x, bomb.y, gp.tileSize, gp.tileSize, null);
+            } else if (bomb.x < gp.screenWidth / 2 && x > gp.screenWidth / 2) {
                 int bombScreenX = bomb.x - x + gp.screenWidth / 2;
-                g2.drawImage(bombImg, bombScreenX, bomb.y, gp.tileSize, gp.tileSize, null);
-            } else if (bomb.x >= gp.screenWidth / 2 && bomb.x <= gp.wordWidth - gp.screenWidth / 2 && x >= gp.screenWidth / 2 && x <= gp.wordWidth - gp.screenWidth / 2) {
+                bombX = bombScreenX;
+                g2.drawImage(bombing[indexAniBomb], bombScreenX, bomb.y, gp.tileSize, gp.tileSize, null);
+            } else if (bomb.x >= gp.screenWidth / 2 && bomb.x <= gp.worldWidth - gp.screenWidth / 2 && x >= gp.screenWidth / 2 && x <= gp.worldWidth - gp.screenWidth / 2) {
                 int bombScreenX = ScreenX + bomb.x - x;
-                g2.drawImage(bombImg, bombScreenX, bomb.y, gp.tileSize, gp.tileSize, null);
-            } else if (x > gp.wordWidth - gp.screenWidth / 2) {
-                int bombScreenX = bomb.x - gp.wordWidth + gp.screenWidth;
-                g2.drawImage(bombImg, bombScreenX, bomb.y, gp.tileSize, gp.tileSize, null);
-            } else if (bomb.x > gp.wordWidth - gp.screenWidth / 2 && x <= gp.wordWidth - gp.screenWidth / 2) {
+                bombX = bombScreenX;
+                g2.drawImage(bombing[indexAniBomb], bombScreenX, bomb.y, gp.tileSize, gp.tileSize, null);
+            } else if (x > gp.worldWidth - gp.screenWidth / 2) {
+                int bombScreenX = bomb.x - gp.worldWidth + gp.screenWidth;
+                bombX = bombScreenX;
+                g2.drawImage(bombing[indexAniBomb], bombScreenX, bomb.y, gp.tileSize, gp.tileSize, null);
+            } else if (bomb.x > gp.worldWidth - gp.screenWidth / 2 && x <= gp.worldWidth - gp.screenWidth / 2) {
                 int bombScreenX = bomb.x - x + gp.screenWidth / 2;
-                g2.drawImage(bombImg, bombScreenX, bomb.y, gp.tileSize, gp.tileSize, null);
+                bombX = bombScreenX;
+                g2.drawImage(bombing[indexAniBomb], bombScreenX, bomb.y, gp.tileSize, gp.tileSize, null);
+            }
+            if (bomb.exploded) {
+                g2.drawImage(fontExplosion[indexAniExplosion], bombX, bombY, gp.tileSize, gp.tileSize, null);
+                g2.drawImage(upExplosion[indexAniExplosion], bombX, bombY - gp.tileSize, gp.tileSize, gp.tileSize, null);
+                g2.drawImage(downExplosion[indexAniExplosion], bombX, bombY + gp.tileSize, gp.tileSize, gp.tileSize, null);
+                g2.drawImage(leftExplosion[indexAniExplosion], bombX - gp.tileSize, bombY, gp.tileSize, gp.tileSize, null);
+                g2.drawImage(rightExplosion[indexAniExplosion], bombX + gp.tileSize, bombY, gp.tileSize, gp.tileSize, null);
             }
         }
 
-        if (x >= gp.screenWidth / 2 && x <= gp.wordWidth - gp.screenWidth / 2) {
+        if (x >= gp.screenWidth / 2 && x <= gp.worldWidth - gp.screenWidth / 2) {
             ScreenX = gp.screenWidth / 2;
             g2.drawImage(image, ScreenX, y, gp.tileSize, gp.tileSize, null);
         } else if (x < gp.screenWidth / 2) {
             g2.drawImage(image, x, y, gp.tileSize, gp.tileSize, null);
         } else {
-            ScreenX = x - gp.wordWidth + gp.screenWidth;
+            ScreenX = x - gp.worldWidth + gp.screenWidth;
             g2.drawImage(image, ScreenX, y, gp.tileSize, gp.tileSize, null);
         }
     }
@@ -259,11 +297,11 @@ public class Bomberman extends Entity {
         int b = y % gp.tileSize;
         int Bomberx = x / gp.tileSize;
         int Bombery = y / gp.tileSize;
-        if (this.getBound(x,y+1).intersects(TileManager.obj[Bombery + 1][Bomberx].getBound()) && (TileManager.obj[Bombery + 1][Bomberx] instanceof Wall || TileManager.obj[Bombery + 1][Bomberx] instanceof Brick)) {
+        if (this.getBound(x, y + 1).intersects(TileManager.obj[Bombery + 1][Bomberx].getBound()) && (TileManager.obj[Bombery + 1][Bomberx] instanceof Wall || TileManager.obj[Bombery + 1][Bomberx] instanceof Brick)) {
             return true;
-        } else if (this.getBound(x,y+1).intersects(TileManager.obj[Bombery + 1][Bomberx].getBound()) && (TileManager.obj[Bombery + 1][Bomberx] instanceof Wall || TileManager.obj[Bombery + 1][Bomberx] instanceof Brick) && a > 16) {
+        } else if (this.getBound(x, y + 1).intersects(TileManager.obj[Bombery + 1][Bomberx].getBound()) && (TileManager.obj[Bombery + 1][Bomberx] instanceof Wall || TileManager.obj[Bombery + 1][Bomberx] instanceof Brick) && a > 16) {
             return true;
-        } else if (this.getBound(x,y+1).intersects(TileManager.obj[Bombery + 1][Bomberx + 1].getBound()) && (TileManager.obj[Bombery + 1][Bomberx + 1] instanceof Wall || TileManager.obj[Bombery + 1][Bomberx + 1] instanceof Brick) && a > 16) {
+        } else if (this.getBound(x, y + 1).intersects(TileManager.obj[Bombery + 1][Bomberx + 1].getBound()) && (TileManager.obj[Bombery + 1][Bomberx + 1] instanceof Wall || TileManager.obj[Bombery + 1][Bomberx + 1] instanceof Brick) && a > 16) {
             return true;
         } else {
             return false;
@@ -275,9 +313,9 @@ public class Bomberman extends Entity {
         int b = y % gp.tileSize;
         int Bomberx = x / gp.tileSize;
         int Bombery = y / gp.tileSize;
-        if (this.getBound(x+1,y-1).intersects(TileManager.obj[Bombery][Bomberx + 1].getBound()) && (TileManager.obj[Bombery][Bomberx + 1] instanceof Wall || TileManager.obj[Bombery][Bomberx + 1] instanceof Brick)) {
+        if (this.getBound(x + 1, y - 1).intersects(TileManager.obj[Bombery][Bomberx + 1].getBound()) && (TileManager.obj[Bombery][Bomberx + 1] instanceof Wall || TileManager.obj[Bombery][Bomberx + 1] instanceof Brick)) {
             return true;
-        } else if (this.getBound(x+1,y-1).intersects(TileManager.obj[Bombery + 1][Bomberx + 1].getBound()) && (TileManager.obj[Bombery + 1][Bomberx + 1] instanceof Wall || TileManager.obj[Bombery + 1][Bomberx + 1] instanceof Brick)) {
+        } else if (this.getBound(x + 1, y - 1).intersects(TileManager.obj[Bombery + 1][Bomberx + 1].getBound()) && (TileManager.obj[Bombery + 1][Bomberx + 1] instanceof Wall || TileManager.obj[Bombery + 1][Bomberx + 1] instanceof Brick)) {
             return true;
         } else {
             return false;
@@ -287,17 +325,13 @@ public class Bomberman extends Entity {
     public boolean collisionLeft() {
         int Bomberx = x / gp.tileSize;
         int Bombery = y / gp.tileSize;
-        if (this.getBound(x-1,y-1).intersects(TileManager.obj[Bombery][Bomberx - 1].getBound()) && (TileManager.obj[Bombery][Bomberx - 1] instanceof Wall || TileManager.obj[Bombery][Bomberx - 1] instanceof Brick)) {
+        if (this.getBound(x - 1, y - 1).intersects(TileManager.obj[Bombery][Bomberx - 1].getBound()) && (TileManager.obj[Bombery][Bomberx - 1] instanceof Wall || TileManager.obj[Bombery][Bomberx - 1] instanceof Brick)) {
             return true;
-        } else if (this.getBound(x-1,y-1).intersects(TileManager.obj[Bombery + 1][Bomberx - 1].getBound()) && (TileManager.obj[Bombery + 1][Bomberx - 1] instanceof Wall || TileManager.obj[Bombery + 1][Bomberx - 1] instanceof Brick)) {
+        } else if (this.getBound(x - 1, y - 1).intersects(TileManager.obj[Bombery + 1][Bomberx - 1].getBound()) && (TileManager.obj[Bombery + 1][Bomberx - 1] instanceof Wall || TileManager.obj[Bombery + 1][Bomberx - 1] instanceof Brick)) {
             return true;
         } else {
             return false;
         }
     }
 
-    @Override
-    public Rectangle getBound() {
-        return null;
-    }
 }
