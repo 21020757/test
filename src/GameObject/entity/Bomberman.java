@@ -45,6 +45,8 @@ public class Bomberman extends Entity {
         y = gp.tileSize;
         speed = 4;
         direction = "down";
+        width = 32;
+        heigth = 48;
     }
 
     public void getPlayerImage() {
@@ -94,49 +96,33 @@ public class Bomberman extends Entity {
     }
 
     public void update() {
-        int a = x % gp.tileSize;
-        int b = y % gp.tileSize;
-        int Bomberx = x / gp.tileSize;
-        int Bombery = y / gp.tileSize;
         if (keyH.upPressed || keyH.downPressed
                 || keyH.leftPressed || keyH.rightPressed || keyH.spacePressed) {
             notMoving = false;
             if (keyH.upPressed) {
-                if (collisionUP()) {
-                    direction = "up";
-                    preDirection = "up";
-                } else {
+                if (!collisionUp()) {
                     y -= speed;
-                    direction = "up";
-                    preDirection = "up";
                 }
+                direction = "up";
+                preDirection = "up";
             } else if (keyH.downPressed) {
-                if (collisionDown()) {
-                    direction = "down";
-                    preDirection = "down";
-                } else {
+                if (!collisionDown()) {
                     y += speed;
-                    direction = "down";
-                    preDirection = "down";
                 }
+                direction = "down";
+                preDirection = "down";
             } else if (keyH.leftPressed) {
-                if (collisionLeft()) {
-                    direction = "left";
-                    preDirection = "left";
-                } else {
+                if (!collisionLeft()) {
                     x -= speed;
-                    direction = "left";
-                    preDirection = "left";
                 }
+                direction = "left";
+                preDirection = "left";
             } else if (keyH.rightPressed) {
-                if (collisionRight()) {
-                    direction = "right";
-                    preDirection = "right";
-                } else {
+                if (!collisionRight()) {
                     x += speed;
-                    direction = "right";
-                    preDirection = "right";
                 }
+                direction = "right";
+                preDirection = "right";
             } else if (keyH.spacePressed) {
                 if (bomb == null) {
                     bomb = new Bomb();
@@ -228,8 +214,8 @@ public class Bomberman extends Entity {
         }
 
         if (bomb != null) {
-            int bombX = bomb.x;
-            int bombY = bomb.y;
+            int bombX = bomb.x / gp.tileSize;
+            int bombY = bomb.y / gp.tileSize;
             if (x < gp.screenWidth / 2) {
                 g2.drawImage(bombing[indexAniBomb], bomb.x, bomb.y, gp.tileSize, gp.tileSize, null);
             } else if (bomb.x < gp.screenWidth / 2 && x > gp.screenWidth / 2) {
@@ -268,8 +254,6 @@ public class Bomberman extends Entity {
             g2.drawImage(image, ScreenX, y, gp.tileSize, gp.tileSize, null);
         }
     }
-
-
 
 
 }

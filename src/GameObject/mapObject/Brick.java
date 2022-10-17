@@ -9,6 +9,7 @@ import java.io.IOException;
 public class Brick extends Gameobject {
     int width = 48;
     int height = 48;
+    int status = 0;
     public Brick() {};
     public Brick(int x,int y) {
         this.x = x;
@@ -26,4 +27,5 @@ public class Brick extends Gameobject {
     public Rectangle getBound() {
         return new Rectangle(x,y+48,width,height);
     }
+
 }
