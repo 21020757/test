@@ -102,41 +102,29 @@ public class Bomberman extends Entity {
                 || keyH.leftPressed || keyH.rightPressed || keyH.spacePressed) {
             notMoving = false;
             if (keyH.upPressed) {
-                if (collisionUP()) {
-                    direction = "up";
-                    preDirection = "up";
-                } else {
+                if (!collisionUp()) {
                     y -= speed;
-                    direction = "up";
-                    preDirection = "up";
                 }
+                direction = "up";
+                preDirection = "up";
             } else if (keyH.downPressed) {
-                if (collisionDown()) {
-                    direction = "down";
-                    preDirection = "down";
-                } else {
+                if (!collisionDown()) {
                     y += speed;
-                    direction = "down";
-                    preDirection = "down";
                 }
+                direction = "down";
+                preDirection = "down";
             } else if (keyH.leftPressed) {
-                if (collisionLeft()) {
-                    direction = "left";
-                    preDirection = "left";
-                } else {
+                if (!collisionLeft()) {
                     x -= speed;
-                    direction = "left";
-                    preDirection = "left";
                 }
+                direction = "left";
+                preDirection = "left";
             } else if (keyH.rightPressed) {
-                if (collisionRight()) {
-                    direction = "right";
-                    preDirection = "right";
-                } else {
+                if (!collisionRight()) {
                     x += speed;
-                    direction = "right";
-                    preDirection = "right";
                 }
+                direction = "right";
+                preDirection = "right";
             } else if (keyH.spacePressed) {
                 if (bomb == null) {
                     bomb = new Bomb();
@@ -268,8 +256,6 @@ public class Bomberman extends Entity {
             g2.drawImage(image, ScreenX, y, gp.tileSize, gp.tileSize, null);
         }
     }
-
-
 
 
 }

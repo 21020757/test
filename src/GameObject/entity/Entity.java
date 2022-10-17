@@ -20,6 +20,7 @@ public class Entity extends Gameobject {
     //Load image
     public BufferedImage up, up1, up2, down, down1, down2, left, left1, left2, right, right1, right2, dead1, dead2, dead3;
     public String direction;
+    public String preDirection;
 
     //Animation
     public int spriteCounter = 0;
@@ -29,13 +30,14 @@ public class Entity extends Gameobject {
         this.gp = gp;
     }
 
+    public void setAction() {
+    }
+
     public void update() {
     }
 
-
     public void draw(Graphics2D g2) {
     }
-
 
     @Override
     public Rectangle getBound() {
@@ -45,7 +47,8 @@ public class Entity extends Gameobject {
     public Rectangle getBound(int x, int y) {
         return new Rectangle(x, y + 46, width, heigth);
     }
-    public boolean collisionUP() {
+
+    public boolean collisionUp() {
         int a = x % gp.tileSize;
         int b = y % gp.tileSize;
         int EntityX = x / gp.tileSize;
@@ -61,6 +64,7 @@ public class Entity extends Gameobject {
         }
 
     }
+
     public boolean collisionDown() {
         int a = x % gp.tileSize;
         int b = y % gp.tileSize;
