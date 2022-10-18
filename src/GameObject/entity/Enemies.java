@@ -21,6 +21,10 @@ public class Enemies extends Entity {
         direction = "down";
         preDirection = "";
         speed = 2;
+        x = gp.tileSize;
+        y = gp.tileSize;
+        width = 48;
+        heigth = 48;
         getImage();
     }
 
@@ -42,30 +46,22 @@ public class Enemies extends Entity {
 
     public void setAction() {
         actionLockCounter++;
-        if(actionLockCounter == 120) {
+        if (actionLockCounter == 120) {
             Random random = new Random();
             int i = random.nextInt(100) + 1;
-            if(i <= 25) {
-                if(!collisionUp()) {
-                    direction = "up";
-                    preDirection = "up";
-                }
+            if (i <= 25) {
+                direction = "up";
+                preDirection = "up";
             }
-            if(i > 25 && i <= 50) {
-                if(!collisionDown()) {
-                    direction = "down";
-                    preDirection = "down";
-                }
+            if (i > 25 && i <= 50) {
+                direction = "down";
+                preDirection = "down";
             }
-            if(i > 50 && i <= 75) {
-                if(!collisionLeft()) {
-                    direction = "left";
-                }
+            if (i > 50 && i <= 75) {
+                direction = "left";
             }
-            if(i > 75) {
-                if(!collisionRight()) {
-                    direction = "right";
-                }
+            if (i > 75) {
+                direction = "right";
             }
             actionLockCounter = 0;
         }
@@ -74,12 +70,26 @@ public class Enemies extends Entity {
     @Override
     public void update() {
         setAction();
-        System.out.println(direction);
         switch (direction) {
-            case "up" -> y -= speed;
-            case "down" -> y += speed;
-            case "left" -> x -= speed;
-            case "right" -> x += speed;
+            case "up" -> {
+                if (!collisionUp()) {
+                    y -= speed;
+                }
+            }
+            case "down" -> {
+                if (!collisionDown()) {
+                    y += speed;
+                }
+            }
+            case "left" -> {
+                if (!collisionLeft()) {
+                    x -= speed; }
+            }
+            case "right" -> {
+                if (!collisionRight()) {
+                    x += speed;
+                }
+            }
         }
         spriteCounter++;
         if (spriteCounter > 12) {
@@ -94,12 +104,12 @@ public class Enemies extends Entity {
 
     @Override
     public void draw(Graphics2D g2) {
-        if(direction.equals("left")) {
+        if (direction.equals("left")) {
             g2.drawImage(balloonLeft[spriteNum], x, y, gp.tileSize, gp.tileSize, null);
-        } else if (direction.equals("right")){
+        } else if (direction.equals("right")) {
             g2.drawImage(balloonRight[spriteNum], x, y, gp.tileSize, gp.tileSize, null);
         } else {
-            if(preDirection.equals("left")) {
+            if (preDirection.equals("left")) {
                 g2.drawImage(balloonLeft[spriteNum], x, y, gp.tileSize, gp.tileSize, null);
             } else {
                 g2.drawImage(balloonRight[spriteNum], x, y, gp.tileSize, gp.tileSize, null);
