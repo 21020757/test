@@ -4,7 +4,6 @@ import GameObject.Tiles.TileManager;
 import GameObject.entity.Bomberman;
 import GameObject.entity.Enemies;
 import GameObject.entity.Entity;
-import GameObject.object.SuperObject;
 
 import javax.swing.*;
 import java.awt.*;
@@ -23,7 +22,6 @@ public class GamePanel extends JPanel implements Runnable {
     Thread gameThread;
     public AssetSetter aSetter = new AssetSetter(this);
     public Bomberman bomberman = new Bomberman(this, keyH);
-    public SuperObject[] obj = new SuperObject[10];
     public Entity enemy = new Enemies(this);
 
     //World Settings

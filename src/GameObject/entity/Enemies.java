@@ -21,7 +21,7 @@ public class Enemies extends Entity {
         direction = "down";
         preDirection = "";
         speed = 2;
-        x = gp.tileSize;
+        x = gp.tileSize * 28;
         y = gp.tileSize;
         width = 48;
         heigth = 48;
@@ -83,7 +83,8 @@ public class Enemies extends Entity {
             }
             case "left" -> {
                 if (!collisionLeft()) {
-                    x -= speed; }
+                    x -= speed;
+                }
             }
             case "right" -> {
                 if (!collisionRight()) {
@@ -104,17 +105,59 @@ public class Enemies extends Entity {
 
     @Override
     public void draw(Graphics2D g2) {
-        if (direction.equals("left")) {
-            g2.drawImage(balloonLeft[spriteNum], x, y, gp.tileSize, gp.tileSize, null);
-        } else if (direction.equals("right")) {
-            g2.drawImage(balloonRight[spriteNum], x, y, gp.tileSize, gp.tileSize, null);
-        } else {
-            if (preDirection.equals("left")) {
+        if (gp.bomberman.x <= gp.screenWidth / 2) {
+            if (direction.equals("left")) {
                 g2.drawImage(balloonLeft[spriteNum], x, y, gp.tileSize, gp.tileSize, null);
-            } else {
+            } else if (direction.equals("right")) {
                 g2.drawImage(balloonRight[spriteNum], x, y, gp.tileSize, gp.tileSize, null);
+            } else {
+                if (preDirection.equals("left")) {
+                    g2.drawImage(balloonLeft[spriteNum], x, y, gp.tileSize, gp.tileSize, null);
+                } else {
+                    g2.drawImage(balloonRight[spriteNum], x, y, gp.tileSize, gp.tileSize, null);
+                }
+            }
+        } else if (gp.screenWidth / 2 <= gp.bomberman.x && gp.bomberman.x < gp.worldWidth - gp.screenWidth/2 && x >= gp.screenWidth / 2) {
+            int ScreenX = x + gp.screenWidth / 2 - gp.bomberman.x;
+            if (direction.equals("left")) {
+                g2.drawImage(balloonLeft[spriteNum], ScreenX, y, gp.tileSize, gp.tileSize, null);
+            } else if (direction.equals("right")) {
+                g2.drawImage(balloonRight[spriteNum], ScreenX, y, gp.tileSize, gp.tileSize, null);
+            } else {
+                if (preDirection.equals("left")) {
+                    g2.drawImage(balloonLeft[spriteNum], ScreenX, y, gp.tileSize, gp.tileSize, null);
+                } else {
+                    g2.drawImage(balloonRight[spriteNum], ScreenX, y, gp.tileSize, gp.tileSize, null);
+                }
+            }
+        } else if (gp.screenWidth / 2 <= gp.bomberman.x && x < gp.screenWidth / 2) {
+            int ScreenX = gp.screenWidth / 2 + this.x - gp.bomberman.x;
+            if (direction.equals("left")) {
+                g2.drawImage(balloonLeft[spriteNum], ScreenX, y, gp.tileSize, gp.tileSize, null);
+            } else if (direction.equals("right")) {
+                g2.drawImage(balloonRight[spriteNum], ScreenX, y, gp.tileSize, gp.tileSize, null);
+            } else {
+                if (preDirection.equals("left")) {
+                    g2.drawImage(balloonLeft[spriteNum], ScreenX, y, gp.tileSize, gp.tileSize, null);
+                } else {
+                    g2.drawImage(balloonRight[spriteNum], ScreenX, y, gp.tileSize, gp.tileSize, null);
+                }
+            }
+        } else if (gp.bomberman.x > gp.worldWidth - gp.screenWidth / 2) {
+            int ScreenX = x - gp.worldWidth + gp.screenWidth;
+            if (direction.equals("left")) {
+                g2.drawImage(balloonLeft[spriteNum], ScreenX, y, gp.tileSize, gp.tileSize, null);
+            } else if (direction.equals("right")) {
+                g2.drawImage(balloonRight[spriteNum], ScreenX, y, gp.tileSize, gp.tileSize, null);
+            } else {
+                if (preDirection.equals("left")) {
+                    g2.drawImage(balloonLeft[spriteNum], ScreenX, y, gp.tileSize, gp.tileSize, null);
+                } else {
+                    g2.drawImage(balloonRight[spriteNum], ScreenX, y, gp.tileSize, gp.tileSize, null);
+                }
             }
         }
     }
 }
+
 
