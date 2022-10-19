@@ -4,6 +4,7 @@ import GameObject.Tiles.TileManager;
 import GameObject.entity.Bomberman;
 import GameObject.entity.Enemies;
 import GameObject.entity.Entity;
+import GameObject.object.SuperObject;
 
 import javax.swing.*;
 import java.awt.*;
@@ -18,9 +19,15 @@ public class GamePanel extends JPanel implements Runnable {
     public final int screenWidth = tileSize * maxScreenCol;
     public final int screenHeight = tileSize * maxScreenRow;
     KeyHandler keyH = new KeyHandler();
-    //Create object
-    Thread gameThread;
+    //System
+
+    TileManager tile = new TileManager(this);
     public AssetSetter aSetter = new AssetSetter(this);
+    Sound sound = new Sound();
+    Thread gameThread;
+
+    //Entity
+    public SuperObject[] items = new SuperObject[10];
     public Bomberman bomberman = new Bomberman(this, keyH);
     public Entity enemy = new Enemies(this);
 
@@ -31,7 +38,8 @@ public class GamePanel extends JPanel implements Runnable {
     public final int worldHeight = tileSize * maxWorldRow;
     //FPS
     int FPS = 60;
-    TileManager tile = new TileManager(this);
+
+
     public GamePanel() {
         this.setPreferredSize(new Dimension(screenWidth, screenHeight));
         this.setBackground(Color.BLACK);
@@ -40,6 +48,10 @@ public class GamePanel extends JPanel implements Runnable {
         this.setFocusable(true);
     }
 
+    public void setUpGame() {
+        aSetter.setObject();
+        playMusic(0);
+    }
     public void startGameThread() {
         gameThread = new Thread(this);
         gameThread.start();
@@ -81,5 +93,20 @@ public class GamePanel extends JPanel implements Runnable {
         bomberman.draw(g2);
         enemy.draw(g2);
         g2.dispose();
+    }
+
+    public void playMusic(int i) {
+        sound.setFile(i);
+        sound.play();
+        sound.loop();
+    }
+
+    public void stopMusic() {
+        sound.stop();
+    }
+
+    public void playSE(int i) {
+        sound.setFile(i);
+        sound.play();
     }
 }

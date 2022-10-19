@@ -1,11 +1,7 @@
 package GameObject.entity;
 
-import GameObject.Tiles.TileManager;
-import GameObject.mapObject.Brick;
-import GameObject.mapObject.Wall;
 import main.GamePanel;
 import main.KeyHandler;
-import GameObject.object.Bomb;
 
 import javax.imageio.ImageIO;
 import java.awt.*;
@@ -18,7 +14,7 @@ public class Bomberman extends Entity {
     public static final int intervalImageChange = 9;
     public boolean notMoving;
     public String preDirection;
-    public int ScreenX;
+    public int screenX;
 
     //About bomb
     public Bomb bomb;
@@ -35,6 +31,8 @@ public class Bomberman extends Entity {
         super(gp);
         Bomberman.keyH = keyH;
         preDirection = "down";
+
+
         setDefaultValues();
         getPlayerImage();
     }
@@ -105,26 +103,31 @@ public class Bomberman extends Entity {
                 }
                 direction = "up";
                 preDirection = "up";
-            } else if (keyH.downPressed) {
+            }
+            if (keyH.downPressed) {
                 if (!collisionDown()) {
                     y += speed;
                 }
                 direction = "down";
                 preDirection = "down";
-            } else if (keyH.leftPressed) {
+            }
+            if (keyH.leftPressed) {
                 if (!collisionLeft()) {
                     x -= speed;
                 }
                 direction = "left";
                 preDirection = "left";
-            } else if (keyH.rightPressed) {
+            }
+            if (keyH.rightPressed) {
                 if (!collisionRight()) {
                     x += speed;
                 }
                 direction = "right";
                 preDirection = "right";
-            } else if (keyH.spacePressed) {
+            }
+            if (keyH.spacePressed) {
                 if (bomb == null) {
+                    gp.playSE(6);
                     bomb = new Bomb();
                     bomb.x = x;
                     bomb.y = y;
@@ -214,8 +217,8 @@ public class Bomberman extends Entity {
         }
 
         if (bomb != null) {
-            int bombX = bomb.x / gp.tileSize;
-            int bombY = bomb.y / gp.tileSize;
+            int bombX = bomb.x;
+            int bombY = bomb.y;
             if (x < gp.screenWidth / 2) {
                 g2.drawImage(bombing[indexAniBomb], bomb.x, bomb.y, gp.tileSize, gp.tileSize, null);
             } else if (bomb.x < gp.screenWidth / 2 && x > gp.screenWidth / 2) {
@@ -223,7 +226,7 @@ public class Bomberman extends Entity {
                 bombX = bombScreenX;
                 g2.drawImage(bombing[indexAniBomb], bombScreenX, bomb.y, gp.tileSize, gp.tileSize, null);
             } else if (bomb.x >= gp.screenWidth / 2 && bomb.x <= gp.worldWidth - gp.screenWidth / 2 && x >= gp.screenWidth / 2 && x <= gp.worldWidth - gp.screenWidth / 2) {
-                int bombScreenX = ScreenX + bomb.x - x;
+                int bombScreenX = screenX + bomb.x - x;
                 bombX = bombScreenX;
                 g2.drawImage(bombing[indexAniBomb], bombScreenX, bomb.y, gp.tileSize, gp.tileSize, null);
             } else if (x > gp.worldWidth - gp.screenWidth / 2) {
@@ -245,13 +248,13 @@ public class Bomberman extends Entity {
         }
 
         if (x >= gp.screenWidth / 2 && x <= gp.worldWidth - gp.screenWidth / 2) {
-            ScreenX = gp.screenWidth / 2;
-            g2.drawImage(image, ScreenX, y, gp.tileSize, gp.tileSize, null);
+            screenX = gp.screenWidth / 2;
+            g2.drawImage(image, screenX, y, gp.tileSize, gp.tileSize, null);
         } else if (x < gp.screenWidth / 2) {
             g2.drawImage(image, x, y, gp.tileSize, gp.tileSize, null);
         } else {
-            ScreenX = x - gp.worldWidth + gp.screenWidth;
-            g2.drawImage(image, ScreenX, y, gp.tileSize, gp.tileSize, null);
+            screenX = x - gp.worldWidth + gp.screenWidth;
+            g2.drawImage(image, screenX, y, gp.tileSize, gp.tileSize, null);
         }
     }
 

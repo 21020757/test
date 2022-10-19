@@ -21,8 +21,8 @@ public class Enemies extends Entity {
         direction = "down";
         preDirection = "";
         speed = 2;
-        x = gp.tileSize * 28;
-        y = gp.tileSize;
+        x = gp.tileSize * 2;
+        y = gp.tileSize * 2;
         width = 48;
         heigth = 48;
         getImage();
@@ -131,7 +131,7 @@ public class Enemies extends Entity {
                 }
             }
         } else if (gp.screenWidth / 2 <= gp.bomberman.x && x < gp.screenWidth / 2) {
-            int ScreenX = gp.screenWidth / 2 + this.x - gp.bomberman.x;
+            int ScreenX = gp.screenWidth / 2 + x - gp.bomberman.x;
             if (direction.equals("left")) {
                 g2.drawImage(balloonLeft[spriteNum], ScreenX, y, gp.tileSize, gp.tileSize, null);
             } else if (direction.equals("right")) {
