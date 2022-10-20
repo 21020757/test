@@ -9,12 +9,12 @@ import java.awt.image.BufferedImage;
 import java.io.IOException;
 
 public class Wall extends Gameobject {
-    int width = 48;
-    int height = 48;
     public Wall() {};
     public Wall(int x, int y) {
         this.x = x;
         this.y = y;
+        width = 48;
+        heigth = 48;
         try {
             image = ImageIO.read(getClass().getResourceAsStream("/GameObject/sprites/map/wall.png"));
         } catch (IOException e) {
@@ -27,6 +27,6 @@ public class Wall extends Gameobject {
 
     @Override
     public Rectangle getBound() {
-        return new Rectangle(x,y+48,width,height);
+        return new Rectangle(x,y+48,width,heigth);
     }
 }
