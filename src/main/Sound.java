@@ -10,14 +10,12 @@ public class Sound {
 
     public Sound() {
         //MUSIC
-        soundURL[0] = getClass().getResource("/sound/Bomberman-_NES_-Music-Stage-Theme.wav");
-        soundURL[1] = getClass().getResource("/sound/Bomberman-_NES_-Music-Level-Start.wav");
-        soundURL[2] = getClass().getResource("/sound/Bomberman-_NES_-Music-Level-Complete.wav");
-        soundURL[3] = getClass().getResource("/sound/Bomberman-_NES_-Music-Title-Screen.wav");
-        soundURL[4] = getClass().getResource("/sound/Bomberman-_NES_-Music-Just-Died.wav");
+        soundURL[0] = getClass().getResource("/sound/title screen.wav");
+        soundURL[1] = getClass().getResource("/sound/theme.wav");
+
         //SE
-        soundURL[5] = getClass().getResource("/sound/Bomberman SFX (1).wav");
-        soundURL[6] = getClass().getResource("/sound/Bomberman SFX (2).wav");
+        soundURL[2] = getClass().getResource("/sound/bomb plant.wav");
+        soundURL[3] = getClass().getResource("/sound/explode.wav");
     }
 
     public void setFile(int i) {

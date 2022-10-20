@@ -127,10 +127,10 @@ public class Bomberman extends Entity {
             }
             if (keyH.spacePressed) {
                 if (bomb == null) {
-                    gp.playSE(6);
                     bomb = new Bomb();
                     bomb.x = x;
                     bomb.y = y;
+                    gp.playSE(2);
                 }
             }
 
@@ -166,6 +166,7 @@ public class Bomberman extends Entity {
                     frameExplosion = 0;
                     indexAniExplosion++;
                     if (indexAniExplosion == 3) {
+                        gp.playSE(3);
                         indexAniExplosion = 0;
                         bomb = null;
                     }
