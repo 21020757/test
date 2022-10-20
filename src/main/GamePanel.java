@@ -23,6 +23,7 @@ public class GamePanel extends JPanel implements Runnable {
     public AssetSetter aSetter = new AssetSetter(this);
     public Bomberman bomberman = new Bomberman(this, keyH);
     public Entity enemy = new Enemies(this);
+    Sound sound = new Sound();
 
     //World Settings
     public final int maxWorldCol = 31;
@@ -32,12 +33,18 @@ public class GamePanel extends JPanel implements Runnable {
     //FPS
     int FPS = 60;
     TileManager tile = new TileManager(this);
+
     public GamePanel() {
         this.setPreferredSize(new Dimension(screenWidth, screenHeight));
         this.setBackground(Color.BLACK);
         this.setDoubleBuffered(true);
         this.addKeyListener(keyH);
         this.setFocusable(true);
+    }
+
+
+    public void setUpGame() {
+        playMusic(1);
     }
 
     public void startGameThread() {
@@ -47,7 +54,7 @@ public class GamePanel extends JPanel implements Runnable {
 
     @Override
     public void run() {
-        double drawInterval = 1000000000/FPS;
+        double drawInterval = 1000000000 / FPS;
         double nextDrawTime = System.nanoTime() + drawInterval;
         while (gameThread != null) {
 
@@ -58,10 +65,10 @@ public class GamePanel extends JPanel implements Runnable {
             try {
                 double remainingTime = nextDrawTime - System.nanoTime();
                 remainingTime /= 1000000;
-                if(remainingTime < 0) {
+                if (remainingTime < 0) {
                     remainingTime = 0;
                 }
-                Thread.sleep((long)remainingTime);
+                Thread.sleep((long) remainingTime);
                 nextDrawTime += drawInterval;
             } catch (InterruptedException e) {
                 throw new RuntimeException(e);
@@ -81,5 +88,20 @@ public class GamePanel extends JPanel implements Runnable {
         bomberman.draw(g2);
         enemy.draw(g2);
         g2.dispose();
+    }
+
+    public void playMusic(int i) {
+        sound.setFile(i);
+        sound.play();
+        sound.loop();
+    }
+
+    public void stopMusic() {
+        sound.stop();
+    }
+
+    public void playSE(int i) {
+        sound.setFile(i);
+        sound.play();
     }
 }

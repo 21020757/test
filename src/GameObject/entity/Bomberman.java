@@ -75,28 +75,29 @@ public class Bomberman extends Entity {
                 }
                 direction = "up";
                 preDirection = "up";
-            } else if (keyH.downPressed) {
+            }  if (keyH.downPressed) {
                 if (!collisionDown()) {
                     y += speed;
                 }
                 direction = "down";
                 preDirection = "down";
-            } else if (keyH.leftPressed) {
+            }  if (keyH.leftPressed) {
                 if (!collisionLeft()) {
                     x -= speed;
                 }
                 direction = "left";
                 preDirection = "left";
-            } else if (keyH.rightPressed) {
+            }  if (keyH.rightPressed) {
                 if (!collisionRight()) {
                     x += speed;
                 }
                 direction = "right";
                 preDirection = "right";
-            } else if (keyH.spacePressed) {
+            }  if (keyH.spacePressed) {
                 if (BombAmount > 0) {
                     BombAmount--;
                     bomb[BombAmount] = new Bomb(x,y);
+                    gp.playSE(2);
                 }
             }
 
@@ -116,6 +117,7 @@ public class Bomberman extends Entity {
             bomb[BombAmount].Explosion();
             if (bomb[BombAmount].indexAniExplosion == 3) {
                 bomb[BombAmount].indexAniExplosion =0;
+                gp.playSE(3);
                 bomb[BombAmount] = null;
                 BombAmount ++;
             }
