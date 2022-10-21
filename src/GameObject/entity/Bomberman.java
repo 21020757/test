@@ -75,28 +75,32 @@ public class Bomberman extends Entity {
                 }
                 direction = "up";
                 preDirection = "up";
-            }  if (keyH.downPressed) {
+            }
+            if (keyH.downPressed) {
                 if (!collisionDown()) {
                     y += speed;
                 }
                 direction = "down";
                 preDirection = "down";
-            }  if (keyH.leftPressed) {
+            }
+            if (keyH.leftPressed) {
                 if (!collisionLeft()) {
                     x -= speed;
                 }
                 direction = "left";
                 preDirection = "left";
-            }  if (keyH.rightPressed) {
+            }
+            if (keyH.rightPressed) {
                 if (!collisionRight()) {
                     x += speed;
                 }
                 direction = "right";
                 preDirection = "right";
-            }  if (keyH.spacePressed) {
+            }
+            if (keyH.spacePressed) {
                 if (BombAmount > 0) {
                     BombAmount--;
-                    bomb[BombAmount] = new Bomb(x,y);
+                    bomb[BombAmount] = new Bomb(x, y);
                     gp.playSE(2);
                 }
             }
@@ -116,10 +120,10 @@ public class Bomberman extends Entity {
         if (BombAmount < 1) {
             bomb[BombAmount].Explosion();
             if (bomb[BombAmount].indexAniExplosion == 3) {
-                bomb[BombAmount].indexAniExplosion =0;
                 gp.playSE(3);
+                bomb[BombAmount].indexAniExplosion = 0;
                 bomb[BombAmount] = null;
-                BombAmount ++;
+                BombAmount++;
             }
         }
 
@@ -166,8 +170,8 @@ public class Bomberman extends Entity {
                 }
             }
         }
-        if (BombAmount < 1){
-            bomb[BombAmount].draw(g2,gp,x,y);
+        if (BombAmount < 1) {
+            bomb[BombAmount].draw(g2, gp, x, y);
         }
         if (x >= gp.screenWidth / 2 && x <= gp.worldWidth - gp.screenWidth / 2) {
             ScreenX = gp.screenWidth / 2;

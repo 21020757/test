@@ -16,6 +16,7 @@ public class Sound {
         //SE
         soundURL[2] = getClass().getResource("/sound/bomb plant.wav");
         soundURL[3] = getClass().getResource("/sound/explode.wav");
+        soundURL[4] = getClass().getResource("/sound/start.wav");
     }
 
     public void setFile(int i) {
