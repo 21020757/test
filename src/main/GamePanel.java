@@ -43,7 +43,7 @@ public class GamePanel extends JPanel implements Runnable {
     public final int titleState = 0;
     public final int playState = 1;
     public final int loadLevel = 2;
-    public int time = -1;
+    public int wait = -1;
     public int commandNum = 0;
 
 
@@ -104,11 +104,15 @@ public class GamePanel extends JPanel implements Runnable {
             drawScreenTitle(g2);
         }
         if (gameState == loadLevel) {
-            stopMusic();
+            if (wait == -1) {
+                stopMusic();
+            }
+            if (wait == 0) {
+                playSE(4);
+            }
             loadLevel(g2);
-            System.out.println(time);
-            time++;
-            if (time == 240) {
+            wait++;
+            if (wait == 180) {
                 gameState = playState;
                 playMusic(1);
             }
