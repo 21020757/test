@@ -42,12 +42,12 @@ public class Bomberman extends Entity {
     public void setDefaultValues() {
         x = gp.tileSize;
         y = gp.tileSize;
-        speed = 1;
+        speed = 2;
         direction = "down";
         width = 32;
         height = 48;
         BombAmount = 1;
-        count = 0;
+        count = 1;
         FlameBomb = 1;
         bomb = new Bomb[BombAmount];
     }
@@ -126,7 +126,7 @@ public class Bomberman extends Entity {
             notMoving = true;
         }
         pickItemFlame();
-        if (BombAmount < 1) {
+        if (BombAmount < count) {
             bomb[BombAmount].Explosion(gp);
             if (bomb[BombAmount].indexAniExplosion == 3) {
                 bomb[BombAmount].indexAniExplosion = 0;
@@ -179,7 +179,7 @@ public class Bomberman extends Entity {
                 }
             }
         }
-        if (BombAmount < 1) {
+        if (BombAmount < count) {
             bomb[BombAmount].draw(g2, gp, x, y);
         }
         if (x >= gp.screenWidth / 2 && x <= gp.worldWidth - gp.screenWidth / 2) {

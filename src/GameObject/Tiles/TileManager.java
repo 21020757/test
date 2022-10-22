@@ -2,6 +2,7 @@ package GameObject.Tiles;
 
 import GameObject.Gameobject;
 import GameObject.Item.BrickFlameItem;
+import GameObject.Item.BrickPortalItem;
 import GameObject.Item.BrickSpeedItem;
 import GameObject.Item.FlameItem;
 import GameObject.mapObject.Brick;
@@ -51,21 +52,23 @@ public class TileManager {
         for (int i = 0; i < gp.maxWorldRow; i++) {
             for (int j = 0; j < gp.maxWorldCol; j++) {
                 char s = map[i][j];
-                if (s == ' ') {
-                    obj[i][j] = new Grass(j * 48, i * 48);
-                } else if (s == '#') {
+                if (s == '#') {
                     obj[i][j] = new Wall(j * 48, i * 48);
-                } else if (s == '3') {
-                    obj[i][j] = new BrickFlameItem(j*48, i*48);
-                } else if (s == '4') {
-                    obj[i][j] = new BrickSpeedItem(j*48, i*48);
-                }
-                else {
+                } else if (s == 'f') {
+                    obj[i][j] = new BrickFlameItem(j * 48, i * 48);
+                } else if (s == 's') {
+                    obj[i][j] = new BrickSpeedItem(j * 48, i * 48);
+                } else if (s == '*') {
                     obj[i][j] = new Brick(j * 48, i * 48);
+                } else if (s == 'x') {
+                    obj[i][j] = new BrickPortalItem(j * 48, i*48);
+                } else {
+                    obj[i][j] = new Grass(j*48,i*48);
                 }
             }
         }
     }
+
     public void draw(Graphics2D g2) {
         for (int i = 0; i < gp.maxWorldRow; i++) {
             for (int j = 0; j < gp.maxWorldCol; j++) {

@@ -43,7 +43,7 @@ public class GamePanel extends JPanel implements Runnable {
     public final int titleState = 0;
     public final int playState = 1;
     public final int loadLevel = 2;
-    public int time = -1;
+    public int wait = -1;
     public int commandNum = 0;
 
 
@@ -92,7 +92,9 @@ public class GamePanel extends JPanel implements Runnable {
 
     public void update() {
         bomberman.update();
-        enemy.update();
+        if (enemy != null) {
+            enemy.update();
+        }
     }
 
     public void paintComponent(Graphics g) {
@@ -104,11 +106,15 @@ public class GamePanel extends JPanel implements Runnable {
             drawScreenTitle(g2);
         }
         if (gameState == loadLevel) {
-            stopMusic();
+            if (wait == -1) {
+                stopMusic();
+            }
+            if (wait == 0) {
+                playSE(4);
+            }
             loadLevel(g2);
-            System.out.println(time);
-            time++;
-            if (time == 240) {
+            wait++;
+            if (wait == 180) {
                 gameState = playState;
                 playMusic(1);
             }
@@ -117,7 +123,9 @@ public class GamePanel extends JPanel implements Runnable {
             //OTHERS
             tile.draw(g2);
             bomberman.draw(g2);
-            enemy.draw(g2);
+            if (enemy != null) {
+                enemy.draw(g2);
+            }
         }
         g2.dispose();
     }
