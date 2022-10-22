@@ -1,7 +1,11 @@
 package GameObject.entity;
 
+import GameObject.Item.BombItem;
+import GameObject.Item.FlameItem;
+import GameObject.Item.SpeedItem;
 import GameObject.Tiles.TileManager;
 import GameObject.mapObject.Brick;
+import GameObject.mapObject.Grass;
 import GameObject.mapObject.Wall;
 import main.GamePanel;
 import main.KeyHandler;
@@ -22,8 +26,9 @@ public class Bomberman extends Entity {
 
     //About bomb
     public int BombAmount;
-    int count;
     public Bomb bomb[];
+    public int FlameBomb;
+    public int count;
 
     public Bomberman(GamePanel gp, KeyHandler keyH) {
         super(gp);
@@ -37,11 +42,13 @@ public class Bomberman extends Entity {
     public void setDefaultValues() {
         x = gp.tileSize;
         y = gp.tileSize;
-        speed = 4;
+        speed = 1;
         direction = "down";
         width = 32;
-        heigth = 48;
+        height = 48;
         BombAmount = 1;
+        count = 0;
+        FlameBomb = 1;
         bomb = new Bomb[BombAmount];
     }
 
@@ -101,6 +108,7 @@ public class Bomberman extends Entity {
                 if (BombAmount > 0) {
                     BombAmount--;
                     bomb[BombAmount] = new Bomb(x, y);
+                    bomb[BombAmount].Flame = FlameBomb;
                     gp.playSE(2);
                 }
             }
@@ -117,16 +125,17 @@ public class Bomberman extends Entity {
         } else {
             notMoving = true;
         }
+        pickItemFlame();
         if (BombAmount < 1) {
-            bomb[BombAmount].Explosion();
+            bomb[BombAmount].Explosion(gp);
             if (bomb[BombAmount].indexAniExplosion == 3) {
-                gp.playSE(3);
                 bomb[BombAmount].indexAniExplosion = 0;
+                gp.playSE(3);
                 bomb[BombAmount] = null;
                 BombAmount++;
             }
         }
-
+        pickItemFlame();
     }
 
     public void draw(Graphics2D g2) {
@@ -184,5 +193,23 @@ public class Bomberman extends Entity {
         }
     }
 
+    public void pickItemFlame() {
+        for (int i = 0; i < 13; i++) {
+            for(int j = 0 ; j < 31 ; j++) {
+                if (TileManager.obj[i][j] instanceof FlameItem) {
+                    if(this.getBound(x,y).intersects(TileManager.obj[i][j].getBound())) {
+                        TileManager.obj[i][j] = new Grass(j * gp.tileSize,i * gp.tileSize);
+                        FlameBomb++;
+                    }
+                }
+                if (TileManager.obj[i][j] instanceof SpeedItem) {
+                    if(this.getBound(x,y).intersects(TileManager.obj[i][j].getBound())) {
+                        TileManager.obj[i][j] = new Grass(j * gp.tileSize,i * gp.tileSize);
+                        speed++;
+                    }
 
+                }
+            }
+        }
+    }
 }

@@ -1,6 +1,9 @@
 package GameObject.Tiles;
 
 import GameObject.Gameobject;
+import GameObject.Item.BrickFlameItem;
+import GameObject.Item.BrickSpeedItem;
+import GameObject.Item.FlameItem;
 import GameObject.mapObject.Brick;
 import GameObject.mapObject.Grass;
 import GameObject.mapObject.Wall;
@@ -52,7 +55,12 @@ public class TileManager {
                     obj[i][j] = new Grass(j * 48, i * 48);
                 } else if (s == '#') {
                     obj[i][j] = new Wall(j * 48, i * 48);
-                } else {
+                } else if (s == '3') {
+                    obj[i][j] = new BrickFlameItem(j*48, i*48);
+                } else if (s == '4') {
+                    obj[i][j] = new BrickSpeedItem(j*48, i*48);
+                }
+                else {
                     obj[i][j] = new Brick(j * 48, i * 48);
                 }
             }

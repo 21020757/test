@@ -1,6 +1,13 @@
 package GameObject.object;
 
 import GameObject.Gameobject;
+import GameObject.Item.BrickFlameItem;
+import GameObject.Item.BrickSpeedItem;
+import GameObject.Item.FlameItem;
+import GameObject.Item.SpeedItem;
+import GameObject.Tiles.TileManager;
+import GameObject.mapObject.Brick;
+import GameObject.mapObject.Grass;
 import main.GamePanel;
 
 import javax.imageio.IIOException;
@@ -11,6 +18,7 @@ import java.io.IOException;
 import java.util.Objects;
 
 public class Bomb extends Gameobject {
+    public int Flame;
     public boolean exploded;
     public int countToExplode = 0, intervalToExplode = 5;
     public BufferedImage[] bombing = new BufferedImage[3];
@@ -25,13 +33,22 @@ public class Bomb extends Gameobject {
     public Bomb(int x, int y) {
         this.x = x;
         this.y = y;
+        Flame = 1;
+        update();
         getBombImage();
         exploded = false;
     }
+
+    public void update() {
+        x = (x / 48) * 48;
+        y = (y / 48) * 48;
+    }
+
     @Override
     public Rectangle getBound() {
-        return new Rectangle(x,y,width, heigth);
+        return new Rectangle(x, y, width, height);
     }
+
     public void getBombImage() {
         try {
             //Bomb
@@ -63,7 +80,8 @@ public class Bomb extends Gameobject {
             e.printStackTrace();
         }
     }
-    public void Explosion() {
+
+    public void Explosion(GamePanel gp) {
         frameBomb++;
         if (frameBomb == intervalBomb) {
             frameBomb = 0;
@@ -82,9 +100,14 @@ public class Bomb extends Gameobject {
                 frameExplosion = 0;
                 indexAniExplosion++;
             }
+            BrickExploded(gp);
+            EnemyExploded(gp);
+            FlameExploded(gp);
+            SpeedItemExploded(gp);
         }
     }
-    public void draw(Graphics2D g2,GamePanel gp,int x, int y) {
+
+    public void draw(Graphics2D g2, GamePanel gp, int x, int y) {
         int bombX = this.x;
         int bombY = this.y;
         if (x < gp.screenWidth / 2) {
@@ -112,6 +135,78 @@ public class Bomb extends Gameobject {
             g2.drawImage(downExplosion[indexAniExplosion], bombX, bombY + gp.tileSize, gp.tileSize, gp.tileSize, null);
             g2.drawImage(leftExplosion[indexAniExplosion], bombX - gp.tileSize, bombY, gp.tileSize, gp.tileSize, null);
             g2.drawImage(rightExplosion[indexAniExplosion], bombX + gp.tileSize, bombY, gp.tileSize, gp.tileSize, null);
+        }
+    }
+
+    public void BrickExploded(GamePanel gp) {
+        int statusx = x / gp.tileSize;
+        int statusy = y / gp.tileSize;
+        for (int i = 1; i <= Flame; i++) {
+            if (TileManager.obj[statusy + i][statusx] instanceof Brick) {
+                TileManager.obj[statusy + i][statusx] = new Grass(statusx * gp.tileSize, (statusy + i) * gp.tileSize);
+            }
+            if (TileManager.obj[statusy - i][statusx] instanceof Brick) {
+                TileManager.obj[statusy - i][statusx] = new Grass(statusx * gp.tileSize, (statusy - i) * gp.tileSize);
+            }
+            if (TileManager.obj[statusy][statusx + i] instanceof Brick) {
+                TileManager.obj[statusy][statusx + i] = new Grass((statusx + i) * gp.tileSize, statusy * gp.tileSize);
+            }
+            if (TileManager.obj[statusy][statusx - i] instanceof Brick) {
+                TileManager.obj[statusy][statusx - i] = new Grass((statusx - i) * gp.tileSize, (statusy) * gp.tileSize);
+            }
+        }
+    }
+
+    public void EnemyExploded(GamePanel gp) {
+        int statusx = x / gp.tileSize;
+        int statusy = y / gp.tileSize;
+        if (gp.enemy != null) {
+            if (TileManager.obj[statusy][statusx - 1].getBound().intersects(gp.enemy.getBound(gp.enemy.x, gp.enemy.y))) {
+                gp.enemy = null;
+            } else if (TileManager.obj[statusy][statusx + 1].getBound().intersects(gp.enemy.getBound(gp.enemy.x, gp.enemy.y))) {
+                gp.enemy = null;
+            } else if (TileManager.obj[statusy - 1][statusx].getBound().intersects(gp.enemy.getBound(gp.enemy.x, gp.enemy.y))) {
+                gp.enemy = null;
+            } else if (TileManager.obj[statusy + 1][statusx - 1].getBound().intersects(gp.enemy.getBound(gp.enemy.x, gp.enemy.y))) {
+                gp.enemy = null;
+            }
+        }
+    }
+
+    public void FlameExploded(GamePanel gp) {
+        int statusx = x / gp.tileSize;
+        int statusy = y / gp.tileSize;
+        for (int i = 1; i <= Flame; i++) {
+            if (TileManager.obj[statusy + i][statusx] instanceof BrickFlameItem) {
+                TileManager.obj[statusy + i][statusx] = new FlameItem(statusx * gp.tileSize, (statusy + i) * gp.tileSize);
+            }
+            if (TileManager.obj[statusy - i][statusx] instanceof BrickFlameItem) {
+                TileManager.obj[statusy - i][statusx] = new FlameItem(statusx * gp.tileSize, (statusy - i) * gp.tileSize);
+            }
+            if (TileManager.obj[statusy][statusx + i] instanceof BrickFlameItem) {
+                TileManager.obj[statusy][statusx + i] = new FlameItem((statusx + i) * gp.tileSize, statusy * gp.tileSize);
+            }
+            if (TileManager.obj[statusy][statusx - i] instanceof BrickFlameItem) {
+                TileManager.obj[statusy][statusx - i] = new FlameItem((statusx - i) * gp.tileSize, statusy * gp.tileSize);
+            }
+        }
+    }
+    public void SpeedItemExploded(GamePanel gp) {
+        int statusx = x / gp.tileSize;
+        int statusy = y / gp.tileSize;
+        for (int i = 1; i <= Flame; i++) {
+            if (TileManager.obj[statusy + i][statusx] instanceof BrickSpeedItem) {
+                TileManager.obj[statusy + i][statusx] = new SpeedItem(statusx * gp.tileSize, (statusy + i) * gp.tileSize);
+            }
+            if (TileManager.obj[statusy - i][statusx] instanceof BrickSpeedItem) {
+                TileManager.obj[statusy - i][statusx] = new SpeedItem(statusx * gp.tileSize, (statusy - i) * gp.tileSize);
+            }
+            if (TileManager.obj[statusy][statusx + i] instanceof BrickSpeedItem) {
+                TileManager.obj[statusy][statusx + i] = new SpeedItem((statusx + i) * gp.tileSize, statusy * gp.tileSize);
+            }
+            if (TileManager.obj[statusy][statusx - i] instanceof BrickSpeedItem) {
+                TileManager.obj[statusy][statusx - i] = new SpeedItem((statusx - i) * gp.tileSize, statusy * gp.tileSize);
+            }
         }
     }
 }
