@@ -7,8 +7,6 @@ import GameObject.entity.Entity;
 
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 
 
 public class GamePanel extends JPanel implements Runnable {
@@ -43,8 +41,9 @@ public class GamePanel extends JPanel implements Runnable {
     public final int titleState = 0;
     public final int playState = 1;
     public final int loadLevel = 2;
-    public int wait = -1;
+    public int loadGameInterval = -1;
     public int commandNum = 0;
+    Menu menu = new Menu(this);
 
 
     public GamePanel() {
@@ -100,25 +99,7 @@ public class GamePanel extends JPanel implements Runnable {
     public void paintComponent(Graphics g) {
         super.paintComponent(g);
         Graphics2D g2 = (Graphics2D) g;
-
-        //TITLE SCREEN
-        if (gameState == titleState) {
-            drawScreenTitle(g2);
-        }
-        if (gameState == loadLevel) {
-            if (wait == -1) {
-                stopMusic();
-            }
-            if (wait == 0) {
-                playSE(4);
-            }
-            loadLevel(g2);
-            wait++;
-            if (wait == 180) {
-                gameState = playState;
-                playMusic(1);
-            }
-        }
+        menu.draw(g2);
         if (gameState == playState) {
             //OTHERS
             tile.draw(g2);
@@ -130,40 +111,6 @@ public class GamePanel extends JPanel implements Runnable {
         g2.dispose();
     }
 
-    public void loadLevel(Graphics2D g2) {
-        g2.setFont(g2.getFont().deriveFont(Font.ITALIC, 44F));
-        String text = "LEVEL START!";
-        int x = getTextCenterX(text, g2);
-        int y = tileSize * 4;
-        g2.setColor(Color.blue);
-        g2.drawString(text, x, y);
-    }
-
-    /*
-    //MENU
-     */
-    public void drawScreenTitle(Graphics2D g2) {
-
-        g2.setFont(g2.getFont().deriveFont(Font.ITALIC, 44F));
-
-        String text = "NEW GAME";
-        int x = getTextCenterX(text, g2);
-        int y = tileSize * 9;
-        g2.setColor(Color.blue);
-        g2.drawString(text, x, y);
-        if (commandNum == 0) {
-            g2.drawString(">", x - tileSize, y);
-        }
-
-        text = "QUIT";
-        x = getTextCenterX(text, g2);
-        y += tileSize;
-        g2.setColor(Color.blue);
-        g2.drawString(text, x, y);
-        if (commandNum == 1) {
-            g2.drawString(">", x - tileSize, y);
-        }
-    }
 
     public int getTextCenterX(String text, Graphics2D g2) {
         int length = (int) g2.getFontMetrics().getStringBounds(text, g2).getWidth();

@@ -10,6 +10,7 @@ import GameObject.mapObject.Wall;
 import main.GamePanel;
 import main.KeyHandler;
 import GameObject.object.Bomb;
+import main.Sound;
 
 import javax.imageio.ImageIO;
 import java.awt.*;
@@ -17,7 +18,10 @@ import java.awt.image.BufferedImage;
 import java.io.IOException;
 import java.util.Objects;
 
+import static java.awt.SystemColor.menu;
+
 public class Bomberman extends Entity {
+    Sound sound = new Sound();
     public static KeyHandler keyH;
     public static final int intervalImageChange = 9;
     public boolean notMoving;
@@ -29,6 +33,7 @@ public class Bomberman extends Entity {
     public Bomb bomb[];
     public int FlameBomb;
     public int count;
+
 
     public Bomberman(GamePanel gp, KeyHandler keyH) {
         super(gp);
