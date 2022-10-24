@@ -41,6 +41,7 @@ public class GamePanel extends JPanel implements Runnable {
     public final int titleState = 0;
     public final int playState = 1;
     public final int loadLevel = 2;
+    public final int pauseState = 3;
     public int loadGameInterval = -1;
     public int commandNum = 0;
     Menu menu = new Menu(this);
