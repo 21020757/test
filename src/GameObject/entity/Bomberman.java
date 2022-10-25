@@ -113,7 +113,15 @@ public class Bomberman extends Entity {
                 if (BombAmount > 0) {
                     BombAmount--;
                     bomb[BombAmount] = new Bomb(x, y);
-                    bomb[BombAmount].Flame = FlameBomb;
+                    bomb[BombAmount].FlameDown = FlameBomb;
+                    bomb[BombAmount].FlameUp = FlameBomb;
+                    bomb[BombAmount].FlameRight = FlameBomb;
+                    bomb[BombAmount].FlameLeft = FlameBomb;
+
+                    bomb[BombAmount].UpFlame = FlameBomb;
+                    bomb[BombAmount].DownFlame = FlameBomb;
+                    bomb[BombAmount].RightFlame = FlameBomb;
+                    bomb[BombAmount].LeftFlame = FlameBomb;
                     gp.playSE(2);
                 }
             }
@@ -200,16 +208,16 @@ public class Bomberman extends Entity {
 
     public void pickItemFlame() {
         for (int i = 0; i < 13; i++) {
-            for(int j = 0 ; j < 31 ; j++) {
+            for (int j = 0; j < 31; j++) {
                 if (TileManager.obj[i][j] instanceof FlameItem) {
-                    if(this.getBound(x,y).intersects(TileManager.obj[i][j].getBound())) {
-                        TileManager.obj[i][j] = new Grass(j * gp.tileSize,i * gp.tileSize);
+                    if (this.getBound(x, y).intersects(TileManager.obj[i][j].getBound())) {
+                        TileManager.obj[i][j] = new Grass(j * gp.tileSize, i * gp.tileSize);
                         FlameBomb++;
                     }
                 }
                 if (TileManager.obj[i][j] instanceof SpeedItem) {
-                    if(this.getBound(x,y).intersects(TileManager.obj[i][j].getBound())) {
-                        TileManager.obj[i][j] = new Grass(j * gp.tileSize,i * gp.tileSize);
+                    if (this.getBound(x, y).intersects(TileManager.obj[i][j].getBound())) {
+                        TileManager.obj[i][j] = new Grass(j * gp.tileSize, i * gp.tileSize);
                         speed++;
                     }
 

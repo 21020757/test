@@ -8,6 +8,7 @@ import GameObject.Item.SpeedItem;
 import GameObject.Tiles.TileManager;
 import GameObject.mapObject.Brick;
 import GameObject.mapObject.Grass;
+import GameObject.mapObject.Wall;
 import main.GamePanel;
 
 import javax.imageio.IIOException;
@@ -18,7 +19,8 @@ import java.io.IOException;
 import java.util.Objects;
 
 public class Bomb extends Gameobject {
-    public int Flame;
+    public int FlameUp, FlameDown,FlameLeft, FlameRight;
+    public int UpFlame, DownFlame, LeftFlame, RightFlame;
     public boolean exploded;
     public int countToExplode = 0, intervalToExplode = 5;
     public BufferedImage[] bombing = new BufferedImage[3];
@@ -27,13 +29,22 @@ public class Bomb extends Gameobject {
     public BufferedImage[] downExplosion = new BufferedImage[3];
     public BufferedImage[] leftExplosion = new BufferedImage[3];
     public BufferedImage[] rightExplosion = new BufferedImage[3];
+    public BufferedImage[] horizontalExplosion = new BufferedImage[3];
+    public BufferedImage[] verticalExplosion = new BufferedImage[3];
     public int frameBomb = 0, intervalBomb = 7, indexAniBomb = 0;
     public int frameExplosion = 0, intervalExplosion = 4, indexAniExplosion = 0;
 
     public Bomb(int x, int y) {
         this.x = x;
         this.y = y;
-        Flame = 1;
+        FlameUp = 1;
+        FlameDown = 1;
+        FlameLeft = 1;
+        FlameRight = 1;
+        UpFlame = 1;
+        DownFlame = 1;
+        RightFlame = 1;
+        LeftFlame = 1;
         update();
         getBombImage();
         exploded = false;
@@ -76,6 +87,13 @@ public class Bomb extends Gameobject {
             rightExplosion[1] = ImageIO.read(Objects.requireNonNull(getClass().getResourceAsStream("/GameObject/sprites/object/explosion_horizontal_right_last1.png")));
             rightExplosion[2] = ImageIO.read(Objects.requireNonNull(getClass().getResourceAsStream("/GameObject/sprites/object/explosion_horizontal_right_last2.png")));
 
+            horizontalExplosion[0] = ImageIO.read(Objects.requireNonNull(getClass().getResourceAsStream("/GameObject/sprites/object/explosion_horizontal.png")));
+            horizontalExplosion[1] = ImageIO.read(Objects.requireNonNull(getClass().getResourceAsStream("/GameObject/sprites/object/explosion_horizontal1.png")));
+            horizontalExplosion[2] = ImageIO.read(Objects.requireNonNull(getClass().getResourceAsStream("/GameObject/sprites/object/explosion_horizontal2.png")));
+
+            verticalExplosion[0] = ImageIO.read(Objects.requireNonNull(getClass().getResourceAsStream("/GameObject/sprites/object/explosion_vertical.png")));
+            verticalExplosion[1] = ImageIO.read(Objects.requireNonNull(getClass().getResourceAsStream("/GameObject/sprites/object/explosion_vertical1.png")));
+            verticalExplosion[2] = ImageIO.read(Objects.requireNonNull(getClass().getResourceAsStream("/GameObject/sprites/object/explosion_vertical2.png")));
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -100,6 +118,7 @@ public class Bomb extends Gameobject {
                 frameExplosion = 0;
                 indexAniExplosion++;
             }
+            WallExploded(gp);
             BrickExploded(gp);
             EnemyExploded(gp);
             FlameExploded(gp);
@@ -130,29 +149,105 @@ public class Bomb extends Gameobject {
             g2.drawImage(bombing[indexAniBomb], bombScreenX, this.y, gp.tileSize, gp.tileSize, null);
         }
         if (this.exploded) {
+            for (int i = 1; i < UpFlame; i++) {
+                g2.drawImage(verticalExplosion[indexAniExplosion], bombX, bombY - gp.tileSize * i, gp.tileSize, gp.tileSize, null);
+            }
+            for (int i = 1; i < DownFlame; i++) {
+                g2.drawImage(verticalExplosion[indexAniExplosion], bombX, bombY + gp.tileSize * i, gp.tileSize, gp.tileSize, null);
+            }
+            for (int i = 1; i < LeftFlame; i++) {
+                g2.drawImage(horizontalExplosion[indexAniExplosion], bombX - gp.tileSize * i, bombY, gp.tileSize, gp.tileSize, null);
+            }
+            for (int i = 1; i < RightFlame; i++) {
+                g2.drawImage(horizontalExplosion[indexAniExplosion], bombX + gp.tileSize * i, bombY, gp.tileSize, gp.tileSize, null);
+            }
             g2.drawImage(fontExplosion[indexAniExplosion], bombX, bombY, gp.tileSize, gp.tileSize, null);
-            g2.drawImage(upExplosion[indexAniExplosion], bombX, bombY - gp.tileSize, gp.tileSize, gp.tileSize, null);
-            g2.drawImage(downExplosion[indexAniExplosion], bombX, bombY + gp.tileSize, gp.tileSize, gp.tileSize, null);
-            g2.drawImage(leftExplosion[indexAniExplosion], bombX - gp.tileSize, bombY, gp.tileSize, gp.tileSize, null);
-            g2.drawImage(rightExplosion[indexAniExplosion], bombX + gp.tileSize, bombY, gp.tileSize, gp.tileSize, null);
+            if (UpFlame == FlameUp) {
+                g2.drawImage(upExplosion[indexAniExplosion], bombX, bombY - gp.tileSize * UpFlame, gp.tileSize, gp.tileSize, null);
+            }
+            if (DownFlame == FlameDown) {
+                g2.drawImage(downExplosion[indexAniExplosion], bombX, bombY + gp.tileSize * DownFlame, gp.tileSize, gp.tileSize, null);
+            }
+            if (LeftFlame == FlameLeft) {
+                g2.drawImage(leftExplosion[indexAniExplosion], bombX - gp.tileSize * LeftFlame, bombY, gp.tileSize, gp.tileSize, null);
+            }
+            if (RightFlame == FlameRight) {
+                g2.drawImage(rightExplosion[indexAniExplosion], bombX + gp.tileSize * RightFlame, bombY, gp.tileSize, gp.tileSize, null);
+            }
         }
     }
+
+    public void WallExploded(GamePanel gp) {
+        System.out.println(LeftFlame);
+        int statusx = x / gp.tileSize;
+        int statusy = y / gp.tileSize;
+        for (int i = 1; i <= DownFlame; i++) {
+            if (TileManager.obj[statusy + i][statusx] instanceof Wall) {
+                if (DownFlame == 1) {
+                    DownFlame = i - 1;
+                } else  {
+                    DownFlame = i;
+                    FlameDown = -1;
+                }
+            }
+        }
+            for (int i = 1; i <= UpFlame; i++) {
+                if (TileManager.obj[statusy - i][statusx] instanceof Wall) {
+                    if (UpFlame == 1) {
+                        UpFlame = i - 1;
+                    } else  {
+                        UpFlame = i;
+                        FlameUp = -1;
+                    }
+                }
+            }
+            for (int i = 1; i <= RightFlame; i++) {
+                if (TileManager.obj[statusy][statusx + i] instanceof Wall) {
+                    if (RightFlame == 1) {
+                        RightFlame = i - 1;
+                    } else  {
+                        RightFlame = i;
+                        FlameRight = -1;
+                    }
+                }
+            }
+            for (int i = 1; i <= LeftFlame; i++) {
+                if (TileManager.obj[statusy][statusx - i] instanceof Wall) {
+                    if (LeftFlame == 1) {
+                        LeftFlame = i - 1;
+                    } else  {
+                        LeftFlame = i;
+                        FlameLeft = -1;
+                    }
+                }
+            }
+        }
 
     public void BrickExploded(GamePanel gp) {
         int statusx = x / gp.tileSize;
         int statusy = y / gp.tileSize;
-        for (int i = 1; i <= Flame; i++) {
+        for (int i = 1; i <= DownFlame; i++) {
             if (TileManager.obj[statusy + i][statusx] instanceof Brick) {
                 TileManager.obj[statusy + i][statusx] = new Grass(statusx * gp.tileSize, (statusy + i) * gp.tileSize);
+                DownFlame = i;
             }
+        }
+        for (int i = 1; i <= UpFlame; i++) {
             if (TileManager.obj[statusy - i][statusx] instanceof Brick) {
                 TileManager.obj[statusy - i][statusx] = new Grass(statusx * gp.tileSize, (statusy - i) * gp.tileSize);
+                UpFlame = i;
             }
+        }
+        for (int i = 1; i <= RightFlame; i++) {
             if (TileManager.obj[statusy][statusx + i] instanceof Brick) {
                 TileManager.obj[statusy][statusx + i] = new Grass((statusx + i) * gp.tileSize, statusy * gp.tileSize);
+                RightFlame = i;
             }
+        }
+        for (int i = 1; i <= LeftFlame; i++) {
             if (TileManager.obj[statusy][statusx - i] instanceof Brick) {
-                TileManager.obj[statusy][statusx - i] = new Grass((statusx - i) * gp.tileSize, (statusy) * gp.tileSize);
+                TileManager.obj[statusy][statusx - i] = new Grass((statusx - i) * gp.tileSize, statusy * gp.tileSize);
+                LeftFlame = i;
             }
         }
     }
@@ -160,15 +255,37 @@ public class Bomb extends Gameobject {
     public void EnemyExploded(GamePanel gp) {
         int statusx = x / gp.tileSize;
         int statusy = y / gp.tileSize;
-        if (gp.enemy != null) {
-            if (TileManager.obj[statusy][statusx - 1].getBound().intersects(gp.enemy.getBound(gp.enemy.x, gp.enemy.y))) {
-                gp.enemy = null;
-            } else if (TileManager.obj[statusy][statusx + 1].getBound().intersects(gp.enemy.getBound(gp.enemy.x, gp.enemy.y))) {
-                gp.enemy = null;
-            } else if (TileManager.obj[statusy - 1][statusx].getBound().intersects(gp.enemy.getBound(gp.enemy.x, gp.enemy.y))) {
-                gp.enemy = null;
-            } else if (TileManager.obj[statusy + 1][statusx - 1].getBound().intersects(gp.enemy.getBound(gp.enemy.x, gp.enemy.y))) {
-                gp.enemy = null;
+        if (gp.enemy1 != null) {
+            if (TileManager.obj[statusy][statusx - 1].getBound().intersects(gp.enemy1.getBound(gp.enemy1.x, gp.enemy1.y))) {
+                gp.enemy1 = null;
+            } else if (TileManager.obj[statusy][statusx + 1].getBound().intersects(gp.enemy1.getBound(gp.enemy1.x, gp.enemy1.y))) {
+                gp.enemy1 = null;
+            } else if (TileManager.obj[statusy - 1][statusx].getBound().intersects(gp.enemy1.getBound(gp.enemy1.x, gp.enemy1.y))) {
+                gp.enemy1 = null;
+            } else if (TileManager.obj[statusy + 1][statusx - 1].getBound().intersects(gp.enemy1.getBound(gp.enemy1.x, gp.enemy1.y))) {
+                gp.enemy1 = null;
+            }
+        }
+        if (gp.enemy2 != null) {
+            if (TileManager.obj[statusy][statusx - 1].getBound().intersects(gp.enemy2.getBound(gp.enemy2.x, gp.enemy2.y))) {
+                gp.enemy2 = null;
+            } else if (TileManager.obj[statusy][statusx + 1].getBound().intersects(gp.enemy2.getBound(gp.enemy2.x, gp.enemy2.y))) {
+                gp.enemy2 = null;
+            } else if (TileManager.obj[statusy - 1][statusx].getBound().intersects(gp.enemy2.getBound(gp.enemy2.x, gp.enemy2.y))) {
+                gp.enemy2 = null;
+            } else if (TileManager.obj[statusy + 1][statusx - 1].getBound().intersects(gp.enemy2.getBound(gp.enemy2.x, gp.enemy2.y))) {
+                gp.enemy2 = null;
+            }
+        }
+        if (gp.enemy3 != null) {
+            if (TileManager.obj[statusy][statusx - 1].getBound().intersects(gp.enemy3.getBound(gp.enemy3.x, gp.enemy3.y))) {
+                gp.enemy3 = null;
+            } else if (TileManager.obj[statusy][statusx + 1].getBound().intersects(gp.enemy3.getBound(gp.enemy3.x, gp.enemy3.y))) {
+                gp.enemy3 = null;
+            } else if (TileManager.obj[statusy - 1][statusx].getBound().intersects(gp.enemy3.getBound(gp.enemy3.x, gp.enemy3.y))) {
+                gp.enemy3 = null;
+            } else if (TileManager.obj[statusy + 1][statusx - 1].getBound().intersects(gp.enemy3.getBound(gp.enemy3.x, gp.enemy3.y))) {
+                gp.enemy3 = null;
             }
         }
     }
@@ -176,36 +293,57 @@ public class Bomb extends Gameobject {
     public void FlameExploded(GamePanel gp) {
         int statusx = x / gp.tileSize;
         int statusy = y / gp.tileSize;
-        for (int i = 1; i <= Flame; i++) {
+        for (int i = 1; i <= DownFlame; i++) {
             if (TileManager.obj[statusy + i][statusx] instanceof BrickFlameItem) {
                 TileManager.obj[statusy + i][statusx] = new FlameItem(statusx * gp.tileSize, (statusy + i) * gp.tileSize);
+                DownFlame = i;
             }
+        }
+        for (int i = 1; i <= UpFlame; i++) {
             if (TileManager.obj[statusy - i][statusx] instanceof BrickFlameItem) {
                 TileManager.obj[statusy - i][statusx] = new FlameItem(statusx * gp.tileSize, (statusy - i) * gp.tileSize);
+                UpFlame = i;
             }
+        }
+        for (int i = 1; i <= RightFlame; i++) {
             if (TileManager.obj[statusy][statusx + i] instanceof BrickFlameItem) {
                 TileManager.obj[statusy][statusx + i] = new FlameItem((statusx + i) * gp.tileSize, statusy * gp.tileSize);
+                RightFlame = i;
             }
+        }
+        for (int i = 1; i <= LeftFlame; i++) {
             if (TileManager.obj[statusy][statusx - i] instanceof BrickFlameItem) {
                 TileManager.obj[statusy][statusx - i] = new FlameItem((statusx - i) * gp.tileSize, statusy * gp.tileSize);
+                LeftFlame = i;
             }
         }
     }
+
     public void SpeedItemExploded(GamePanel gp) {
         int statusx = x / gp.tileSize;
         int statusy = y / gp.tileSize;
-        for (int i = 1; i <= Flame; i++) {
+        for (int i = 1; i <= DownFlame; i++) {
             if (TileManager.obj[statusy + i][statusx] instanceof BrickSpeedItem) {
                 TileManager.obj[statusy + i][statusx] = new SpeedItem(statusx * gp.tileSize, (statusy + i) * gp.tileSize);
+                DownFlame = i;
             }
+        }
+        for (int i = 1; i <= UpFlame; i++) {
             if (TileManager.obj[statusy - i][statusx] instanceof BrickSpeedItem) {
                 TileManager.obj[statusy - i][statusx] = new SpeedItem(statusx * gp.tileSize, (statusy - i) * gp.tileSize);
+                UpFlame = i;
             }
+        }
+        for (int i = 1; i <= RightFlame; i++) {
             if (TileManager.obj[statusy][statusx + i] instanceof BrickSpeedItem) {
                 TileManager.obj[statusy][statusx + i] = new SpeedItem((statusx + i) * gp.tileSize, statusy * gp.tileSize);
+                RightFlame = i;
             }
+        }
+        for (int i = 1; i <= LeftFlame; i++) {
             if (TileManager.obj[statusy][statusx - i] instanceof BrickSpeedItem) {
                 TileManager.obj[statusy][statusx - i] = new SpeedItem((statusx - i) * gp.tileSize, statusy * gp.tileSize);
+                LeftFlame = i;
             }
         }
     }

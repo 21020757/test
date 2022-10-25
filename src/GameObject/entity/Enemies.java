@@ -21,13 +21,14 @@ public class Enemies extends Entity {
         direction = "down";
         preDirection = "";
         speed = 2;
-        x = gp.tileSize * 28;
-        y = gp.tileSize;
         width = 48;
         height = 48;
         getImage();
     }
-
+    public void setEnemies(int x, int y) {
+        this.x = x;
+        this.y = y;
+    }
     public void getImage() {
         try {
             //Balloon
@@ -49,8 +50,21 @@ public class Enemies extends Entity {
         if (actionLockCounter == 120) {
             Random random = new Random();
             int i = random.nextInt(100) + 1;
+            if (i <= 25) {
                 direction = "up";
                 preDirection = "up";
+            }
+            if (i > 25 && i <= 50) {
+                direction = "down";
+                preDirection = "down";
+            }
+            if (i > 50 && i <= 75) {
+                direction = "left";
+            }
+            if (i > 75) {
+                direction = "right";
+            }
+            actionLockCounter = 0;
 
             actionLockCounter = 0;
         }
