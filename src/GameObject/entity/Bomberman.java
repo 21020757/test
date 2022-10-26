@@ -111,8 +111,8 @@ public class Bomberman extends Entity {
             }
             if (keyH.spacePressed) {
                 if (BombAmount > 0) {
-                    bombx = x / gp.tileSize;
-                    bomby = y / gp.tileSize;
+                    bombx = (x + gp.tileSize / 2) / gp.tileSize;
+                    bomby = (y + gp.tileSize / 2 )/ gp.tileSize;
                     BombAmount--;
                     TileManager.obj[bomby][bombx] = new Bomb(bombx * 48, bomby*48);
                     ((Bomb) TileManager.obj[bomby][bombx]).FlameDown = FlameBomb;

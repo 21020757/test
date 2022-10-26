@@ -7,6 +7,7 @@ import GameObject.Tiles.TileManager;
 import GameObject.entity.Bomberman;
 import GameObject.entity.Enemies;
 import GameObject.entity.Entity;
+import GameObject.entity.Oneal;
 import GameObject.mapObject.Brick;
 import GameObject.mapObject.Grass;
 import GameObject.mapObject.Wall;
@@ -33,8 +34,10 @@ public class GamePanel extends JPanel implements Runnable {
 
     public AssetSetter aSetter = new AssetSetter(this);
     public Bomberman bomberman = new Bomberman(this, keyH);
-    public int length = 0;
+    public int lengthEnemies = 0, lengthOneal = 0;
     public Enemies[] enemy;
+
+    public Oneal[] oneals;
 
     Sound sound = new Sound();
 
@@ -75,12 +78,16 @@ public class GamePanel extends JPanel implements Runnable {
             for (int j = 0; j < maxWorldCol; j++) {
                 char s = tile.map[i][j];
                 if (s == '1') {
-                    length++;
+                    lengthEnemies++;
+                }
+                if (s == '2') {
+                    lengthOneal++;
                 }
             }
         }
-        enemy = new Enemies[length];
-        int a = 0;
+        enemy = new Enemies[lengthEnemies];
+        oneals = new Oneal[lengthOneal];
+        int a = 0, b=0;
         for (int i = 0; i < maxWorldRow; i++) {
             for (int j = 0; j < maxWorldCol; j++) {
                 char s = tile.map[i][j];
@@ -88,6 +95,11 @@ public class GamePanel extends JPanel implements Runnable {
                     enemy[a] = new Enemies(this);
                     enemy[a].setEnemies(j * tileSize,i * tileSize);
                     a++;
+                }
+                if (s ==  '2') {
+                    oneals[b] = new Oneal(this);
+                    oneals[b].setEnemies(j * tileSize, i*tileSize);
+                    b++;
                 }
             }
         }
@@ -129,6 +141,11 @@ public class GamePanel extends JPanel implements Runnable {
                 enemy[i].update();
             }
         }
+        for (int i = 0; i < oneals.length; i++) {
+            if (oneals[i] != null) {
+                oneals[i].update();
+            }
+        }
     }
 
     public void paintComponent(Graphics g) {
@@ -142,6 +159,11 @@ public class GamePanel extends JPanel implements Runnable {
             for (int i = 0; i < enemy.length; i++) {
                 if (enemy[i] != null) {
                     enemy[i].draw(g2);
+                }
+            }
+            for (int i = 0; i < oneals.length; i++) {
+                if (oneals[i] != null) {
+                    oneals[i].draw(g2);
                 }
             }
         }
