@@ -149,7 +149,7 @@ public class Oneal extends Entity {
                     g2.drawImage(onealRight[spriteNum], ScreenX, y, gp.tileSize, gp.tileSize, null);
                 }
             }
-        } else if (gp.bomberman.x > gp.worldWidth - gp.screenWidth / 2) {
+        } else if (gp.bomberman.x >= gp.worldWidth - gp.screenWidth / 2) {
             int ScreenX = x - gp.worldWidth + gp.screenWidth;
             if (direction.equals("left")) {
                 g2.drawImage(onealLeft[spriteNum], ScreenX, y, gp.tileSize, gp.tileSize, null);
