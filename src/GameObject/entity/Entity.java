@@ -7,6 +7,7 @@ import GameObject.Item.BrickSpeedItem;
 import GameObject.Tiles.TileManager;
 import GameObject.mapObject.Brick;
 import GameObject.mapObject.Wall;
+import GameObject.object.Bomb;
 import main.GamePanel;
 
 import java.awt.*;
@@ -52,11 +53,11 @@ public class Entity extends Gameobject {
         int b = y % gp.tileSize;
         int EntityX = x / gp.tileSize;
         int EntityY = y / gp.tileSize;
-        if (this.getBound(x, y - speed).intersects(TileManager.obj[EntityY - 1][EntityX].getBound()) && (TileManager.obj[EntityY - 1][EntityX] instanceof Wall || TileManager.obj[EntityY - 1][EntityX] instanceof Brick || TileManager.obj[EntityY - 1][EntityX] instanceof BrickFlameItem || TileManager.obj[EntityY - 1][EntityX] instanceof BrickSpeedItem || TileManager.obj[EntityY - 1][EntityX] instanceof BrickBombItem)) {
+        if (this.getBound(x, y - speed).intersects(TileManager.obj[EntityY - 1][EntityX].getBound()) && (TileManager.obj[EntityY - 1][EntityX] instanceof Wall || TileManager.obj[EntityY - 1][EntityX] instanceof Brick || TileManager.obj[EntityY - 1][EntityX] instanceof BrickFlameItem || TileManager.obj[EntityY - 1][EntityX] instanceof BrickSpeedItem || TileManager.obj[EntityY - 1][EntityX] instanceof BrickBombItem  || TileManager.obj[EntityY - 1][EntityX] instanceof Bomb)) {
             return true;
-        } else if (this.getBound(x, y - speed).intersects(TileManager.obj[EntityY - 1][EntityX].getBound()) && (TileManager.obj[EntityY - 1][EntityX] instanceof Wall || TileManager.obj[EntityY - 1][EntityX] instanceof Brick || TileManager.obj[EntityY - 1][EntityX] instanceof BrickFlameItem || TileManager.obj[EntityY - 1][EntityX] instanceof BrickBombItem || TileManager.obj[EntityY - 1][EntityX] instanceof BrickSpeedItem ) && a > 16) {
+        } else if (this.getBound(x, y - speed).intersects(TileManager.obj[EntityY - 1][EntityX].getBound()) && (TileManager.obj[EntityY - 1][EntityX] instanceof Wall || TileManager.obj[EntityY - 1][EntityX] instanceof Brick || TileManager.obj[EntityY - 1][EntityX] instanceof BrickFlameItem || TileManager.obj[EntityY - 1][EntityX] instanceof BrickBombItem || TileManager.obj[EntityY - 1][EntityX] instanceof BrickSpeedItem  || TileManager.obj[EntityY - 1][EntityX] instanceof Bomb) && a > 16) {
             return true;
-        } else if (this.getBound(x, y - speed).intersects(TileManager.obj[EntityY - 1][EntityX + 1].getBound()) && (TileManager.obj[EntityY - 1][EntityX + 1] instanceof Wall || TileManager.obj[EntityY - 1][EntityX + 1] instanceof Brick) && a > 16) {
+        } else if (this.getBound(x, y - speed).intersects(TileManager.obj[EntityY - 1][EntityX + 1].getBound()) && (TileManager.obj[EntityY - 1][EntityX + 1] instanceof Wall || TileManager.obj[EntityY - 1][EntityX + 1] instanceof Brick || TileManager.obj[EntityY - 1][EntityX + 1] instanceof Bomb) && a > 16) {
             return true;
         } else {
             return false;
@@ -69,11 +70,11 @@ public class Entity extends Gameobject {
         int b = y % gp.tileSize;
         int EntityX = x / gp.tileSize;
         int EntityY = y / gp.tileSize;
-        if (this.getBound(x, y + speed).intersects(TileManager.obj[EntityY + 1][EntityX].getBound()) && (TileManager.obj[EntityY + 1][EntityX] instanceof Wall || TileManager.obj[EntityY + 1][EntityX] instanceof Brick || TileManager.obj[EntityY + 1][EntityX] instanceof BrickFlameItem || TileManager.obj[EntityY + 1][EntityX] instanceof BrickSpeedItem || TileManager.obj[EntityY + 1][EntityX] instanceof BrickBombItem)) {
+        if (this.getBound(x, y + speed).intersects(TileManager.obj[EntityY + 1][EntityX].getBound()) && (TileManager.obj[EntityY + 1][EntityX] instanceof Wall || TileManager.obj[EntityY + 1][EntityX] instanceof Brick || TileManager.obj[EntityY + 1][EntityX] instanceof BrickFlameItem || TileManager.obj[EntityY + 1][EntityX] instanceof BrickSpeedItem || TileManager.obj[EntityY + 1][EntityX] instanceof BrickBombItem || TileManager.obj[EntityY + 1][EntityX] instanceof Bomb)) {
             return true;
-        } else if (this.getBound(x, y + speed).intersects(TileManager.obj[EntityY + 1][EntityX].getBound()) && (TileManager.obj[EntityY + 1][EntityX] instanceof Wall || TileManager.obj[EntityY + 1][EntityX] instanceof Brick || TileManager.obj[EntityY + 1][EntityX] instanceof BrickBombItem || TileManager.obj[EntityY + 1][EntityX] instanceof BrickSpeedItem || TileManager.obj[EntityY + 1][EntityX] instanceof BrickFlameItem ) && a > 16) {
+        } else if (this.getBound(x, y + speed).intersects(TileManager.obj[EntityY + 1][EntityX].getBound()) && (TileManager.obj[EntityY + 1][EntityX] instanceof Wall || TileManager.obj[EntityY + 1][EntityX] instanceof Brick || TileManager.obj[EntityY + 1][EntityX] instanceof BrickBombItem || TileManager.obj[EntityY + 1][EntityX] instanceof BrickSpeedItem || TileManager.obj[EntityY + 1][EntityX] instanceof BrickFlameItem  || TileManager.obj[EntityY + 1][EntityX] instanceof Bomb) && a > 16) {
             return true;
-        } else if (this.getBound(x, y + speed).intersects(TileManager.obj[EntityY + 1][EntityX + 1].getBound()) && (TileManager.obj[EntityY + 1][EntityX + 1] instanceof Wall || TileManager.obj[EntityY + 1][EntityX + 1] instanceof Brick || TileManager.obj[EntityY + 1][EntityX + 1] instanceof BrickSpeedItem || TileManager.obj[EntityY + 1][EntityX + 1] instanceof BrickFlameItem || TileManager.obj[EntityY + 1][EntityX + 1] instanceof BrickBombItem) && a > 16) {
+        } else if (this.getBound(x, y + speed).intersects(TileManager.obj[EntityY + 1][EntityX + 1].getBound()) && (TileManager.obj[EntityY + 1][EntityX + 1] instanceof Wall || TileManager.obj[EntityY + 1][EntityX + 1] instanceof Brick || TileManager.obj[EntityY + 1][EntityX + 1] instanceof BrickSpeedItem || TileManager.obj[EntityY + 1][EntityX + 1] instanceof BrickFlameItem || TileManager.obj[EntityY + 1][EntityX + 1] instanceof BrickBombItem || TileManager.obj[EntityY + 1][EntityX + 1] instanceof Bomb) && a > 16) {
             return true;
         } else {
             return false;
@@ -83,9 +84,9 @@ public class Entity extends Gameobject {
     public boolean collisionRight() {
         int EntityX = x / gp.tileSize;
         int EntityY = y / gp.tileSize;
-        if (this.getBound(x + speed, y).intersects(TileManager.obj[EntityY][EntityX + 1].getBound()) && (TileManager.obj[EntityY][EntityX + 1] instanceof Wall || TileManager.obj[EntityY][EntityX + 1] instanceof Brick || TileManager.obj[EntityY][EntityX + 1] instanceof BrickSpeedItem ||TileManager.obj[EntityY][EntityX + 1] instanceof BrickFlameItem || TileManager.obj[EntityY][EntityX + 1] instanceof BrickBombItem)) {
+        if (this.getBound(x + speed, y).intersects(TileManager.obj[EntityY][EntityX + 1].getBound()) && (TileManager.obj[EntityY][EntityX + 1] instanceof Wall || TileManager.obj[EntityY][EntityX + 1] instanceof Brick || TileManager.obj[EntityY][EntityX + 1] instanceof BrickSpeedItem ||TileManager.obj[EntityY][EntityX + 1] instanceof BrickFlameItem || TileManager.obj[EntityY][EntityX + 1] instanceof BrickBombItem || TileManager.obj[EntityY][EntityX + 1] instanceof Bomb)) {
             return true;
-        } else if (this.getBound(x + speed, y).intersects(TileManager.obj[EntityY + 1][EntityX + 1].getBound()) && (TileManager.obj[EntityY + 1][EntityX + 1] instanceof Wall || TileManager.obj[EntityY + 1][EntityX + 1] instanceof Brick || TileManager.obj[EntityY + 1][EntityX + 1] instanceof BrickBombItem || TileManager.obj[EntityY + 1][EntityX + 1] instanceof BrickSpeedItem || TileManager.obj[EntityY + 1][EntityX + 1] instanceof BrickFlameItem)) {
+        } else if (this.getBound(x + speed, y).intersects(TileManager.obj[EntityY + 1][EntityX + 1].getBound()) && (TileManager.obj[EntityY + 1][EntityX + 1] instanceof Wall || TileManager.obj[EntityY + 1][EntityX + 1] instanceof Brick || TileManager.obj[EntityY + 1][EntityX + 1] instanceof BrickBombItem || TileManager.obj[EntityY + 1][EntityX + 1] instanceof BrickSpeedItem || TileManager.obj[EntityY + 1][EntityX + 1] instanceof BrickFlameItem || TileManager.obj[EntityY + 1][EntityX + 1] instanceof Bomb)) {
             return true;
         } else {
             return false;
@@ -95,12 +96,13 @@ public class Entity extends Gameobject {
     public boolean collisionLeft() {
         int EntityX = x / gp.tileSize;
         int EntityY = y / gp.tileSize;
-        if (this.getBound(x - speed, y).intersects(TileManager.obj[EntityY][EntityX - 1].getBound()) && (TileManager.obj[EntityY][EntityX - 1] instanceof Wall || TileManager.obj[EntityY][EntityX - 1] instanceof Brick || TileManager.obj[EntityY][EntityX - 1] instanceof BrickSpeedItem || TileManager.obj[EntityY][EntityX - 1] instanceof BrickFlameItem || TileManager.obj[EntityY][EntityX - 1] instanceof BrickBombItem)) {
+        if (this.getBound(x - speed, y).intersects(TileManager.obj[EntityY][EntityX - 1].getBound()) && (TileManager.obj[EntityY][EntityX - 1] instanceof Wall || TileManager.obj[EntityY][EntityX - 1] instanceof Brick || TileManager.obj[EntityY][EntityX - 1] instanceof BrickSpeedItem || TileManager.obj[EntityY][EntityX - 1] instanceof BrickFlameItem || TileManager.obj[EntityY][EntityX - 1] instanceof BrickBombItem || TileManager.obj[EntityY][EntityX - 1] instanceof Bomb)) {
             return true;
-        } else if (this.getBound(x - speed, y).intersects(TileManager.obj[EntityY + 1][EntityX - 1].getBound()) && (TileManager.obj[EntityY + 1][EntityX - 1] instanceof Wall || TileManager.obj[EntityY + 1][EntityX - 1] instanceof Brick || TileManager.obj[EntityY + 1][EntityX - 1] instanceof BrickBombItem || TileManager.obj[EntityY + 1][EntityX - 1] instanceof BrickFlameItem || TileManager.obj[EntityY + 1][EntityX - 1] instanceof BrickSpeedItem)) {
+        } else if (this.getBound(x - speed, y).intersects(TileManager.obj[EntityY + 1][EntityX - 1].getBound()) && (TileManager.obj[EntityY + 1][EntityX - 1] instanceof Wall || TileManager.obj[EntityY + 1][EntityX - 1] instanceof Brick || TileManager.obj[EntityY + 1][EntityX - 1] instanceof BrickBombItem || TileManager.obj[EntityY + 1][EntityX - 1] instanceof BrickFlameItem || TileManager.obj[EntityY + 1][EntityX - 1] instanceof BrickSpeedItem || TileManager.obj[EntityY+1][EntityX - 1] instanceof Bomb)) {
             return true;
         } else {
             return false;
         }
     }
+
 }

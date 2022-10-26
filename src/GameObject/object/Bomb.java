@@ -23,6 +23,7 @@ public class Bomb extends Gameobject {
     public int UpFlame, DownFlame, LeftFlame, RightFlame;
     public boolean exploded;
     public int countToExplode = 0, intervalToExplode = 5;
+    public BufferedImage grass;
     public BufferedImage[] bombing = new BufferedImage[3];
     public BufferedImage[] fontExplosion = new BufferedImage[3];
     public BufferedImage[] upExplosion = new BufferedImage[3];
@@ -45,23 +46,20 @@ public class Bomb extends Gameobject {
         DownFlame = 1;
         RightFlame = 1;
         LeftFlame = 1;
-        update();
+        width = 48;
+        height = 48;
         getBombImage();
         exploded = false;
     }
 
-    public void update() {
-        x = (x / 48) * 48;
-        y = (y / 48) * 48;
-    }
-
     @Override
     public Rectangle getBound() {
-        return new Rectangle(x, y, width, height);
+        return new Rectangle(x, y + height, width, height);
     }
 
     public void getBombImage() {
         try {
+            grass = ImageIO.read(getClass().getResourceAsStream("/GameObject/sprites/map/grass.png"));
             //Bomb
             bombing[0] = ImageIO.read(Objects.requireNonNull(getClass().getResourceAsStream("/GameObject/sprites/object/bomb.png")));
             bombing[1] = ImageIO.read(Objects.requireNonNull(getClass().getResourceAsStream("/GameObject/sprites/object/bomb_1.png")));
@@ -130,22 +128,27 @@ public class Bomb extends Gameobject {
         int bombX = this.x;
         int bombY = this.y;
         if (x < gp.screenWidth / 2) {
+            g2.drawImage(grass, this.x, this.y, gp.tileSize, gp.tileSize, null);
             g2.drawImage(bombing[indexAniBomb], this.x, this.y, gp.tileSize, gp.tileSize, null);
         } else if (this.x < gp.screenWidth / 2 && x > gp.screenWidth / 2) {
             int bombScreenX = this.x - x + gp.screenWidth / 2;
             bombX = bombScreenX;
+            g2.drawImage(grass, bombScreenX, this.y, gp.tileSize, gp.tileSize, null);
             g2.drawImage(bombing[indexAniBomb], bombScreenX, this.y, gp.tileSize, gp.tileSize, null);
         } else if (this.x >= gp.screenWidth / 2 && this.x <= gp.worldWidth - gp.screenWidth / 2 && x >= gp.screenWidth / 2 && x <= gp.worldWidth - gp.screenWidth / 2) {
             int bombScreenX = gp.screenWidth / 2 + this.x - x;
             bombX = bombScreenX;
+            g2.drawImage(grass, bombScreenX, this.y, gp.tileSize, gp.tileSize, null);
             g2.drawImage(bombing[indexAniBomb], bombScreenX, this.y, gp.tileSize, gp.tileSize, null);
         } else if (x > gp.worldWidth - gp.screenWidth / 2) {
             int bombScreenX = this.x - gp.worldWidth + gp.screenWidth;
             bombX = bombScreenX;
+            g2.drawImage(grass, bombScreenX, this.y, gp.tileSize, gp.tileSize, null);
             g2.drawImage(bombing[indexAniBomb], bombScreenX, this.y, gp.tileSize, gp.tileSize, null);
         } else if (this.x > gp.worldWidth - gp.screenWidth / 2 && x <= gp.worldWidth - gp.screenWidth / 2) {
             int bombScreenX = this.x - x + gp.screenWidth / 2;
             bombX = bombScreenX;
+            g2.drawImage(grass, bombScreenX, this.y, gp.tileSize, gp.tileSize, null);
             g2.drawImage(bombing[indexAniBomb], bombScreenX, this.y, gp.tileSize, gp.tileSize, null);
         }
         if (this.exploded) {
@@ -262,7 +265,7 @@ public class Bomb extends Gameobject {
                 gp.enemy1 = null;
             } else if (TileManager.obj[statusy - 1][statusx].getBound().intersects(gp.enemy1.getBound(gp.enemy1.x, gp.enemy1.y))) {
                 gp.enemy1 = null;
-            } else if (TileManager.obj[statusy + 1][statusx - 1].getBound().intersects(gp.enemy1.getBound(gp.enemy1.x, gp.enemy1.y))) {
+            } else if (TileManager.obj[statusy + 1][statusx].getBound().intersects(gp.enemy1.getBound(gp.enemy1.x, gp.enemy1.y))) {
                 gp.enemy1 = null;
             }
         }
@@ -273,7 +276,7 @@ public class Bomb extends Gameobject {
                 gp.enemy2 = null;
             } else if (TileManager.obj[statusy - 1][statusx].getBound().intersects(gp.enemy2.getBound(gp.enemy2.x, gp.enemy2.y))) {
                 gp.enemy2 = null;
-            } else if (TileManager.obj[statusy + 1][statusx - 1].getBound().intersects(gp.enemy2.getBound(gp.enemy2.x, gp.enemy2.y))) {
+            } else if (TileManager.obj[statusy + 1][statusx].getBound().intersects(gp.enemy2.getBound(gp.enemy2.x, gp.enemy2.y))) {
                 gp.enemy2 = null;
             }
         }
@@ -284,7 +287,7 @@ public class Bomb extends Gameobject {
                 gp.enemy3 = null;
             } else if (TileManager.obj[statusy - 1][statusx].getBound().intersects(gp.enemy3.getBound(gp.enemy3.x, gp.enemy3.y))) {
                 gp.enemy3 = null;
-            } else if (TileManager.obj[statusy + 1][statusx - 1].getBound().intersects(gp.enemy3.getBound(gp.enemy3.x, gp.enemy3.y))) {
+            } else if (TileManager.obj[statusy + 1][statusx].getBound().intersects(gp.enemy3.getBound(gp.enemy3.x, gp.enemy3.y))) {
                 gp.enemy3 = null;
             }
         }
@@ -347,4 +350,5 @@ public class Bomb extends Gameobject {
             }
         }
     }
+
 }

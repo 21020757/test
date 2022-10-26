@@ -7,6 +7,9 @@ import GameObject.entity.Entity;
 
 import javax.swing.*;
 import java.awt.*;
+import java.io.BufferedReader;
+import java.io.InputStream;
+import java.io.InputStreamReader;
 
 
 public class GamePanel extends JPanel implements Runnable {
@@ -24,7 +27,9 @@ public class GamePanel extends JPanel implements Runnable {
 
     public AssetSetter aSetter = new AssetSetter(this);
     public Bomberman bomberman = new Bomberman(this, keyH);
-    public Entity enemy = new Enemies(this);
+    public Enemies enemy1 = new Enemies(this);
+    public Enemies enemy2 = new Enemies(this);
+    public Enemies enemy3 = new Enemies(this);
     Sound sound = new Sound();
 
     //World Settings
@@ -70,6 +75,7 @@ public class GamePanel extends JPanel implements Runnable {
     public void run() {
         double drawInterval = 1000000000 / FPS;
         double nextDrawTime = System.nanoTime() + drawInterval;
+        setEnemy();
         while (gameThread != null) {
 
             update();
@@ -89,11 +95,21 @@ public class GamePanel extends JPanel implements Runnable {
             }
         }
     }
-
+    public void setEnemy() {
+        enemy1.setEnemies(13*48,1*48);
+        enemy2.setEnemies(18*48,2*48);
+        enemy3.setEnemies(24*48,5*48);
+    }
     public void update() {
         bomberman.update();
-        if (enemy != null) {
-            enemy.update();
+        if (enemy1 != null) {
+            enemy1.update();
+        }
+        if (enemy2 != null) {
+            enemy2.update();
+        }
+        if (enemy3 != null) {
+            enemy3.update();
         }
     }
 
@@ -105,8 +121,14 @@ public class GamePanel extends JPanel implements Runnable {
             //OTHERS
             tile.draw(g2);
             bomberman.draw(g2);
-            if (enemy != null) {
-                enemy.draw(g2);
+            if (enemy1 != null) {
+                enemy1.draw(g2);
+            }
+            if (enemy2 != null) {
+                enemy2.draw(g2);
+            }
+            if (enemy3 != null) {
+                enemy3.draw(g2);
             }
         }
         g2.dispose();

@@ -30,7 +30,8 @@ public class Bomberman extends Entity {
 
     //About bomb
     public int BombAmount;
-    public Bomb bomb[];
+    int bombx;
+    int bomby;
     public int FlameBomb;
     public int count;
 
@@ -54,7 +55,6 @@ public class Bomberman extends Entity {
         BombAmount = 1;
         count = 1;
         FlameBomb = 1;
-        bomb = new Bomb[BombAmount];
     }
 
     public void getPlayerImage() {
@@ -111,17 +111,20 @@ public class Bomberman extends Entity {
             }
             if (keyH.spacePressed) {
                 if (BombAmount > 0) {
+                    bombx = x / gp.tileSize;
+                    bomby = y / gp.tileSize;
                     BombAmount--;
-                    bomb[BombAmount] = new Bomb(x, y);
-                    bomb[BombAmount].FlameDown = FlameBomb;
-                    bomb[BombAmount].FlameUp = FlameBomb;
-                    bomb[BombAmount].FlameRight = FlameBomb;
-                    bomb[BombAmount].FlameLeft = FlameBomb;
+                    TileManager.obj[bomby][bombx] = new Bomb(bombx * 48, bomby*48);
+                    ((Bomb) TileManager.obj[bomby][bombx]).FlameDown = FlameBomb;
+                    ((Bomb) TileManager.obj[bomby][bombx]).FlameUp = FlameBomb;
+                    ((Bomb) TileManager.obj[bomby][bombx]).FlameRight = FlameBomb;
+                    ((Bomb) TileManager.obj[bomby][bombx]).FlameLeft = FlameBomb;
 
-                    bomb[BombAmount].UpFlame = FlameBomb;
-                    bomb[BombAmount].DownFlame = FlameBomb;
-                    bomb[BombAmount].RightFlame = FlameBomb;
-                    bomb[BombAmount].LeftFlame = FlameBomb;
+                    ((Bomb) TileManager.obj[bomby][bombx]).RightFlame = FlameBomb;
+                    ((Bomb) TileManager.obj[bomby][bombx]).LeftFlame = FlameBomb;
+                    ((Bomb) TileManager.obj[bomby][bombx]).UpFlame = FlameBomb;
+                    ((Bomb) TileManager.obj[bomby][bombx]).DownFlame = FlameBomb;
+
                     gp.playSE(2);
                 }
             }
@@ -140,12 +143,14 @@ public class Bomberman extends Entity {
         }
         pickItemFlame();
         if (BombAmount < count) {
-            bomb[BombAmount].Explosion(gp);
-            if (bomb[BombAmount].indexAniExplosion == 3) {
-                bomb[BombAmount].indexAniExplosion = 0;
-                gp.playSE(3);
-                bomb[BombAmount] = null;
-                BombAmount++;
+            if (TileManager.obj[bomby][bombx] instanceof Bomb) {
+                ((Bomb) TileManager.obj[bomby][bombx]).Explosion(gp);
+                if (((Bomb) TileManager.obj[bomby][bombx]).indexAniExplosion == 3) {
+                    ((Bomb) TileManager.obj[bomby][bombx]).indexAniExplosion = 0;
+                    gp.playSE(3);
+                    TileManager.obj[bomby][bombx] = new Grass(bombx, bomby);
+                    BombAmount++;
+                }
             }
         }
         pickItemFlame();
@@ -193,7 +198,9 @@ public class Bomberman extends Entity {
             }
         }
         if (BombAmount < count) {
-            bomb[BombAmount].draw(g2, gp, x, y);
+            if (TileManager.obj[bomby][bombx] instanceof Bomb) {
+                ((Bomb) TileManager.obj[bomby][bombx]).draw(g2, gp, x, y);
+            }
         }
         if (x >= gp.screenWidth / 2 && x <= gp.worldWidth - gp.screenWidth / 2) {
             ScreenX = gp.screenWidth / 2;
