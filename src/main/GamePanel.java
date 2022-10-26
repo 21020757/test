@@ -1,12 +1,21 @@
 package main;
 
+import GameObject.Item.BrickFlameItem;
+import GameObject.Item.BrickPortalItem;
+import GameObject.Item.BrickSpeedItem;
 import GameObject.Tiles.TileManager;
 import GameObject.entity.Bomberman;
 import GameObject.entity.Enemies;
 import GameObject.entity.Entity;
+import GameObject.mapObject.Brick;
+import GameObject.mapObject.Grass;
+import GameObject.mapObject.Wall;
 
 import javax.swing.*;
 import java.awt.*;
+import java.io.BufferedReader;
+import java.io.InputStream;
+import java.io.InputStreamReader;
 
 
 public class GamePanel extends JPanel implements Runnable {
@@ -24,7 +33,8 @@ public class GamePanel extends JPanel implements Runnable {
 
     public AssetSetter aSetter = new AssetSetter(this);
     public Bomberman bomberman = new Bomberman(this, keyH);
-    public Entity[] enemy = new Entity[3];
+    public int length = 0;
+    public Enemies[] enemy;
 
     Sound sound = new Sound();
 
@@ -54,16 +64,32 @@ public class GamePanel extends JPanel implements Runnable {
         this.setDoubleBuffered(true);
         this.addKeyListener(keyH);
         this.setFocusable(true);
+        this.setUpGame();
     }
 
 
     public void setUpGame() {
         gameState = titleState;
         playMusic(0);
-        for (int i = 0; i < enemy.length; i++) {
-            enemy[i] = new Enemies(this);
-            enemy[i].x = (i + 1) * 48;
-            enemy[i].y = (i + 1) * 48;
+        for (int i = 0; i < maxWorldRow; i++) {
+            for (int j = 0; j < maxWorldCol; j++) {
+                char s = tile.map[i][j];
+                if (s == '1') {
+                    length++;
+                }
+            }
+        }
+        enemy = new Enemies[length];
+        int a = 0;
+        for (int i = 0; i < maxWorldRow; i++) {
+            for (int j = 0; j < maxWorldCol; j++) {
+                char s = tile.map[i][j];
+                if (s == '1') {
+                    enemy[a] = new Enemies(this);
+                    enemy[a].setEnemies(j * tileSize,i * tileSize);
+                    a++;
+                }
+            }
         }
     }
 
@@ -99,7 +125,9 @@ public class GamePanel extends JPanel implements Runnable {
     public void update() {
         bomberman.update();
         for (int i = 0; i < enemy.length; i++) {
-            enemy[i].update();
+            if (enemy[i] != null) {
+                enemy[i].update();
+            }
         }
     }
 
@@ -112,7 +140,9 @@ public class GamePanel extends JPanel implements Runnable {
             tile.draw(g2);
             bomberman.draw(g2);
             for (int i = 0; i < enemy.length; i++) {
-                enemy[i].draw(g2);
+                if (enemy[i] != null) {
+                    enemy[i].draw(g2);
+                }
             }
         }
         g2.dispose();

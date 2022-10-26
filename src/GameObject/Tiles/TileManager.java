@@ -22,7 +22,7 @@ public class TileManager {
     GamePanel gp;
     public static Gameobject obj[][];
 
-    char map[][];
+    public char[][] map;
 
     public TileManager(GamePanel gp) {
         this.gp = gp;

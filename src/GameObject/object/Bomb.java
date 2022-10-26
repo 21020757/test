@@ -258,7 +258,30 @@ public class Bomb extends Gameobject {
     public void EnemyExploded(GamePanel gp) {
         int statusx = x / gp.tileSize;
         int statusy = y / gp.tileSize;
-
+        for (int i =0; i < gp.enemy.length ; i++) {
+            if (gp.enemy[i] != null) {
+                for (int j = 1; j <= DownFlame; j++) {
+                    if (TileManager.obj[statusy+j][statusx].getBound().intersects(gp.enemy[i].getBound(gp.enemy[i].x, gp.enemy[i].y))) {
+                        gp.enemy[i] = null;
+                    }
+                }
+                for (int j = 1; j <= UpFlame; j++) {
+                    if (TileManager.obj[statusy-j][statusx].getBound().intersects(gp.enemy[i].getBound(gp.enemy[i].x, gp.enemy[i].y))) {
+                        gp.enemy[i] = null;
+                    }
+                }
+                for (int j = 1; j <= RightFlame; j++) {
+                    if (TileManager.obj[statusy][statusx+j].getBound().intersects(gp.enemy[i].getBound(gp.enemy[i].x, gp.enemy[i].y))) {
+                        gp.enemy[i] = null;
+                    }
+                }
+                for (int j = 1; j <= LeftFlame; j++) {
+                    if (TileManager.obj[statusy][statusx-j].getBound().intersects(gp.enemy[i].getBound(gp.enemy[i].x, gp.enemy[i].y))) {
+                        gp.enemy[i] = null;
+                    }
+                }
+            }
+        }
     }
 
     public void FlameExploded(GamePanel gp) {
