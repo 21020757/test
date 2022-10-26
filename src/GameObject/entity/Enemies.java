@@ -51,23 +51,21 @@ public class Enemies extends Entity {
         actionLockCounter++;
         if (actionLockCounter == 120) {
             Random random = new Random();
-            int i = random.nextInt(80) + 1;
-            if (i <= 20) {
+            int i = random.nextInt(40) + 1;
+            if (i <= 10) {
                 direction = "up";
                 preDirection = "up";
             }
-            if (i > 20 && i <= 40) {
+            if (i > 10 && i <= 20) {
                 direction = "down";
                 preDirection = "down";
             }
-            if (i > 40 && i <= 60) {
+            if (i > 20 && i <= 30) {
                 direction = "left";
             }
-            if (i > 60) {
+            if (i > 30) {
                 direction = "right";
             }
-            actionLockCounter = 0;
-
             actionLockCounter = 0;
         }
     }
