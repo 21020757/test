@@ -1,22 +1,13 @@
 package main;
 
-import GameObject.Item.BrickFlameItem;
-import GameObject.Item.BrickPortalItem;
-import GameObject.Item.BrickSpeedItem;
+
 import GameObject.Tiles.TileManager;
 import GameObject.entity.Bomberman;
 import GameObject.entity.Enemies;
-import GameObject.entity.Entity;
 import GameObject.entity.Oneal;
-import GameObject.mapObject.Brick;
-import GameObject.mapObject.Grass;
-import GameObject.mapObject.Wall;
 
 import javax.swing.*;
 import java.awt.*;
-import java.io.BufferedReader;
-import java.io.InputStream;
-import java.io.InputStreamReader;
 
 
 public class GamePanel extends JPanel implements Runnable {
@@ -136,14 +127,14 @@ public class GamePanel extends JPanel implements Runnable {
 
     public void update() {
         bomberman.update();
-        for (int i = 0; i < enemy.length; i++) {
-            if (enemy[i] != null) {
-                enemy[i].update();
+        for (Enemies enemies : enemy) {
+            if (enemies != null) {
+                enemies.update();
             }
         }
-        for (int i = 0; i < oneals.length; i++) {
-            if (oneals[i] != null) {
-                oneals[i].update();
+        for (Oneal oneal : oneals) {
+            if (oneal != null) {
+                oneal.update();
             }
         }
     }
@@ -156,14 +147,14 @@ public class GamePanel extends JPanel implements Runnable {
             //OTHERS
             tile.draw(g2);
             bomberman.draw(g2);
-            for (int i = 0; i < enemy.length; i++) {
-                if (enemy[i] != null) {
-                    enemy[i].draw(g2);
+            for (Enemies enemies : enemy) {
+                if (enemies != null) {
+                    enemies.draw(g2);
                 }
             }
-            for (int i = 0; i < oneals.length; i++) {
-                if (oneals[i] != null) {
-                    oneals[i].draw(g2);
+            for (Oneal oneal : oneals) {
+                if (oneal != null) {
+                    oneal.draw(g2);
                 }
             }
         }

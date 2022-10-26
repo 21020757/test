@@ -7,12 +7,12 @@ import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
 import java.util.Objects;
-import java.util.Random;
 
 public class Oneal extends Entity {
     public int actionLockCounter = 0;
     BufferedImage[] onealLeft = new BufferedImage[3];
     BufferedImage[] onealRight = new BufferedImage[3];
+
 
     public Oneal(GamePanel gp) {
         super(gp);
@@ -31,7 +31,6 @@ public class Oneal extends Entity {
 
     public void getImage() {
         try {
-            //Balloon
             onealLeft[0] = ImageIO.read(Objects.requireNonNull(getClass().getResourceAsStream("/GameObject/sprites/enemy/oneal_left1.png")));
             onealLeft[1] = ImageIO.read(Objects.requireNonNull(getClass().getResourceAsStream("/GameObject/sprites/enemy/oneal_left2.png")));
             onealLeft[2] = ImageIO.read(Objects.requireNonNull(getClass().getResourceAsStream("/GameObject/sprites/enemy/oneal_left3.png")));
@@ -46,52 +45,30 @@ public class Oneal extends Entity {
     }
 
     public void setAction() {
+        int bomber_x = gp.bomberman.x / gp.tileSize;
+        int bomber_y = gp.bomberman.y / gp.tileSize;
+        int oneal_x = x / gp.tileSize;
+        int oneal_y = y / gp.tileSize;
+        int smartX = oneal_x - bomber_x;
+        int smartY = oneal_y - bomber_y;
         actionLockCounter++;
-        if (actionLockCounter == 120) {
-            if (gp.bomberman.x < x && gp.bomberman.y < y) {
-                Random random = new Random();
-                int i = random.nextInt(2) + 1;
-                if (i == 1) {
-                    direction = "up";
-                    preDirection = "up";
-                }
-                if (i == 2) {
-                    direction = "left";
-                }
-            }
-            if (gp.bomberman.x <= x && gp.bomberman.y >= y) {
-                Random random = new Random();
-                int i = random.nextInt(2) + 1;
-                if (i == 1) {
-                    direction = "down";
-                    preDirection = "down";
-                }
-                if (i == 2) {
-                    direction = "left";
-                }
-            }
-            if (gp.bomberman.x > x && gp.bomberman.y > y) {
-                Random random = new Random();
-                int i = random.nextInt(2) + 1;
-                if (i == 1) {
-                    direction = "down";
-                    preDirection = "down";
-                }
-                if (i == 2) {
+        if (actionLockCounter == 60) {
+            if (smartX * smartX - smartY * smartY > 0) {
+                if (smartX < 0) {
                     direction = "right";
                 }
-            }
-            if (gp.bomberman.x >= x && gp.bomberman.y <= y) {
-                Random random = new Random();
-                int i = random.nextInt(2) + 1;
-                if (i == 1) {
+                if (smartX > 0) {
+                    direction = "left";
+                }
+            } else {
+                if (smartY > 0) {
                     direction = "up";
-                    preDirection = "up";
-                }
-                if (i == 2) {
-                    direction = "right";
+                } else {
+                    direction = "down";
                 }
             }
+            System.out.println(gp.bomberman.x + " " + gp.bomberman.y);
+            System.out.println(smartX + " " + smartY);
             actionLockCounter = 0;
         }
     }
@@ -99,8 +76,6 @@ public class Oneal extends Entity {
     @Override
     public void update() {
         setAction();
-        Random random = new Random();
-        speed = random.nextInt(4) + 1;
         switch (direction) {
             case "up" -> {
                 if (!collisionUp()) {
@@ -135,7 +110,7 @@ public class Oneal extends Entity {
     }
 
 
-    public void draw(Graphics2D g2){
+    public void draw(Graphics2D g2) {
         if (gp.bomberman.x <= gp.screenWidth / 2) {
             if (direction.equals("left")) {
                 g2.drawImage(onealLeft[spriteNum], x, y, gp.tileSize, gp.tileSize, null);
