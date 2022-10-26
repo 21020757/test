@@ -21,14 +21,16 @@ public class Enemies extends Entity {
         direction = "down";
         preDirection = "";
         speed = 2;
-        width = 48;
-        height = 48;
+        width = gp.tileSize;
+        height = gp.tileSize;
         getImage();
     }
+
     public void setEnemies(int x, int y) {
         this.x = x;
         this.y = y;
     }
+
     public void getImage() {
         try {
             //Balloon
@@ -49,19 +51,19 @@ public class Enemies extends Entity {
         actionLockCounter++;
         if (actionLockCounter == 120) {
             Random random = new Random();
-            int i = random.nextInt(100) + 1;
-            if (i <= 25) {
+            int i = random.nextInt(80) + 1;
+            if (i <= 20) {
                 direction = "up";
                 preDirection = "up";
             }
-            if (i > 25 && i <= 50) {
+            if (i > 20 && i <= 40) {
                 direction = "down";
                 preDirection = "down";
             }
-            if (i > 50 && i <= 75) {
+            if (i > 40 && i <= 60) {
                 direction = "left";
             }
-            if (i > 75) {
+            if (i > 60) {
                 direction = "right";
             }
             actionLockCounter = 0;
@@ -120,7 +122,7 @@ public class Enemies extends Entity {
                     g2.drawImage(balloonRight[spriteNum], x, y, gp.tileSize, gp.tileSize, null);
                 }
             }
-        } else if (gp.screenWidth / 2 <= gp.bomberman.x && gp.bomberman.x < gp.worldWidth - gp.screenWidth/2 && x >= gp.screenWidth / 2) {
+        } else if (gp.screenWidth / 2 <= gp.bomberman.x && gp.bomberman.x < gp.worldWidth - gp.screenWidth / 2 && x >= gp.screenWidth / 2) {
             int ScreenX = x + gp.screenWidth / 2 - gp.bomberman.x;
             if (direction.equals("left")) {
                 g2.drawImage(balloonLeft[spriteNum], ScreenX, y, gp.tileSize, gp.tileSize, null);

@@ -258,39 +258,7 @@ public class Bomb extends Gameobject {
     public void EnemyExploded(GamePanel gp) {
         int statusx = x / gp.tileSize;
         int statusy = y / gp.tileSize;
-        if (gp.enemy1 != null) {
-            if (TileManager.obj[statusy][statusx - 1].getBound().intersects(gp.enemy1.getBound(gp.enemy1.x, gp.enemy1.y))) {
-                gp.enemy1 = null;
-            } else if (TileManager.obj[statusy][statusx + 1].getBound().intersects(gp.enemy1.getBound(gp.enemy1.x, gp.enemy1.y))) {
-                gp.enemy1 = null;
-            } else if (TileManager.obj[statusy - 1][statusx].getBound().intersects(gp.enemy1.getBound(gp.enemy1.x, gp.enemy1.y))) {
-                gp.enemy1 = null;
-            } else if (TileManager.obj[statusy + 1][statusx].getBound().intersects(gp.enemy1.getBound(gp.enemy1.x, gp.enemy1.y))) {
-                gp.enemy1 = null;
-            }
-        }
-        if (gp.enemy2 != null) {
-            if (TileManager.obj[statusy][statusx - 1].getBound().intersects(gp.enemy2.getBound(gp.enemy2.x, gp.enemy2.y))) {
-                gp.enemy2 = null;
-            } else if (TileManager.obj[statusy][statusx + 1].getBound().intersects(gp.enemy2.getBound(gp.enemy2.x, gp.enemy2.y))) {
-                gp.enemy2 = null;
-            } else if (TileManager.obj[statusy - 1][statusx].getBound().intersects(gp.enemy2.getBound(gp.enemy2.x, gp.enemy2.y))) {
-                gp.enemy2 = null;
-            } else if (TileManager.obj[statusy + 1][statusx].getBound().intersects(gp.enemy2.getBound(gp.enemy2.x, gp.enemy2.y))) {
-                gp.enemy2 = null;
-            }
-        }
-        if (gp.enemy3 != null) {
-            if (TileManager.obj[statusy][statusx - 1].getBound().intersects(gp.enemy3.getBound(gp.enemy3.x, gp.enemy3.y))) {
-                gp.enemy3 = null;
-            } else if (TileManager.obj[statusy][statusx + 1].getBound().intersects(gp.enemy3.getBound(gp.enemy3.x, gp.enemy3.y))) {
-                gp.enemy3 = null;
-            } else if (TileManager.obj[statusy - 1][statusx].getBound().intersects(gp.enemy3.getBound(gp.enemy3.x, gp.enemy3.y))) {
-                gp.enemy3 = null;
-            } else if (TileManager.obj[statusy + 1][statusx].getBound().intersects(gp.enemy3.getBound(gp.enemy3.x, gp.enemy3.y))) {
-                gp.enemy3 = null;
-            }
-        }
+
     }
 
     public void FlameExploded(GamePanel gp) {
