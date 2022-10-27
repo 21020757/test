@@ -26,6 +26,7 @@ public class GamePanel extends JPanel implements Runnable {
     public AssetSetter aSetter = new AssetSetter(this);
     public Bomberman bomberman = new Bomberman(this, keyH);
     public int lengthEnemies = 0, lengthOneal = 0;
+    public int EntityDead = 0;
     public Enemies[] enemy;
 
     public Oneal[] oneals;
@@ -78,18 +79,18 @@ public class GamePanel extends JPanel implements Runnable {
         }
         enemy = new Enemies[lengthEnemies];
         oneals = new Oneal[lengthOneal];
-        int a = 0, b=0;
+        int a = 0, b = 0;
         for (int i = 0; i < maxWorldRow; i++) {
             for (int j = 0; j < maxWorldCol; j++) {
                 char s = tile.map[i][j];
                 if (s == '1') {
                     enemy[a] = new Enemies(this);
-                    enemy[a].setEnemies(j * tileSize,i * tileSize);
+                    enemy[a].setEnemies(j * tileSize, i * tileSize);
                     a++;
                 }
-                if (s ==  '2') {
+                if (s == '2') {
                     oneals[b] = new Oneal(this);
-                    oneals[b].setEnemies(j * tileSize, i*tileSize);
+                    oneals[b].setEnemies(j * tileSize, i * tileSize);
                     b++;
                 }
             }
@@ -128,12 +129,12 @@ public class GamePanel extends JPanel implements Runnable {
     public void update() {
         bomberman.update();
         for (Enemies enemies : enemy) {
-            if (enemies != null) {
+            if (enemies.status) {
                 enemies.update();
             }
         }
         for (Oneal oneal : oneals) {
-            if (oneal != null) {
+            if (oneal.status) {
                 oneal.update();
             }
         }
@@ -146,21 +147,24 @@ public class GamePanel extends JPanel implements Runnable {
         if (gameState == playState) {
             //OTHERS
             tile.draw(g2);
-            bomberman.draw(g2);
+            if (bomberman.status) {
+                bomberman.draw(g2);
+            } else {
+                bomberman.drawDead(g2);
+            }
             for (Enemies enemies : enemy) {
-                if (enemies != null) {
+                if (enemies.status) {
                     enemies.draw(g2);
                 }
             }
             for (Oneal oneal : oneals) {
-                if (oneal != null) {
+                if (oneal.status) {
                     oneal.draw(g2);
                 }
             }
         }
         g2.dispose();
     }
-
 
     public int getTextCenterX(String text, Graphics2D g2) {
         int length = (int) g2.getFontMetrics().getStringBounds(text, g2).getWidth();

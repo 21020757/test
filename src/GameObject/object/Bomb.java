@@ -1,10 +1,7 @@
 package GameObject.object;
 
 import GameObject.Gameobject;
-import GameObject.Item.BrickFlameItem;
-import GameObject.Item.BrickSpeedItem;
-import GameObject.Item.FlameItem;
-import GameObject.Item.SpeedItem;
+import GameObject.Item.*;
 import GameObject.Tiles.TileManager;
 import GameObject.mapObject.Brick;
 import GameObject.mapObject.Grass;
@@ -119,8 +116,11 @@ public class Bomb extends Gameobject {
             WallExploded(gp);
             BrickExploded(gp);
             EnemyExploded(gp);
+            OnealExploded(gp);
+            BombermanExploded(gp);
             FlameExploded(gp);
             SpeedItemExploded(gp);
+            PortalItemExploded(gp);
         }
     }
 
@@ -258,35 +258,39 @@ public class Bomb extends Gameobject {
     public void EnemyExploded(GamePanel gp) {
         int statusx = x / gp.tileSize;
         int statusy = y / gp.tileSize;
-        for (int i =0; i < gp.enemy.length ; i++) {
+        for (int i = 0; i < gp.enemy.length; i++) {
             if (gp.enemy[i] != null) {
                 for (int j = 1; j <= DownFlame; j++) {
-                    if (TileManager.obj[statusy + j][statusx].getBound().intersects(gp.enemy[i].getBound(gp.enemy[i].x, gp.enemy[i].y))) {
-                        gp.enemy[i] = null;
+                    if (TileManager.obj[statusy + j][statusx].getBound().intersects(gp.enemy[i].getBound(gp.enemy[i].x, gp.enemy[i].y)) && gp.enemy[i].status) {
+                        gp.enemy[i].status = false;
+                        gp.EntityDead++;
                         break;
                     }
                 }
             }
             if (gp.enemy[i] != null) {
                 for (int j = 1; j <= UpFlame; j++) {
-                    if (TileManager.obj[statusy - j][statusx].getBound().intersects(gp.enemy[i].getBound(gp.enemy[i].x, gp.enemy[i].y))) {
-                        gp.enemy[i] = null;
+                    if (TileManager.obj[statusy - j][statusx].getBound().intersects(gp.enemy[i].getBound(gp.enemy[i].x, gp.enemy[i].y)) && gp.enemy[i].status) {
+                        gp.enemy[i].status = false;
+                        gp.EntityDead++;
                         break;
                     }
                 }
             }
             if (gp.enemy[i] != null) {
                 for (int j = 1; j <= RightFlame; j++) {
-                    if (TileManager.obj[statusy][statusx + j].getBound().intersects(gp.enemy[i].getBound(gp.enemy[i].x, gp.enemy[i].y))) {
-                        gp.enemy[i] = null;
+                    if (TileManager.obj[statusy][statusx + j].getBound().intersects(gp.enemy[i].getBound(gp.enemy[i].x, gp.enemy[i].y)) && gp.enemy[i].status) {
+                        gp.enemy[i].status = false;
+                        gp.EntityDead++;
                         break;
                     }
                 }
             }
             if (gp.enemy[i] != null) {
                 for (int j = 1; j <= LeftFlame; j++) {
-                    if (TileManager.obj[statusy][statusx-j].getBound().intersects(gp.enemy[i].getBound(gp.enemy[i].x, gp.enemy[i].y))) {
-                        gp.enemy[i] = null;
+                    if (TileManager.obj[statusy][statusx - j].getBound().intersects(gp.enemy[i].getBound(gp.enemy[i].x, gp.enemy[i].y)) && gp.enemy[i].status) {
+                        gp.enemy[i].status = false;
+                        gp.EntityDead++;
                         break;
                     }
                 }
@@ -352,4 +356,112 @@ public class Bomb extends Gameobject {
         }
     }
 
+    public void PortalItemExploded(GamePanel gp) {
+        int statusx = x / gp.tileSize;
+        int statusy = y / gp.tileSize;
+        for (int i = 1; i <= DownFlame; i++) {
+            if (TileManager.obj[statusy + i][statusx] instanceof BrickPortalItem) {
+                TileManager.obj[statusy + i][statusx] = new PortalItem(statusx * gp.tileSize, (statusy + i) * gp.tileSize);
+                DownFlame = i;
+            }
+        }
+        for (int i = 1; i <= UpFlame; i++) {
+            if (TileManager.obj[statusy - i][statusx] instanceof BrickPortalItem) {
+                TileManager.obj[statusy - i][statusx] = new PortalItem(statusx * gp.tileSize, (statusy - i) * gp.tileSize);
+                UpFlame = i;
+            }
+        }
+        for (int i = 1; i <= RightFlame; i++) {
+            if (TileManager.obj[statusy][statusx + i] instanceof BrickPortalItem) {
+                TileManager.obj[statusy][statusx + i] = new PortalItem((statusx + i) * gp.tileSize, statusy * gp.tileSize);
+                RightFlame = i;
+            }
+        }
+        for (int i = 1; i <= LeftFlame; i++) {
+            if (TileManager.obj[statusy][statusx - i] instanceof BrickPortalItem) {
+                TileManager.obj[statusy][statusx - i] = new PortalItem((statusx - i) * gp.tileSize, statusy * gp.tileSize);
+                LeftFlame = i;
+            }
+        }
+    }
+
+    public void OnealExploded(GamePanel gp) {
+        int statusx = x / gp.tileSize;
+        int statusy = y / gp.tileSize;
+        for (int i = 0; i < gp.oneals.length; i++) {
+            if (gp.oneals[i] != null) {
+                for (int j = 1; j <= DownFlame; j++) {
+                    if (TileManager.obj[statusy + j][statusx].getBound().intersects(gp.oneals[i].getBound(gp.oneals[i].x, gp.oneals[i].y)) && gp.oneals[i].status) {
+                        gp.oneals[i].status = false;
+                        gp.EntityDead++;
+                        break;
+                    }
+                }
+            }
+            if (gp.oneals[i] != null) {
+                for (int j = 1; j <= UpFlame; j++) {
+                    if (TileManager.obj[statusy - j][statusx].getBound().intersects(gp.oneals[i].getBound(gp.oneals[i].x, gp.oneals[i].y)) &&  gp.oneals[i].status) {
+                        gp.oneals[i].status = false;
+                        gp.EntityDead++;
+                        break;
+                    }
+                }
+            }
+            if (gp.oneals[i] != null) {
+                for (int j = 1; j <= RightFlame; j++) {
+                    if (TileManager.obj[statusy][statusx + j].getBound().intersects(gp.oneals[i].getBound(gp.oneals[i].x, gp.oneals[i].y)) && gp.oneals[i].status) {
+                        gp.oneals[i].status = false;
+                        gp.EntityDead++;
+                        break;
+                    }
+                }
+            }
+            if (gp.oneals[i] != null) {
+                for (int j = 1; j <= LeftFlame; j++) {
+                    if (TileManager.obj[statusy][statusx - j].getBound().intersects(gp.oneals[i].getBound(gp.oneals[i].x, gp.oneals[i].y)) && gp.oneals[i].status) {
+                        gp.oneals[i].status = false;
+                        gp.EntityDead++;
+                        break;
+                    }
+                }
+            }
+        }
+    }
+
+    public void BombermanExploded(GamePanel gp) {
+        int statusx = x / gp.tileSize;
+        int statusy = y / gp.tileSize;
+        if (gp.bomberman != null) {
+            for (int j = 1; j <= DownFlame; j++) {
+                if (TileManager.obj[statusy + j][statusx].getBound().intersects(gp.bomberman.getBound(gp.bomberman.x, gp.bomberman.y))) {
+                    gp.bomberman.status = false;
+                    break;
+                }
+            }
+        }
+        if (gp.bomberman != null) {
+            for (int j = 1; j <= UpFlame; j++) {
+                if (TileManager.obj[statusy - j][statusx].getBound().intersects(gp.bomberman.getBound(gp.bomberman.x, gp.bomberman.y))) {
+                    gp.bomberman.status = false;
+                    break;
+                }
+            }
+        }
+        if (gp.bomberman != null) {
+            for (int j = 1; j <= RightFlame; j++) {
+                if (TileManager.obj[statusy][statusx + j].getBound().intersects(gp.bomberman.getBound(gp.bomberman.x, gp.bomberman.y))) {
+                    gp.bomberman.status = false;
+                    break;
+                }
+            }
+        }
+        if (gp.bomberman != null) {
+            for (int j = 1; j <= LeftFlame; j++) {
+                if (TileManager.obj[statusy][statusx - j].getBound().intersects(gp.bomberman.getBound(gp.bomberman.x, gp.bomberman.y))) {
+                    gp.bomberman.status = false;
+                    break;
+                }
+            }
+        }
+    }
 }

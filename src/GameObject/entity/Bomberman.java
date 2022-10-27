@@ -2,6 +2,7 @@ package GameObject.entity;
 
 import GameObject.Item.BombItem;
 import GameObject.Item.FlameItem;
+import GameObject.Item.PortalItem;
 import GameObject.Item.SpeedItem;
 import GameObject.Tiles.TileManager;
 import GameObject.mapObject.Brick;
@@ -55,6 +56,7 @@ public class Bomberman extends Entity {
         BombAmount = 1;
         count = 1;
         FlameBomb = 1;
+        status = true;
     }
 
     public void getPlayerImage() {
@@ -72,6 +74,10 @@ public class Bomberman extends Entity {
             left2 = ImageIO.read(Objects.requireNonNull(getClass().getResourceAsStream("/GameObject/sprites/player/player_left_2.png")));
             right1 = ImageIO.read(Objects.requireNonNull(getClass().getResourceAsStream("/GameObject/sprites/player/player_right_1.png")));
             right2 = ImageIO.read(Objects.requireNonNull(getClass().getResourceAsStream("/GameObject/sprites/player/player_right_2.png")));
+            dead1 = ImageIO.read(Objects.requireNonNull(getClass().getResourceAsStream("/GameObject/sprites/player/player_dead1.png")));
+            dead2 = ImageIO.read(Objects.requireNonNull(getClass().getResourceAsStream("/GameObject/sprites/player/player_dead2.png")));
+            dead3 = ImageIO.read(Objects.requireNonNull(getClass().getResourceAsStream("/GameObject/sprites/player/player_dead3.png")));
+
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -227,9 +233,34 @@ public class Bomberman extends Entity {
                         TileManager.obj[i][j] = new Grass(j * gp.tileSize, i * gp.tileSize);
                         speed++;
                     }
+                }
+                if (TileManager.obj[i][j] instanceof PortalItem) {
+                    if (this.getBound(x, y).intersects(TileManager.obj[i][j].getBound())) {
+                        if (gp.EntityDead == gp.lengthOneal + gp.lengthEnemies) {
 
+                        }
+                    }
                 }
             }
+        }
+    }
+
+    @Override
+    public void drawDead(Graphics2D g2) {
+        if (x >= gp.screenWidth / 2 && x <= gp.worldWidth - gp.screenWidth / 2) {
+            ScreenX = gp.screenWidth / 2;
+            g2.drawImage(dead1, ScreenX, y, gp.tileSize, gp.tileSize, null);
+            g2.drawImage(dead2, ScreenX, y, gp.tileSize, gp.tileSize, null);
+            g2.drawImage(dead3, ScreenX, y, gp.tileSize, gp.tileSize, null);
+        } else if (x < gp.screenWidth / 2) {
+            g2.drawImage(dead1, x, y, gp.tileSize, gp.tileSize, null);
+            g2.drawImage(dead2, x, y, gp.tileSize, gp.tileSize, null);
+            g2.drawImage(dead3, x, y, gp.tileSize, gp.tileSize, null);
+        } else {
+            ScreenX = x - gp.worldWidth + gp.screenWidth;
+            g2.drawImage(dead1, ScreenX, y, gp.tileSize, gp.tileSize, null);
+            g2.drawImage(dead2, ScreenX, y, gp.tileSize, gp.tileSize, null);
+            g2.drawImage(dead3, ScreenX, y, gp.tileSize, gp.tileSize, null);
         }
     }
 }

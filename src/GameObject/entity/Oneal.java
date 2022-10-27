@@ -22,6 +22,7 @@ public class Oneal extends Entity {
         width = gp.tileSize;
         height = gp.tileSize;
         getImage();
+        status = true;
     }
 
     public void setEnemies(int x, int y) {

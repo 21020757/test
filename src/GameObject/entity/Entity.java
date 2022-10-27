@@ -18,7 +18,7 @@ import java.awt.image.BufferedImageFilter;
 public class Entity extends Gameobject {
     GamePanel gp;
     public int speed;
-
+    public boolean status;
     //Load image
     public BufferedImage up, up1, up2, down, down1, down2, left, left1, left2, right, right1, right2, dead1, dead2, dead3;
     public String direction;
@@ -40,7 +40,8 @@ public class Entity extends Gameobject {
 
     public void draw(Graphics2D g2) {
     }
-
+    public void drawDead(Graphics2D g2) {
+    }
     @Override
     public Rectangle getBound() {
         return null;
