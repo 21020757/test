@@ -128,6 +128,7 @@ public class GamePanel extends JPanel implements Runnable {
 
     public void update() {
         bomberman.update();
+        System.out.println(bomberman.isDead);
         for (Enemies enemies : enemy) {
             if (enemies != null) {
                 if (!enemies.isDead) {

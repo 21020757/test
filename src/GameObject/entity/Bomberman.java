@@ -138,7 +138,6 @@ public class Bomberman extends Entity {
                 spriteCounter = 0;
             }
         }
-        pickItemFlame();
         if (BombAmount < count) {
             if (TileManager.obj[bomby][bombx] instanceof Bomb) {
                 ((Bomb) TileManager.obj[bomby][bombx]).Explosion(gp);
@@ -151,6 +150,7 @@ public class Bomberman extends Entity {
             }
         }
         pickItemFlame();
+        EnemiesPick();
     }
 
     public void draw(Graphics2D g2) {
@@ -225,6 +225,23 @@ public class Bomberman extends Entity {
 //                            //TODO: QUA MAN
 //                        }
                     }
+                }
+            }
+        }
+    }
+
+    public void EnemiesPick() {
+        for (int i = 0; i < gp.enemy.length; i++) {
+            if (gp.enemy[i] != null) {
+                if (this.getBound(x,y).intersects(gp.enemy[i].getBound(gp.enemy[i].x, gp.enemy[i].y))) {
+                    isDead = true;
+                }
+            }
+        }
+        for (int i = 0; i < gp.oneals.length; i++) {
+            if (gp.oneals[i] != null) {
+                if (this.getBound(x,y).intersects(gp.oneals[i].getBound(gp.oneals[i].x, gp.oneals[i].y))) {
+                    isDead = true;
                 }
             }
         }

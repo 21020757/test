@@ -422,36 +422,28 @@ public class Bomb extends Gameobject {
     public void BombermanExploded(GamePanel gp) {
         int statusx = x / gp.tileSize;
         int statusy = y / gp.tileSize;
-        if (gp.bomberman != null) {
-            for (int j = 1; j <= DownFlame; j++) {
-                if (TileManager.obj[statusy + j][statusx].getBound().intersects(gp.bomberman.getBound(gp.bomberman.x, gp.bomberman.y))) {
-                    gp.bomberman.isDead = true;
-                    break;
-                }
+        for (int j = 1; j <= DownFlame; j++) {
+            if (TileManager.obj[statusy + j][statusx].getBound().intersects(gp.bomberman.getBound(gp.bomberman.x, gp.bomberman.y))) {
+                gp.bomberman.isDead = true;
+                break;
             }
         }
-        if (gp.bomberman != null) {
-            for (int j = 1; j <= UpFlame; j++) {
-                if (TileManager.obj[statusy - j][statusx].getBound().intersects(gp.bomberman.getBound(gp.bomberman.x, gp.bomberman.y))) {
-                    gp.bomberman.isDead = true;
-                    break;
-                }
+        for (int j = 1; j <= UpFlame; j++) {
+            if (TileManager.obj[statusy - j][statusx].getBound().intersects(gp.bomberman.getBound(gp.bomberman.x, gp.bomberman.y))) {
+                gp.bomberman.isDead = true;
+                break;
             }
         }
-        if (gp.bomberman != null) {
-            for (int j = 1; j <= RightFlame; j++) {
-                if (TileManager.obj[statusy][statusx + j].getBound().intersects(gp.bomberman.getBound(gp.bomberman.x, gp.bomberman.y))) {
-                    gp.bomberman.isDead = true;
-                    break;
-                }
+        for (int j = 1; j <= RightFlame; j++) {
+            if (TileManager.obj[statusy][statusx + j].getBound().intersects(gp.bomberman.getBound(gp.bomberman.x, gp.bomberman.y))) {
+                gp.bomberman.isDead = true;
+                break;
             }
         }
-        if (gp.bomberman != null) {
-            for (int j = 1; j <= LeftFlame; j++) {
-                if (TileManager.obj[statusy][statusx - j].getBound().intersects(gp.bomberman.getBound(gp.bomberman.x, gp.bomberman.y))) {
-                    gp.bomberman.isDead = true;
-                    break;
-                }
+        for (int j = 1; j <= LeftFlame; j++) {
+            if (TileManager.obj[statusy][statusx - j].getBound().intersects(gp.bomberman.getBound(gp.bomberman.x, gp.bomberman.y))) {
+                gp.bomberman.isDead = true;
+                break;
             }
         }
     }
