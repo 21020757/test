@@ -17,6 +17,7 @@ import java.util.Objects;
 
 
 public class Bomberman extends Entity {
+    public boolean win = false;
     public static KeyHandler keyH;
     public static final int intervalImageChange = 9;
     //About bomb
@@ -160,9 +161,9 @@ public class Bomberman extends Entity {
         }
 
         if (BombAmount < count) {
-                if (TileManager.obj[bomby][bombx] instanceof Bomb) {
-                    ((Bomb) TileManager.obj[bomby][bombx]).draw(g2, gp, x, y);
-                }
+            if (TileManager.obj[bomby][bombx] instanceof Bomb) {
+                ((Bomb) TileManager.obj[bomby][bombx]).draw(g2, gp, x, y);
+            }
         }
         if (x >= gp.screenWidth / 2 && x <= gp.worldWidth - gp.screenWidth / 2) {
             int ScreenX = gp.screenWidth / 2;
@@ -218,9 +219,9 @@ public class Bomberman extends Entity {
                 }
                 if (TileManager.obj[i][j] instanceof PortalItem) {
                     if (this.getBound(x, y).intersects(TileManager.obj[i][j].getBound())) {
-  //                      if (gp.le == gp.lengthOneal + gp.lengthEnemies) {
-
-  //                      }
+                        if (gp.checkOneal + gp.checkEnemies == gp.totalTypeOfEnemies) {
+                            win = true;
+                        }
                     }
                 }
             }
@@ -230,14 +231,14 @@ public class Bomberman extends Entity {
     public void EntityPick() {
         for (int i = 0; i < gp.enemy.length; i++) {
             if (gp.enemy[i] != null) {
-                if (this.getBound(x,y).intersects(gp.enemy[i].getBound(gp.enemy[i].x, gp.enemy[i].y))) {
+                if (this.getBound(x, y).intersects(gp.enemy[i].getBound(gp.enemy[i].x, gp.enemy[i].y))) {
                     isDead = true;
                 }
             }
         }
         for (int i = 0; i < gp.oneals.length; i++) {
             if (gp.oneals[i] != null) {
-                if (this.getBound(x,y).intersects(gp.oneals[i].getBound(gp.oneals[i].x, gp.oneals[i].y))) {
+                if (this.getBound(x, y).intersects(gp.oneals[i].getBound(gp.oneals[i].x, gp.oneals[i].y))) {
                     isDead = true;
                 }
             }

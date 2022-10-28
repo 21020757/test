@@ -37,7 +37,7 @@ public class Menu {
                 gp.loadGameInterval = 0;
             }
         }
-        if(gp.gameState == gp.replayState) {
+        if (gp.gameState == gp.replayState) {
             printRestart(g2);
         }
     }
@@ -78,7 +78,7 @@ public class Menu {
 
     public void printRestart(Graphics2D g2) {
         g2.setFont(g2.getFont().deriveFont(Font.BOLD, 50F));
-        String text = "RESTART";
+        String text = "REPLAY";
         int x = getTextCenterX(text, g2);
         int y = gp.tileSize * 8;
         g2.setColor(Color.RED);

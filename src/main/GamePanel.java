@@ -27,10 +27,12 @@ public class GamePanel extends JPanel implements Runnable {
 
     public Bomberman bomberman;
     public int lengthEnemies = 0, lengthOneal = 0;
-    public int totalEnemies;
+    public int checkEnemies = 0, checkOneal = 0;
+    public final int totalTypeOfEnemies = 2;
     public Enemies[] enemy;
 
     public Oneal[] oneals;
+
 
     Sound sound = new Sound();
 
@@ -78,7 +80,6 @@ public class GamePanel extends JPanel implements Runnable {
                 }
             }
         }
-        totalEnemies = lengthEnemies + lengthOneal;
         bomberman = new Bomberman(this, keyH);
         enemy = new Enemies[lengthEnemies];
         oneals = new Oneal[lengthOneal];
@@ -136,17 +137,23 @@ public class GamePanel extends JPanel implements Runnable {
             }
             for (Enemies enemies : enemy) {
                 if (enemies != null) {
+                    checkEnemies = 0;
                     if (!enemies.isDead) {
                         enemies.update();
                     }
+                } else {
+                    checkEnemies = 1;
                 }
             }
 
             for (Oneal oneal : oneals) {
                 if (oneal != null) {
+                    checkOneal = 0;
                     if (!oneal.isDead) {
                         oneal.update();
                     }
+                } else {
+                    checkOneal = 1;
                 }
             }
         }
@@ -177,19 +184,19 @@ public class GamePanel extends JPanel implements Runnable {
             drawEnemies(g2);
             drawOneals(g2);
 
-//            if(het enemy) {
-//                if(di qua portal) {
-//                    if (delayTime == 90) {
-//                    stopMusic();
-//                    playSE(5);
-//                }
-//                if (delayTime == 240) {
-//                    gameState = replayState;
-//                    delayTime = 0;
-//                }
-            //TODO: HOAN THIEN
-//                }
-//            }
+            if (checkOneal + checkEnemies == totalTypeOfEnemies) {
+                if (bomberman.win) {
+                    delayTime++;
+                    if (delayTime == 90) {
+                        stopMusic();
+                        playSE(6);
+                    }
+                    if (delayTime == 240) {
+                        gameState = replayState;
+                        delayTime = 0;
+                    }
+                }
+            }
         }
         if (gameState == replayState) {
             menu.draw(g2);
