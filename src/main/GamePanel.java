@@ -19,14 +19,14 @@ public class GamePanel extends JPanel implements Runnable {
     final int maxScreenRow = 13;
     public final int screenWidth = tileSize * maxScreenCol;
     public final int screenHeight = tileSize * maxScreenRow;
+
+    public int deadInterval = 0;
     //Create object
     Thread gameThread;
     KeyHandler keyH = new KeyHandler(this);
 
-    public AssetSetter aSetter = new AssetSetter(this);
     public Bomberman bomberman = new Bomberman(this, keyH);
     public int lengthEnemies = 0, lengthOneal = 0;
-    public int EntityDead = 0;
     public Enemies[] enemy;
 
     public Oneal[] oneals;
@@ -129,13 +129,17 @@ public class GamePanel extends JPanel implements Runnable {
     public void update() {
         bomberman.update();
         for (Enemies enemies : enemy) {
-            if (enemies.status) {
-                enemies.update();
+            if (enemies != null) {
+                if (!enemies.isDead) {
+                    enemies.update();
+                }
             }
         }
         for (Oneal oneal : oneals) {
-            if (oneal.status) {
-                oneal.update();
+            if (oneal != null) {
+                if(!oneal.isDead) {
+                    oneal.update();
+                }
             }
         }
     }
@@ -147,19 +151,33 @@ public class GamePanel extends JPanel implements Runnable {
         if (gameState == playState) {
             //OTHERS
             tile.draw(g2);
-            if (bomberman.status) {
-                bomberman.draw(g2);
-            } else {
-                bomberman.drawDead(g2);
-            }
-            for (Enemies enemies : enemy) {
-                if (enemies.status) {
-                    enemies.draw(g2);
+            bomberman.draw(g2);
+            for (int i = 0; i < enemy.length; i++) {
+                if (enemy[i] != null) {
+                    if (!enemy[i].isDead) {
+                        enemy[i].draw(g2);
+                    } else {
+                        deadInterval++;
+                        enemy[i].drawDead(g2);
+                        if (deadInterval == 90) {
+                            enemy[i] = null;
+                            deadInterval = 0;
+                        }
+                    }
                 }
             }
-            for (Oneal oneal : oneals) {
-                if (oneal.status) {
-                    oneal.draw(g2);
+            for (int i = 0; i < oneals.length; i++) {
+                if (oneals[i] != null) {
+                    if (!oneals[i].isDead) {
+                        oneals[i].draw(g2);
+                    } else {
+                        deadInterval++;
+                        oneals[i].drawDead(g2);
+                        if (deadInterval == 90) {
+                            oneals[i] = null;
+                            deadInterval = 0;
+                        }
+                    }
                 }
             }
         }

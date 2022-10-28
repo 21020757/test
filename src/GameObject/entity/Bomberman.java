@@ -1,17 +1,13 @@
 package GameObject.entity;
 
-import GameObject.Item.BombItem;
 import GameObject.Item.FlameItem;
 import GameObject.Item.PortalItem;
 import GameObject.Item.SpeedItem;
 import GameObject.Tiles.TileManager;
-import GameObject.mapObject.Brick;
 import GameObject.mapObject.Grass;
-import GameObject.mapObject.Wall;
 import main.GamePanel;
 import main.KeyHandler;
 import GameObject.object.Bomb;
-import main.Sound;
 
 import javax.imageio.ImageIO;
 import java.awt.*;
@@ -19,13 +15,10 @@ import java.awt.image.BufferedImage;
 import java.io.IOException;
 import java.util.Objects;
 
-import static java.awt.SystemColor.menu;
 
 public class Bomberman extends Entity {
-    Sound sound = new Sound();
     public static KeyHandler keyH;
     public static final int intervalImageChange = 9;
-    public boolean notMoving;
     public String preDirection;
     public int ScreenX;
 
@@ -56,27 +49,26 @@ public class Bomberman extends Entity {
         BombAmount = 1;
         count = 1;
         FlameBomb = 1;
-        status = true;
+        isDead = false;
     }
 
     public void getPlayerImage() {
         try {
-            //Move
-            up = ImageIO.read(Objects.requireNonNull(getClass().getResourceAsStream("/GameObject/sprites/player/player_up.png")));
-            down = ImageIO.read(Objects.requireNonNull(getClass().getResourceAsStream("/GameObject/sprites/player/player_down.png")));
-            left = ImageIO.read(Objects.requireNonNull(getClass().getResourceAsStream("/GameObject/sprites/player/player_left.png")));
-            right = ImageIO.read(Objects.requireNonNull(getClass().getResourceAsStream("/GameObject/sprites/player/player_right.png")));
-            up1 = ImageIO.read(Objects.requireNonNull(getClass().getResourceAsStream("/GameObject/sprites/player/player_up_1.png")));
-            up2 = ImageIO.read(Objects.requireNonNull(getClass().getResourceAsStream("/GameObject/sprites/player/player_up_2.png")));
-            down1 = ImageIO.read(Objects.requireNonNull(getClass().getResourceAsStream("/GameObject/sprites/player/player_down_1.png")));
-            down2 = ImageIO.read(Objects.requireNonNull(getClass().getResourceAsStream("/GameObject/sprites/player/player_down_2.png")));
-            left1 = ImageIO.read(Objects.requireNonNull(getClass().getResourceAsStream("/GameObject/sprites/player/player_left_1.png")));
-            left2 = ImageIO.read(Objects.requireNonNull(getClass().getResourceAsStream("/GameObject/sprites/player/player_left_2.png")));
-            right1 = ImageIO.read(Objects.requireNonNull(getClass().getResourceAsStream("/GameObject/sprites/player/player_right_1.png")));
-            right2 = ImageIO.read(Objects.requireNonNull(getClass().getResourceAsStream("/GameObject/sprites/player/player_right_2.png")));
-            dead1 = ImageIO.read(Objects.requireNonNull(getClass().getResourceAsStream("/GameObject/sprites/player/player_dead1.png")));
-            dead2 = ImageIO.read(Objects.requireNonNull(getClass().getResourceAsStream("/GameObject/sprites/player/player_dead2.png")));
-            dead3 = ImageIO.read(Objects.requireNonNull(getClass().getResourceAsStream("/GameObject/sprites/player/player_dead3.png")));
+            up[0] = ImageIO.read(Objects.requireNonNull(getClass().getResourceAsStream("/GameObject/sprites/player/player_up.png")));
+            up[1] = ImageIO.read(Objects.requireNonNull(getClass().getResourceAsStream("/GameObject/sprites/player/player_up_1.png")));
+            up[2] = ImageIO.read(Objects.requireNonNull(getClass().getResourceAsStream("/GameObject/sprites/player/player_up_2.png")));
+            down[0] = ImageIO.read(Objects.requireNonNull(getClass().getResourceAsStream("/GameObject/sprites/player/player_down.png")));
+            down[1] = ImageIO.read(Objects.requireNonNull(getClass().getResourceAsStream("/GameObject/sprites/player/player_down_1.png")));
+            down[2] = ImageIO.read(Objects.requireNonNull(getClass().getResourceAsStream("/GameObject/sprites/player/player_down_2.png")));
+            left[0] = ImageIO.read(Objects.requireNonNull(getClass().getResourceAsStream("/GameObject/sprites/player/player_left.png")));
+            left[1] = ImageIO.read(Objects.requireNonNull(getClass().getResourceAsStream("/GameObject/sprites/player/player_left_1.png")));
+            left[2] = ImageIO.read(Objects.requireNonNull(getClass().getResourceAsStream("/GameObject/sprites/player/player_left_2.png")));
+            right[0] = ImageIO.read(Objects.requireNonNull(getClass().getResourceAsStream("/GameObject/sprites/player/player_right.png")));
+            right[1] = ImageIO.read(Objects.requireNonNull(getClass().getResourceAsStream("/GameObject/sprites/player/player_right_1.png")));
+            right[2] = ImageIO.read(Objects.requireNonNull(getClass().getResourceAsStream("/GameObject/sprites/player/player_right_2.png")));
+            dead[0] = ImageIO.read(Objects.requireNonNull(getClass().getResourceAsStream("/GameObject/sprites/player/player_dead1.png")));
+            dead[1] = ImageIO.read(Objects.requireNonNull(getClass().getResourceAsStream("/GameObject/sprites/player/player_dead2.png")));
+            dead[2] = ImageIO.read(Objects.requireNonNull(getClass().getResourceAsStream("/GameObject/sprites/player/player_dead3.png")));
 
         } catch (IOException e) {
             e.printStackTrace();
@@ -86,7 +78,6 @@ public class Bomberman extends Entity {
     public void update() {
         if (keyH.upPressed || keyH.downPressed
                 || keyH.leftPressed || keyH.rightPressed || keyH.spacePressed) {
-            notMoving = false;
             if (keyH.upPressed) {
                 if (!collisionUp()) {
                     y -= speed;
@@ -118,9 +109,9 @@ public class Bomberman extends Entity {
             if (keyH.spacePressed) {
                 if (BombAmount > 0) {
                     bombx = (x + gp.tileSize / 2) / gp.tileSize;
-                    bomby = (y + gp.tileSize / 2 )/ gp.tileSize;
+                    bomby = (y + gp.tileSize / 2) / gp.tileSize;
                     BombAmount--;
-                    TileManager.obj[bomby][bombx] = new Bomb(bombx * 48, bomby*48);
+                    TileManager.obj[bomby][bombx] = new Bomb(bombx * 48, bomby * 48);
                     ((Bomb) TileManager.obj[bomby][bombx]).FlameDown = FlameBomb;
                     ((Bomb) TileManager.obj[bomby][bombx]).FlameUp = FlameBomb;
                     ((Bomb) TileManager.obj[bomby][bombx]).FlameRight = FlameBomb;
@@ -140,12 +131,12 @@ public class Bomberman extends Entity {
                 if (spriteNum == 1) {
                     spriteNum = 2;
                 } else if (spriteNum == 2) {
+                    spriteNum = 0;
+                } else {
                     spriteNum = 1;
                 }
                 spriteCounter = 0;
             }
-        } else {
-            notMoving = true;
         }
         pickItemFlame();
         if (BombAmount < count) {
@@ -163,46 +154,14 @@ public class Bomberman extends Entity {
     }
 
     public void draw(Graphics2D g2) {
-        BufferedImage image = null;
-        if (notMoving) {
-            switch (preDirection) {
-                case "up" -> image = up;
-                case "down" -> image = down;
-                case "left" -> image = left;
-                case "right" -> image = right;
-            }
-        } else {
-            switch (direction) {
-                case "up" -> {
-                    if (spriteNum == 1) {
-                        image = up1;
-                    } else if (spriteNum == 2) {
-                        image = up2;
-                    }
-                }
-                case "down" -> {
-                    if (spriteNum == 1) {
-                        image = down1;
-                    } else if (spriteNum == 2) {
-                        image = down2;
-                    }
-                }
-                case "left" -> {
-                    if (spriteNum == 1) {
-                        image = left1;
-                    } else if (spriteNum == 2) {
-                        image = left2;
-                    }
-                }
-                case "right" -> {
-                    if (spriteNum == 1) {
-                        image = right1;
-                    } else if (spriteNum == 2) {
-                        image = right2;
-                    }
-                }
-            }
+        BufferedImage[] image = null;
+        switch (direction) {
+            case "up" -> image = up;
+            case "down" -> image = down;
+            case "left" -> image = left;
+            case "right" -> image = right;
         }
+
         if (BombAmount < count) {
             if (TileManager.obj[bomby][bombx] instanceof Bomb) {
                 ((Bomb) TileManager.obj[bomby][bombx]).draw(g2, gp, x, y);
@@ -210,12 +169,38 @@ public class Bomberman extends Entity {
         }
         if (x >= gp.screenWidth / 2 && x <= gp.worldWidth - gp.screenWidth / 2) {
             ScreenX = gp.screenWidth / 2;
-            g2.drawImage(image, ScreenX, y, gp.tileSize, gp.tileSize, null);
+            g2.drawImage(image[spriteNum], ScreenX, y, gp.tileSize, gp.tileSize, null);
         } else if (x < gp.screenWidth / 2) {
-            g2.drawImage(image, x, y, gp.tileSize, gp.tileSize, null);
+            g2.drawImage(image[spriteNum], x, y, gp.tileSize, gp.tileSize, null);
         } else {
             ScreenX = x - gp.worldWidth + gp.screenWidth;
-            g2.drawImage(image, ScreenX, y, gp.tileSize, gp.tileSize, null);
+            g2.drawImage(image[spriteNum], ScreenX, y, gp.tileSize, gp.tileSize, null);
+        }
+    }
+
+    public void drawDead(Graphics2D g2) {
+        deadCount++;
+        if (deadCount > 30) {
+            if (deadNum == 0) {
+                deadNum = 1;
+            } else if (deadNum == 1) {
+                deadNum = 2;
+            } else {
+                deadNum = 0;
+            }
+            deadCount = 0;
+        }
+        if (gp.bomberman.x <= gp.screenWidth / 2) {
+            g2.drawImage(dead[deadNum], x, y, width, height, null);
+        } else if (gp.screenWidth / 2 <= gp.bomberman.x && gp.bomberman.x < gp.worldWidth - gp.screenWidth / 2 && x >= gp.screenWidth / 2) {
+            int ScreenX = x + gp.screenWidth / 2 - gp.bomberman.x;
+            g2.drawImage(dead[deadNum], ScreenX, y, width, height, null);
+        } else if (gp.screenWidth / 2 <= gp.bomberman.x && x < gp.screenWidth / 2) {
+            int ScreenX = gp.screenWidth / 2 + this.x - gp.bomberman.x;
+            g2.drawImage(dead[deadNum], ScreenX, y, width, height, null);
+        } else if (gp.bomberman.x >= gp.worldWidth - gp.screenWidth / 2) {
+            int ScreenX = x - gp.worldWidth + gp.screenWidth;
+            g2.drawImage(dead[deadNum], ScreenX, y, width, height, null);
         }
     }
 
@@ -236,31 +221,13 @@ public class Bomberman extends Entity {
                 }
                 if (TileManager.obj[i][j] instanceof PortalItem) {
                     if (this.getBound(x, y).intersects(TileManager.obj[i][j].getBound())) {
-                        if (gp.EntityDead == gp.lengthOneal + gp.lengthEnemies) {
-
-                        }
+//                        if ( == gp.lengthOneal + gp.lengthEnemies) {
+//                            //TODO: QUA MAN
+//                        }
                     }
                 }
             }
         }
     }
-
-    @Override
-    public void drawDead(Graphics2D g2) {
-        if (x >= gp.screenWidth / 2 && x <= gp.worldWidth - gp.screenWidth / 2) {
-            ScreenX = gp.screenWidth / 2;
-            g2.drawImage(dead1, ScreenX, y, gp.tileSize, gp.tileSize, null);
-            g2.drawImage(dead2, ScreenX, y, gp.tileSize, gp.tileSize, null);
-            g2.drawImage(dead3, ScreenX, y, gp.tileSize, gp.tileSize, null);
-        } else if (x < gp.screenWidth / 2) {
-            g2.drawImage(dead1, x, y, gp.tileSize, gp.tileSize, null);
-            g2.drawImage(dead2, x, y, gp.tileSize, gp.tileSize, null);
-            g2.drawImage(dead3, x, y, gp.tileSize, gp.tileSize, null);
-        } else {
-            ScreenX = x - gp.worldWidth + gp.screenWidth;
-            g2.drawImage(dead1, ScreenX, y, gp.tileSize, gp.tileSize, null);
-            g2.drawImage(dead2, ScreenX, y, gp.tileSize, gp.tileSize, null);
-            g2.drawImage(dead3, ScreenX, y, gp.tileSize, gp.tileSize, null);
-        }
-    }
 }
+

@@ -4,17 +4,13 @@ import main.GamePanel;
 
 import javax.imageio.ImageIO;
 import java.awt.*;
-import java.awt.image.BufferedImage;
 import java.io.IOException;
 import java.util.Objects;
 import java.util.Random;
 
-import static GameObject.entity.Bomberman.intervalImageChange;
 
 public class Enemies extends Entity {
-    public int actionLockCounter = 0;
-    BufferedImage[] balloonLeft = new BufferedImage[3];
-    BufferedImage[] balloonRight = new BufferedImage[3];
+
 
     public Enemies(GamePanel gp) {
         super(gp);
@@ -24,7 +20,7 @@ public class Enemies extends Entity {
         width = gp.tileSize;
         height = gp.tileSize;
         getImage();
-        status = true;
+        isDead = false;
     }
 
     public void setEnemies(int x, int y) {
@@ -35,14 +31,18 @@ public class Enemies extends Entity {
     public void getImage() {
         try {
             //Balloon
-            balloonLeft[0] = ImageIO.read(Objects.requireNonNull(getClass().getResourceAsStream("/GameObject/sprites/enemy/balloom_left1.png")));
-            balloonLeft[1] = ImageIO.read(Objects.requireNonNull(getClass().getResourceAsStream("/GameObject/sprites/enemy/balloom_left2.png")));
-            balloonLeft[2] = ImageIO.read(Objects.requireNonNull(getClass().getResourceAsStream("/GameObject/sprites/enemy/balloom_left3.png")));
+            left[0] = ImageIO.read(Objects.requireNonNull(getClass().getResourceAsStream("/GameObject/sprites/enemy/balloom_left1.png")));
+            left[1] = ImageIO.read(Objects.requireNonNull(getClass().getResourceAsStream("/GameObject/sprites/enemy/balloom_left2.png")));
+            left[2] = ImageIO.read(Objects.requireNonNull(getClass().getResourceAsStream("/GameObject/sprites/enemy/balloom_left3.png")));
 
-            balloonRight[0] = ImageIO.read(Objects.requireNonNull(getClass().getResourceAsStream("/GameObject/sprites/enemy/balloom_right1.png")));
-            balloonRight[1] = ImageIO.read(Objects.requireNonNull(getClass().getResourceAsStream("/GameObject/sprites/enemy/balloom_right2.png")));
-            balloonRight[2] = ImageIO.read(Objects.requireNonNull(getClass().getResourceAsStream("/GameObject/sprites/enemy/balloom_right3.png")));
+            right[0] = ImageIO.read(Objects.requireNonNull(getClass().getResourceAsStream("/GameObject/sprites/enemy/balloom_right1.png")));
+            right[1] = ImageIO.read(Objects.requireNonNull(getClass().getResourceAsStream("/GameObject/sprites/enemy/balloom_right2.png")));
+            right[2] = ImageIO.read(Objects.requireNonNull(getClass().getResourceAsStream("/GameObject/sprites/enemy/balloom_right3.png")));
 
+            dead[0] = ImageIO.read(Objects.requireNonNull(getClass().getResourceAsStream("/GameObject/sprites/enemy/balloom_dead.png")));
+            dead[1] = ImageIO.read(Objects.requireNonNull(getClass().getResourceAsStream("/GameObject/sprites/enemy/enemy_dead_1.png")));
+            dead[2] = ImageIO.read(Objects.requireNonNull(getClass().getResourceAsStream("/GameObject/sprites/enemy/enemy_dead_2.png")));
+            dead[3] = ImageIO.read(Objects.requireNonNull(getClass().getResourceAsStream("/GameObject/sprites/enemy/enemy_dead_3.png")));
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -50,7 +50,7 @@ public class Enemies extends Entity {
 
     public void setAction() {
         actionLockCounter++;
-        if (actionLockCounter == 120) {
+        if (actionLockCounter == 80) {
             Random random = new Random();
             int i = random.nextInt(40) + 1;
             if (i <= 10) {
@@ -71,93 +71,64 @@ public class Enemies extends Entity {
         }
     }
 
+
     @Override
     public void update() {
         setAction();
-        switch (direction) {
-            case "up" -> {
-                if (!collisionUp()) {
-                    y -= speed;
-                }
-            }
-            case "down" -> {
-                if (!collisionDown()) {
-                    y += speed;
-                }
-            }
-            case "left" -> {
-                if (!collisionLeft()) {
-                    x -= speed;
-                }
-            }
-            case "right" -> {
-                if (!collisionRight()) {
-                    x += speed;
-                }
-            }
-        }
-        spriteCounter++;
-        if (spriteCounter > 12) {
-            if (spriteNum == 1) {
-                spriteNum = 2;
-            } else if (spriteNum == 2) {
-                spriteNum = 1;
-            }
-            spriteCounter = 0;
-        }
+        super.updatePos();
     }
 
     @Override
     public void draw(Graphics2D g2) {
         if (gp.bomberman.x <= gp.screenWidth / 2) {
             if (direction.equals("left")) {
-                g2.drawImage(balloonLeft[spriteNum], x, y, gp.tileSize, gp.tileSize, null);
+                g2.drawImage(left[spriteNum], x, y, width, height, null);
             } else if (direction.equals("right")) {
-                g2.drawImage(balloonRight[spriteNum], x, y, gp.tileSize, gp.tileSize, null);
+                g2.drawImage(right[spriteNum], x, y, width, height, null);
             } else {
                 if (preDirection.equals("left")) {
-                    g2.drawImage(balloonLeft[spriteNum], x, y, gp.tileSize, gp.tileSize, null);
+                    g2.drawImage(left[spriteNum], x, y, width, height, null);
                 } else {
-                    g2.drawImage(balloonRight[spriteNum], x, y, gp.tileSize, gp.tileSize, null);
+                    g2.drawImage(right[spriteNum], x, y, width, height, null);
                 }
             }
         } else if (gp.screenWidth / 2 <= gp.bomberman.x && gp.bomberman.x < gp.worldWidth - gp.screenWidth / 2 && x >= gp.screenWidth / 2) {
             int ScreenX = x + gp.screenWidth / 2 - gp.bomberman.x;
             if (direction.equals("left")) {
-                g2.drawImage(balloonLeft[spriteNum], ScreenX, y, gp.tileSize, gp.tileSize, null);
+                g2.drawImage(left[spriteNum], ScreenX, y, width, height, null);
             } else if (direction.equals("right")) {
-                g2.drawImage(balloonRight[spriteNum], ScreenX, y, gp.tileSize, gp.tileSize, null);
+                g2.drawImage(right[spriteNum], ScreenX, y, width, height, null);
             } else {
                 if (preDirection.equals("left")) {
-                    g2.drawImage(balloonLeft[spriteNum], ScreenX, y, gp.tileSize, gp.tileSize, null);
+                    g2.drawImage(left[spriteNum], ScreenX, y, width, height, null);
                 } else {
-                    g2.drawImage(balloonRight[spriteNum], ScreenX, y, gp.tileSize, gp.tileSize, null);
+                    g2.drawImage(right[spriteNum], ScreenX, y, width, height, null);
                 }
             }
         } else if (gp.screenWidth / 2 <= gp.bomberman.x && x < gp.screenWidth / 2) {
             int ScreenX = gp.screenWidth / 2 + this.x - gp.bomberman.x;
             if (direction.equals("left")) {
-                g2.drawImage(balloonLeft[spriteNum], ScreenX, y, gp.tileSize, gp.tileSize, null);
+                g2.drawImage(left[spriteNum], ScreenX, y, width, height, null);
             } else if (direction.equals("right")) {
-                g2.drawImage(balloonRight[spriteNum], ScreenX, y, gp.tileSize, gp.tileSize, null);
+                g2.drawImage(right[spriteNum], ScreenX, y, width, height, null);
             } else {
                 if (preDirection.equals("left")) {
-                    g2.drawImage(balloonLeft[spriteNum], ScreenX, y, gp.tileSize, gp.tileSize, null);
+                    g2.drawImage(left[spriteNum], ScreenX, y, width, height, null);
                 } else {
-                    g2.drawImage(balloonRight[spriteNum], ScreenX, y, gp.tileSize, gp.tileSize, null);
+                    g2.drawImage(right[spriteNum], ScreenX, y, width, height, null);
                 }
             }
         } else if (gp.bomberman.x >= gp.worldWidth - gp.screenWidth / 2) {
             int ScreenX = x - gp.worldWidth + gp.screenWidth;
             if (direction.equals("left")) {
-                g2.drawImage(balloonLeft[spriteNum], ScreenX, y, gp.tileSize, gp.tileSize, null);
+                g2.drawImage(left[spriteNum], ScreenX, y, width, height, null);
             } else if (direction.equals("right")) {
-                g2.drawImage(balloonRight[spriteNum], ScreenX, y, gp.tileSize, gp.tileSize, null);
+                g2.drawImage(right[spriteNum], ScreenX, y, width, height, null);
             } else {
                 if (preDirection.equals("left")) {
-                    g2.drawImage(balloonLeft[spriteNum], ScreenX, y, gp.tileSize, gp.tileSize, null);
+                    g2.drawImage(left[spriteNum], ScreenX, y, width, height, null);
                 } else {
-                    g2.drawImage(balloonRight[spriteNum], ScreenX, y, gp.tileSize, gp.tileSize, null);
+                    g2.drawImage(right[spriteNum], ScreenX, y, width, height, null);
                 }
             }
         }

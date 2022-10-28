@@ -4,17 +4,13 @@ import GameObject.Gameobject;
 import GameObject.Item.BrickFlameItem;
 import GameObject.Item.BrickPortalItem;
 import GameObject.Item.BrickSpeedItem;
-import GameObject.Item.FlameItem;
 import GameObject.mapObject.Brick;
 import GameObject.mapObject.Grass;
 import GameObject.mapObject.Wall;
 import main.GamePanel;
 
-import javax.imageio.ImageIO;
-import javax.management.DescriptorRead;
 import java.awt.*;
 import java.io.BufferedReader;
-import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 
