@@ -15,7 +15,7 @@ import java.awt.*;
 import java.awt.image.BufferedImage;
 
 public class Entity extends Gameobject {
-    GamePanel gp;
+    public GamePanel gp;
     public int actionLockCounter = 0;
     public int speed;
     public boolean isDead;

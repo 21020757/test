@@ -8,7 +8,6 @@ import java.awt.image.BufferedImage;
 import java.io.IOException;
 
 public class Grass extends Gameobject {
-    public int x,y;
     public Grass() {};
     public Grass(int x, int y) {
         this.x = x;
