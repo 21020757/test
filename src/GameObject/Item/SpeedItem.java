@@ -16,8 +16,9 @@ public class SpeedItem extends Gameobject {
         width = 48;
         height = 48;
         try {
-            image =  ImageIO.read(getClass().getResourceAsStream("/GameObject/sprites/items/powerup_speed.png"));
+            image =  ImageIO.read(getClass().getResourceAsStream("/res/sprites/items/powerup_speed.png"));
         }catch (IOException e) {
+            e.printStackTrace();
         }
     }
     @Override

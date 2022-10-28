@@ -5,6 +5,7 @@ import GameObject.Gameobject;
 import javax.imageio.ImageIO;
 import java.awt.*;
 import java.io.IOException;
+import java.util.Objects;
 
 public class BrickFlameItem extends Gameobject {
     public BrickFlameItem() {
@@ -16,8 +17,9 @@ public class BrickFlameItem extends Gameobject {
         width = 48;
         height = 48;
         try {
-            image = ImageIO.read(getClass().getResourceAsStream("/GameObject/sprites/map/Brick.png"));
+            image = ImageIO.read(Objects.requireNonNull(getClass().getResourceAsStream("/res/sprites/map/Brick.png")));
         }catch (IOException e) {
+            e.printStackTrace();
         }
     }
     @Override

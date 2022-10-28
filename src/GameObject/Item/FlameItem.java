@@ -19,8 +19,9 @@ public class FlameItem extends Gameobject {
         width = 48;
         height = 48;
         try {
-            image =  ImageIO.read(getClass().getResourceAsStream("/GameObject/sprites/items/powerup_flames.png"));
+            image =  ImageIO.read(getClass().getResourceAsStream("/res/sprites/items/powerup_flames.png"));
         }catch (IOException e) {
+            e.printStackTrace();
         }
     }
     @Override

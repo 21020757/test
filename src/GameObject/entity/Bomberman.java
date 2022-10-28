@@ -52,21 +52,21 @@ public class Bomberman extends Entity {
 
     public void getPlayerImage() {
         try {
-            up[0] = ImageIO.read(Objects.requireNonNull(getClass().getResourceAsStream("/GameObject/sprites/player/player_up.png")));
-            up[1] = ImageIO.read(Objects.requireNonNull(getClass().getResourceAsStream("/GameObject/sprites/player/player_up_1.png")));
-            up[2] = ImageIO.read(Objects.requireNonNull(getClass().getResourceAsStream("/GameObject/sprites/player/player_up_2.png")));
-            down[0] = ImageIO.read(Objects.requireNonNull(getClass().getResourceAsStream("/GameObject/sprites/player/player_down.png")));
-            down[1] = ImageIO.read(Objects.requireNonNull(getClass().getResourceAsStream("/GameObject/sprites/player/player_down_1.png")));
-            down[2] = ImageIO.read(Objects.requireNonNull(getClass().getResourceAsStream("/GameObject/sprites/player/player_down_2.png")));
-            left[0] = ImageIO.read(Objects.requireNonNull(getClass().getResourceAsStream("/GameObject/sprites/player/player_left.png")));
-            left[1] = ImageIO.read(Objects.requireNonNull(getClass().getResourceAsStream("/GameObject/sprites/player/player_left_1.png")));
-            left[2] = ImageIO.read(Objects.requireNonNull(getClass().getResourceAsStream("/GameObject/sprites/player/player_left_2.png")));
-            right[0] = ImageIO.read(Objects.requireNonNull(getClass().getResourceAsStream("/GameObject/sprites/player/player_right.png")));
-            right[1] = ImageIO.read(Objects.requireNonNull(getClass().getResourceAsStream("/GameObject/sprites/player/player_right_1.png")));
-            right[2] = ImageIO.read(Objects.requireNonNull(getClass().getResourceAsStream("/GameObject/sprites/player/player_right_2.png")));
-            dead[0] = ImageIO.read(Objects.requireNonNull(getClass().getResourceAsStream("/GameObject/sprites/player/player_dead1.png")));
-            dead[1] = ImageIO.read(Objects.requireNonNull(getClass().getResourceAsStream("/GameObject/sprites/player/player_dead2.png")));
-            dead[2] = ImageIO.read(Objects.requireNonNull(getClass().getResourceAsStream("/GameObject/sprites/player/player_dead3.png")));
+            up[0] = ImageIO.read(Objects.requireNonNull(getClass().getResourceAsStream("/res/sprites/player/player_up.png")));
+            up[1] = ImageIO.read(Objects.requireNonNull(getClass().getResourceAsStream("/res/sprites/player/player_up_1.png")));
+            up[2] = ImageIO.read(Objects.requireNonNull(getClass().getResourceAsStream("/res/sprites/player/player_up_2.png")));
+            down[0] = ImageIO.read(Objects.requireNonNull(getClass().getResourceAsStream("/res/sprites/player/player_down.png")));
+            down[1] = ImageIO.read(Objects.requireNonNull(getClass().getResourceAsStream("/res/sprites/player/player_down_1.png")));
+            down[2] = ImageIO.read(Objects.requireNonNull(getClass().getResourceAsStream("/res/sprites/player/player_down_2.png")));
+            left[0] = ImageIO.read(Objects.requireNonNull(getClass().getResourceAsStream("/res/sprites/player/player_left.png")));
+            left[1] = ImageIO.read(Objects.requireNonNull(getClass().getResourceAsStream("/res/sprites/player/player_left_1.png")));
+            left[2] = ImageIO.read(Objects.requireNonNull(getClass().getResourceAsStream("/res/sprites/player/player_left_2.png")));
+            right[0] = ImageIO.read(Objects.requireNonNull(getClass().getResourceAsStream("/res/sprites/player/player_right.png")));
+            right[1] = ImageIO.read(Objects.requireNonNull(getClass().getResourceAsStream("/res/sprites/player/player_right_1.png")));
+            right[2] = ImageIO.read(Objects.requireNonNull(getClass().getResourceAsStream("/res/sprites/player/player_right_2.png")));
+            dead[0] = ImageIO.read(Objects.requireNonNull(getClass().getResourceAsStream("/res/sprites/player/player_dead1.png")));
+            dead[1] = ImageIO.read(Objects.requireNonNull(getClass().getResourceAsStream("/res/sprites/player/player_dead2.png")));
+            dead[2] = ImageIO.read(Objects.requireNonNull(getClass().getResourceAsStream("/res/sprites/player/player_dead3.png")));
 
         } catch (IOException e) {
             e.printStackTrace();

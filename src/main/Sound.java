@@ -10,15 +10,15 @@ public class Sound {
 
     public Sound() {
         //MUSIC
-        soundURL[0] = getClass().getResource("/sound/title screen.wav");
-        soundURL[1] = getClass().getResource("/sound/theme.wav");
+        soundURL[0] = getClass().getResource("/res/sound/title screen.wav");
+        soundURL[1] = getClass().getResource("/res/sound/theme.wav");
 
         //SE
-        soundURL[2] = getClass().getResource("/sound/bomb plant.wav");
-        soundURL[3] = getClass().getResource("/sound/explode.wav");
-        soundURL[4] = getClass().getResource("/sound/start.wav");
-        soundURL[5] = getClass().getResource("/sound/die.wav");
-        soundURL[6] = getClass().getResource("/sound/level complete.wav");
+        soundURL[2] = getClass().getResource("/res/sound/bomb plant.wav");
+        soundURL[3] = getClass().getResource("/res/sound/explode.wav");
+        soundURL[4] = getClass().getResource("/res/sound/start.wav");
+        soundURL[5] = getClass().getResource("/res/sound/die.wav");
+        soundURL[6] = getClass().getResource("/res/sound/level complete.wav");
     }
 
     public void setFile(int i) {

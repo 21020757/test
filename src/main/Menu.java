@@ -13,7 +13,7 @@ public class Menu {
     public Menu(GamePanel gp) {
         this.gp = gp;
         try {
-            menuImg = ImageIO.read(Objects.requireNonNull(getClass().getResourceAsStream("/GameObject/sprites/background/bombermanipod-ign-1648079279289.jpg")));
+            menuImg = ImageIO.read(Objects.requireNonNull(getClass().getResourceAsStream("/res/sprites/background/bombermanipod-ign-1648079279289.jpg")));
         } catch (IOException e) {
             e.printStackTrace();
         }

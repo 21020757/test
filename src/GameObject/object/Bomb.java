@@ -55,39 +55,39 @@ public class Bomb extends Gameobject {
 
     public void getBombImage() {
         try {
-            grass = ImageIO.read(Objects.requireNonNull(getClass().getResourceAsStream("/GameObject/sprites/map/grass.png")));
+            grass = ImageIO.read(Objects.requireNonNull(getClass().getResourceAsStream("/res/sprites/map/grass.png")));
             //Bomb
-            bombing[0] = ImageIO.read(Objects.requireNonNull(getClass().getResourceAsStream("/GameObject/sprites/object/bomb.png")));
-            bombing[1] = ImageIO.read(Objects.requireNonNull(getClass().getResourceAsStream("/GameObject/sprites/object/bomb_1.png")));
-            bombing[2] = ImageIO.read(Objects.requireNonNull(getClass().getResourceAsStream("/GameObject/sprites/object/bomb_2.png")));
+            bombing[0] = ImageIO.read(Objects.requireNonNull(getClass().getResourceAsStream("/res/sprites/object/bomb.png")));
+            bombing[1] = ImageIO.read(Objects.requireNonNull(getClass().getResourceAsStream("/res/sprites/object/bomb_1.png")));
+            bombing[2] = ImageIO.read(Objects.requireNonNull(getClass().getResourceAsStream("/res/sprites/object/bomb_2.png")));
 
-            fontExplosion[0] = ImageIO.read(Objects.requireNonNull(getClass().getResourceAsStream("/GameObject/sprites/object/bomb_exploded.png")));
-            fontExplosion[1] = ImageIO.read(Objects.requireNonNull(getClass().getResourceAsStream("/GameObject/sprites/object/bomb_exploded1.png")));
-            fontExplosion[2] = ImageIO.read(Objects.requireNonNull(getClass().getResourceAsStream("/GameObject/sprites/object/bomb_exploded2.png")));
+            fontExplosion[0] = ImageIO.read(Objects.requireNonNull(getClass().getResourceAsStream("/res/sprites/object/bomb_exploded.png")));
+            fontExplosion[1] = ImageIO.read(Objects.requireNonNull(getClass().getResourceAsStream("/res/sprites/object/bomb_exploded1.png")));
+            fontExplosion[2] = ImageIO.read(Objects.requireNonNull(getClass().getResourceAsStream("/res/sprites/object/bomb_exploded2.png")));
 
-            upExplosion[0] = ImageIO.read(Objects.requireNonNull(getClass().getResourceAsStream("/GameObject/sprites/object/explosion_vertical_top_last.png")));
-            upExplosion[1] = ImageIO.read(Objects.requireNonNull(getClass().getResourceAsStream("/GameObject/sprites/object/explosion_vertical_top_last1.png")));
-            upExplosion[2] = ImageIO.read(Objects.requireNonNull(getClass().getResourceAsStream("/GameObject/sprites/object/explosion_vertical_top_last2.png")));
+            upExplosion[0] = ImageIO.read(Objects.requireNonNull(getClass().getResourceAsStream("/res/sprites/object/explosion_vertical_top_last.png")));
+            upExplosion[1] = ImageIO.read(Objects.requireNonNull(getClass().getResourceAsStream("/res/sprites/object/explosion_vertical_top_last1.png")));
+            upExplosion[2] = ImageIO.read(Objects.requireNonNull(getClass().getResourceAsStream("/res/sprites/object/explosion_vertical_top_last2.png")));
 
-            downExplosion[0] = ImageIO.read(Objects.requireNonNull(getClass().getResourceAsStream("/GameObject/sprites/object/explosion_vertical_down_last.png")));
-            downExplosion[1] = ImageIO.read(Objects.requireNonNull(getClass().getResourceAsStream("/GameObject/sprites/object/explosion_vertical_down_last1.png")));
-            downExplosion[2] = ImageIO.read(Objects.requireNonNull(getClass().getResourceAsStream("/GameObject/sprites/object/explosion_vertical_down_last2.png")));
+            downExplosion[0] = ImageIO.read(Objects.requireNonNull(getClass().getResourceAsStream("/res/sprites/object/explosion_vertical_down_last.png")));
+            downExplosion[1] = ImageIO.read(Objects.requireNonNull(getClass().getResourceAsStream("/res/sprites/object/explosion_vertical_down_last1.png")));
+            downExplosion[2] = ImageIO.read(Objects.requireNonNull(getClass().getResourceAsStream("/res/sprites/object/explosion_vertical_down_last2.png")));
 
-            leftExplosion[0] = ImageIO.read(Objects.requireNonNull(getClass().getResourceAsStream("/GameObject/sprites/object/explosion_horizontal_left_last.png")));
-            leftExplosion[1] = ImageIO.read(Objects.requireNonNull(getClass().getResourceAsStream("/GameObject/sprites/object/explosion_horizontal_left_last1.png")));
-            leftExplosion[2] = ImageIO.read(Objects.requireNonNull(getClass().getResourceAsStream("/GameObject/sprites/object/explosion_horizontal_left_last2.png")));
+            leftExplosion[0] = ImageIO.read(Objects.requireNonNull(getClass().getResourceAsStream("/res/sprites/object/explosion_horizontal_left_last.png")));
+            leftExplosion[1] = ImageIO.read(Objects.requireNonNull(getClass().getResourceAsStream("/res/sprites/object/explosion_horizontal_left_last1.png")));
+            leftExplosion[2] = ImageIO.read(Objects.requireNonNull(getClass().getResourceAsStream("/res/sprites/object/explosion_horizontal_left_last2.png")));
 
-            rightExplosion[0] = ImageIO.read(Objects.requireNonNull(getClass().getResourceAsStream("/GameObject/sprites/object/explosion_horizontal_right_last.png")));
-            rightExplosion[1] = ImageIO.read(Objects.requireNonNull(getClass().getResourceAsStream("/GameObject/sprites/object/explosion_horizontal_right_last1.png")));
-            rightExplosion[2] = ImageIO.read(Objects.requireNonNull(getClass().getResourceAsStream("/GameObject/sprites/object/explosion_horizontal_right_last2.png")));
+            rightExplosion[0] = ImageIO.read(Objects.requireNonNull(getClass().getResourceAsStream("/res/sprites/object/explosion_horizontal_right_last.png")));
+            rightExplosion[1] = ImageIO.read(Objects.requireNonNull(getClass().getResourceAsStream("/res/sprites/object/explosion_horizontal_right_last1.png")));
+            rightExplosion[2] = ImageIO.read(Objects.requireNonNull(getClass().getResourceAsStream("/res/sprites/object/explosion_horizontal_right_last2.png")));
 
-            horizontalExplosion[0] = ImageIO.read(Objects.requireNonNull(getClass().getResourceAsStream("/GameObject/sprites/object/explosion_horizontal.png")));
-            horizontalExplosion[1] = ImageIO.read(Objects.requireNonNull(getClass().getResourceAsStream("/GameObject/sprites/object/explosion_horizontal1.png")));
-            horizontalExplosion[2] = ImageIO.read(Objects.requireNonNull(getClass().getResourceAsStream("/GameObject/sprites/object/explosion_horizontal2.png")));
+            horizontalExplosion[0] = ImageIO.read(Objects.requireNonNull(getClass().getResourceAsStream("/res/sprites/object/explosion_horizontal.png")));
+            horizontalExplosion[1] = ImageIO.read(Objects.requireNonNull(getClass().getResourceAsStream("/res/sprites/object/explosion_horizontal1.png")));
+            horizontalExplosion[2] = ImageIO.read(Objects.requireNonNull(getClass().getResourceAsStream("/res/sprites/object/explosion_horizontal2.png")));
 
-            verticalExplosion[0] = ImageIO.read(Objects.requireNonNull(getClass().getResourceAsStream("/GameObject/sprites/object/explosion_vertical.png")));
-            verticalExplosion[1] = ImageIO.read(Objects.requireNonNull(getClass().getResourceAsStream("/GameObject/sprites/object/explosion_vertical1.png")));
-            verticalExplosion[2] = ImageIO.read(Objects.requireNonNull(getClass().getResourceAsStream("/GameObject/sprites/object/explosion_vertical2.png")));
+            verticalExplosion[0] = ImageIO.read(Objects.requireNonNull(getClass().getResourceAsStream("/res/sprites/object/explosion_vertical.png")));
+            verticalExplosion[1] = ImageIO.read(Objects.requireNonNull(getClass().getResourceAsStream("/res/sprites/object/explosion_vertical1.png")));
+            verticalExplosion[2] = ImageIO.read(Objects.requireNonNull(getClass().getResourceAsStream("/res/sprites/object/explosion_vertical2.png")));
         } catch (IOException e) {
             e.printStackTrace();
         }

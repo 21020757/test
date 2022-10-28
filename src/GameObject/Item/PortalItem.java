@@ -19,8 +19,9 @@ public class PortalItem extends Gameobject {
         width = 48;
         height = 48;
         try {
-            image =  ImageIO.read(getClass().getResourceAsStream("/GameObject/sprites/items/portal.png"));
+            image =  ImageIO.read(getClass().getResourceAsStream("/res/sprites/items/portal.png"));
         }catch (IOException e) {
+            e.printStackTrace();
         }
     }
     @Override

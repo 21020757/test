@@ -36,18 +36,18 @@ public class Oneal extends Entity {
 
     public void getImage() {
         try {
-            left[0] = ImageIO.read(Objects.requireNonNull(getClass().getResourceAsStream("/GameObject/sprites/enemy/oneal_left1.png")));
-            left[1] = ImageIO.read(Objects.requireNonNull(getClass().getResourceAsStream("/GameObject/sprites/enemy/oneal_left2.png")));
-            left[2] = ImageIO.read(Objects.requireNonNull(getClass().getResourceAsStream("/GameObject/sprites/enemy/oneal_left3.png")));
+            left[0] = ImageIO.read(Objects.requireNonNull(getClass().getResourceAsStream("/res/sprites/enemy/oneal_left1.png")));
+            left[1] = ImageIO.read(Objects.requireNonNull(getClass().getResourceAsStream("/res/sprites/enemy/oneal_left2.png")));
+            left[2] = ImageIO.read(Objects.requireNonNull(getClass().getResourceAsStream("/res/sprites/enemy/oneal_left3.png")));
 
-            right[0] = ImageIO.read(Objects.requireNonNull(getClass().getResourceAsStream("/GameObject/sprites/enemy/oneal_right1.png")));
-            right[1] = ImageIO.read(Objects.requireNonNull(getClass().getResourceAsStream("/GameObject/sprites/enemy/oneal_right2.png")));
-            right[2] = ImageIO.read(Objects.requireNonNull(getClass().getResourceAsStream("/GameObject/sprites/enemy/oneal_right3.png")));
+            right[0] = ImageIO.read(Objects.requireNonNull(getClass().getResourceAsStream("/res/sprites/enemy/oneal_right1.png")));
+            right[1] = ImageIO.read(Objects.requireNonNull(getClass().getResourceAsStream("/res/sprites/enemy/oneal_right2.png")));
+            right[2] = ImageIO.read(Objects.requireNonNull(getClass().getResourceAsStream("/res/sprites/enemy/oneal_right3.png")));
 
-            dead[0] = ImageIO.read(Objects.requireNonNull(getClass().getResourceAsStream("/GameObject/sprites/enemy/oneal_dead.png")));
-            dead[1] = ImageIO.read(Objects.requireNonNull(getClass().getResourceAsStream("/GameObject/sprites/enemy/enemy_dead_1.png")));
-            dead[2] = ImageIO.read(Objects.requireNonNull(getClass().getResourceAsStream("/GameObject/sprites/enemy/enemy_dead_2.png")));
-            dead[3] = ImageIO.read(Objects.requireNonNull(getClass().getResourceAsStream("/GameObject/sprites/enemy/enemy_dead_3.png")));
+            dead[0] = ImageIO.read(Objects.requireNonNull(getClass().getResourceAsStream("/res/sprites/enemy/oneal_dead.png")));
+            dead[1] = ImageIO.read(Objects.requireNonNull(getClass().getResourceAsStream("/res/sprites/enemy/enemy_dead_1.png")));
+            dead[2] = ImageIO.read(Objects.requireNonNull(getClass().getResourceAsStream("/res/sprites/enemy/enemy_dead_2.png")));
+            dead[3] = ImageIO.read(Objects.requireNonNull(getClass().getResourceAsStream("/res/sprites/enemy/enemy_dead_3.png")));
         } catch (IOException e) {
             e.printStackTrace();
         }
