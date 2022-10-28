@@ -16,7 +16,7 @@ import java.awt.image.BufferedImage;
 import java.awt.image.BufferedImageFilter;
 
 public class Entity extends Gameobject {
-    GamePanel gp;
+    public GamePanel gp;
     public int actionLockCounter = 0;
     public int speed;
     public boolean isDead;

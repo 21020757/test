@@ -19,13 +19,10 @@ import java.util.Objects;
 public class Bomberman extends Entity {
     public static KeyHandler keyH;
     public static final int intervalImageChange = 9;
-    public String preDirection;
-    public int ScreenX;
-
     //About bomb
     public int BombAmount;
-    int bombx;
-    int bomby;
+    private int bombx;
+    private int bomby;
     public int FlameBomb;
     public int count;
 
@@ -149,8 +146,8 @@ public class Bomberman extends Entity {
                 }
             }
         }
-        pickItemFlame();
-        EnemiesPick();
+        pickItem();
+        EntityPick();
     }
 
     public void draw(Graphics2D g2) {
@@ -168,12 +165,12 @@ public class Bomberman extends Entity {
             }
         }
         if (x >= gp.screenWidth / 2 && x <= gp.worldWidth - gp.screenWidth / 2) {
-            ScreenX = gp.screenWidth / 2;
+            int ScreenX = gp.screenWidth / 2;
             g2.drawImage(image[spriteNum], ScreenX, y, gp.tileSize, gp.tileSize, null);
         } else if (x < gp.screenWidth / 2) {
             g2.drawImage(image[spriteNum], x, y, gp.tileSize, gp.tileSize, null);
         } else {
-            ScreenX = x - gp.worldWidth + gp.screenWidth;
+            int ScreenX = x - gp.worldWidth + gp.screenWidth;
             g2.drawImage(image[spriteNum], ScreenX, y, gp.tileSize, gp.tileSize, null);
         }
     }
@@ -204,7 +201,7 @@ public class Bomberman extends Entity {
         }
     }
 
-    public void pickItemFlame() {
+    public void pickItem() {
         for (int i = 0; i < 13; i++) {
             for (int j = 0; j < 31; j++) {
                 if (TileManager.obj[i][j] instanceof FlameItem) {
@@ -221,16 +218,16 @@ public class Bomberman extends Entity {
                 }
                 if (TileManager.obj[i][j] instanceof PortalItem) {
                     if (this.getBound(x, y).intersects(TileManager.obj[i][j].getBound())) {
-//                        if ( == gp.lengthOneal + gp.lengthEnemies) {
-//                            //TODO: QUA MAN
-//                        }
+  //                      if (gp.le == gp.lengthOneal + gp.lengthEnemies) {
+
+  //                      }
                     }
                 }
             }
         }
     }
 
-    public void EnemiesPick() {
+    public void EntityPick() {
         for (int i = 0; i < gp.enemy.length; i++) {
             if (gp.enemy[i] != null) {
                 if (this.getBound(x,y).intersects(gp.enemy[i].getBound(gp.enemy[i].x, gp.enemy[i].y))) {
