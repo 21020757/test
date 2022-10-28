@@ -34,7 +34,11 @@ public class Menu {
             if (gp.loadGameInterval == 180) {
                 gp.gameState = gp.playState;
                 gp.playMusic(1);
+                gp.loadGameInterval = 0;
             }
+        }
+        if(gp.gameState == gp.replayState) {
+            printRestart(g2);
         }
     }
 
@@ -46,7 +50,7 @@ public class Menu {
 
         g2.setFont(g2.getFont().deriveFont(Font.BOLD, 50F));
         String text = "NEW GAME";
-        int x = gp.getTextCenterX(text, g2);
+        int x = getTextCenterX(text, g2);
         int y = gp.tileSize * 8;
         g2.setColor(Color.RED);
         g2.drawString(text, x, y);
@@ -55,7 +59,7 @@ public class Menu {
         }
 
         text = "QUIT";
-        x = gp.getTextCenterX(text, g2);
+        x = getTextCenterX(text, g2);
         y += gp.tileSize;
         g2.drawString(text, x, y);
         if (gp.commandNum == 1) {
@@ -66,9 +70,34 @@ public class Menu {
     public void loadLevel(Graphics2D g2) {
         g2.setFont(g2.getFont().deriveFont(Font.ITALIC, 44F));
         String text = "LEVEL START!";
-        int x = gp.getTextCenterX(text, g2);
+        int x = getTextCenterX(text, g2);
         int y = gp.tileSize * 4;
         g2.setColor(Color.white);
         g2.drawString(text, x, y);
+    }
+
+    public void printRestart(Graphics2D g2) {
+        g2.setFont(g2.getFont().deriveFont(Font.BOLD, 50F));
+        String text = "RESTART";
+        int x = getTextCenterX(text, g2);
+        int y = gp.tileSize * 8;
+        g2.setColor(Color.RED);
+        g2.drawString(text, x, y);
+        if (gp.commandNum == 0) {
+            g2.drawString(">", x - gp.tileSize, y);
+        }
+
+        text = "QUIT";
+        x = getTextCenterX(text, g2);
+        y += gp.tileSize;
+        g2.drawString(text, x, y);
+        if (gp.commandNum == 1) {
+            g2.drawString(">", x - gp.tileSize, y);
+        }
+    }
+
+    public int getTextCenterX(String text, Graphics2D g2) {
+        int length = (int) g2.getFontMetrics().getStringBounds(text, g2).getWidth();
+        return gp.screenWidth / 2 - length / 2;
     }
 }

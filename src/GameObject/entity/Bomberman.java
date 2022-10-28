@@ -163,9 +163,9 @@ public class Bomberman extends Entity {
         }
 
         if (BombAmount < count) {
-            if (TileManager.obj[bomby][bombx] instanceof Bomb) {
-                ((Bomb) TileManager.obj[bomby][bombx]).draw(g2, gp, x, y);
-            }
+                if (TileManager.obj[bomby][bombx] instanceof Bomb) {
+                    ((Bomb) TileManager.obj[bomby][bombx]).draw(g2, gp, x, y);
+                }
         }
         if (x >= gp.screenWidth / 2 && x <= gp.worldWidth - gp.screenWidth / 2) {
             ScreenX = gp.screenWidth / 2;
@@ -180,7 +180,7 @@ public class Bomberman extends Entity {
 
     public void drawDead(Graphics2D g2) {
         deadCount++;
-        if (deadCount > 30) {
+        if (deadCount > 60) {
             if (deadNum == 0) {
                 deadNum = 1;
             } else if (deadNum == 1) {
@@ -192,13 +192,13 @@ public class Bomberman extends Entity {
         }
         if (gp.bomberman.x <= gp.screenWidth / 2) {
             g2.drawImage(dead[deadNum], x, y, width, height, null);
-        } else if (gp.screenWidth / 2 <= gp.bomberman.x && gp.bomberman.x < gp.worldWidth - gp.screenWidth / 2 && x >= gp.screenWidth / 2) {
+        } else if (gp.bomberman.x < gp.worldWidth - gp.screenWidth / 2 && x >= gp.screenWidth / 2) {
             int ScreenX = x + gp.screenWidth / 2 - gp.bomberman.x;
             g2.drawImage(dead[deadNum], ScreenX, y, width, height, null);
-        } else if (gp.screenWidth / 2 <= gp.bomberman.x && x < gp.screenWidth / 2) {
+        } else if (x < gp.screenWidth / 2) {
             int ScreenX = gp.screenWidth / 2 + this.x - gp.bomberman.x;
             g2.drawImage(dead[deadNum], ScreenX, y, width, height, null);
-        } else if (gp.bomberman.x >= gp.worldWidth - gp.screenWidth / 2) {
+        } else {
             int ScreenX = x - gp.worldWidth + gp.screenWidth;
             g2.drawImage(dead[deadNum], ScreenX, y, width, height, null);
         }

@@ -1,9 +1,7 @@
 package main;
 
-import GameObject.entity.Bomberman;
-import GameObject.object.Bomb;
+import GameObject.Tiles.TileManager;
 
-import java.awt.*;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 
@@ -29,6 +27,10 @@ public class KeyHandler implements KeyListener {
 
         if (gp.gameState == gp.playState) {
             playState(code);
+        }
+
+        if (gp.gameState == gp.replayState) {
+            replayState(code);
         }
     }
 
@@ -74,6 +76,31 @@ public class KeyHandler implements KeyListener {
         }
         if (code == KeyEvent.VK_ENTER) {
             enterPressed = true;
+        }
+    }
+
+    public void replayState(int code) {
+        if (code == KeyEvent.VK_W) {
+            gp.commandNum--;
+            if (gp.commandNum < 0) {
+                gp.commandNum = 1;
+            }
+        }
+        if (code == KeyEvent.VK_S) {
+            gp.commandNum++;
+            if (gp.commandNum > 1) {
+                gp.commandNum = 0;
+            }
+        }
+        if (code == KeyEvent.VK_ENTER) {
+            enterPressed = true;
+            gp.resetGame();
+            if (gp.commandNum == 0) {
+                gp.gameState = gp.titleState;
+            }
+            if (gp.commandNum == 1) {
+                System.exit(0);
+            }
         }
     }
 

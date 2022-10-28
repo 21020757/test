@@ -5,8 +5,8 @@ import java.io.IOException;
 import java.net.URL;
 
 public class Sound {
-    Clip clip;
-    URL[] soundURL = new URL[30];
+    Clip[] clip = new Clip[7];
+    URL[] soundURL = new URL[7];
 
     public Sound() {
         //MUSIC
@@ -17,29 +17,37 @@ public class Sound {
         soundURL[2] = getClass().getResource("/sound/bomb plant.wav");
         soundURL[3] = getClass().getResource("/sound/explode.wav");
         soundURL[4] = getClass().getResource("/sound/start.wav");
+        soundURL[5] = getClass().getResource("/sound/die.wav");
+        soundURL[6] = getClass().getResource("/sound/level complete.wav");
     }
 
     public void setFile(int i) {
         try {
             AudioInputStream ais = AudioSystem.getAudioInputStream(soundURL[i]);
-            clip = AudioSystem.getClip();
-            clip.open(ais);
-        } catch(IOException e) {
+            clip[i] = AudioSystem.getClip();
+            clip[i].open(ais);
+        } catch (IOException e) {
             e.printStackTrace();
         } catch (UnsupportedAudioFileException | LineUnavailableException e) {
             throw new RuntimeException(e);
         }
     }
 
-    public void play() {
-        clip.start();
+    public void play(int i) {
+        clip[i].start();
     }
 
-    public void loop() {
-        clip.loop(Clip.LOOP_CONTINUOUSLY);
+    public void loop(int i) {
+        clip[i].loop(Clip.LOOP_CONTINUOUSLY);
     }
 
     public void stop() {
-        clip.stop();
+        for(Clip clips: clip) {
+            if(clips != null) {
+                if(clips.isActive()) {
+                    clips.stop();
+                }
+            }
+        }
     }
 }

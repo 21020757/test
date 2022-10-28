@@ -20,13 +20,14 @@ public class GamePanel extends JPanel implements Runnable {
     public final int screenWidth = tileSize * maxScreenCol;
     public final int screenHeight = tileSize * maxScreenRow;
 
-    public int deadInterval = 0;
+    public int delayTime = 0;
     //Create object
     Thread gameThread;
     KeyHandler keyH = new KeyHandler(this);
 
-    public Bomberman bomberman = new Bomberman(this, keyH);
+    public Bomberman bomberman;
     public int lengthEnemies = 0, lengthOneal = 0;
+    public int totalEnemies;
     public Enemies[] enemy;
 
     public Oneal[] oneals;
@@ -47,7 +48,7 @@ public class GamePanel extends JPanel implements Runnable {
     public final int titleState = 0;
     public final int playState = 1;
     public final int loadLevel = 2;
-    public final int pauseState = 3;
+    public final int replayState = 3;
     public int loadGameInterval = -1;
     public int commandNum = 0;
     Menu menu = new Menu(this);
@@ -64,8 +65,8 @@ public class GamePanel extends JPanel implements Runnable {
 
 
     public void setUpGame() {
-        gameState = titleState;
         playMusic(0);
+        gameState = titleState;
         for (int i = 0; i < maxWorldRow; i++) {
             for (int j = 0; j < maxWorldCol; j++) {
                 char s = tile.map[i][j];
@@ -77,6 +78,8 @@ public class GamePanel extends JPanel implements Runnable {
                 }
             }
         }
+        totalEnemies = lengthEnemies + lengthOneal;
+        bomberman = new Bomberman(this, keyH);
         enemy = new Enemies[lengthEnemies];
         oneals = new Oneal[lengthOneal];
         int a = 0, b = 0;
@@ -127,19 +130,23 @@ public class GamePanel extends JPanel implements Runnable {
     }
 
     public void update() {
-        bomberman.update();
-        System.out.println(bomberman.isDead);
-        for (Enemies enemies : enemy) {
-            if (enemies != null) {
-                if (!enemies.isDead) {
-                    enemies.update();
+        if (gameState == playState) {
+            if (!bomberman.isDead) {
+                bomberman.update();
+            }
+            for (Enemies enemies : enemy) {
+                if (enemies != null) {
+                    if (!enemies.isDead) {
+                        enemies.update();
+                    }
                 }
             }
-        }
-        for (Oneal oneal : oneals) {
-            if (oneal != null) {
-                if(!oneal.isDead) {
-                    oneal.update();
+
+            for (Oneal oneal : oneals) {
+                if (oneal != null) {
+                    if (!oneal.isDead) {
+                        oneal.update();
+                    }
                 }
             }
         }
@@ -148,47 +155,48 @@ public class GamePanel extends JPanel implements Runnable {
     public void paintComponent(Graphics g) {
         super.paintComponent(g);
         Graphics2D g2 = (Graphics2D) g;
-        menu.draw(g2);
+        if (gameState == titleState || gameState == loadLevel) {
+            menu.draw(g2);
+        }
         if (gameState == playState) {
-            //OTHERS
             tile.draw(g2);
-            bomberman.draw(g2);
-            for (int i = 0; i < enemy.length; i++) {
-                if (enemy[i] != null) {
-                    if (!enemy[i].isDead) {
-                        enemy[i].draw(g2);
-                    } else {
-                        deadInterval++;
-                        enemy[i].drawDead(g2);
-                        if (deadInterval == 90) {
-                            enemy[i] = null;
-                            deadInterval = 0;
-                        }
-                    }
+            if (!bomberman.isDead) {
+                bomberman.draw(g2);
+            } else {
+                delayTime++;
+                bomberman.drawDead(g2);
+                if (delayTime == 90) {
+                    stopMusic();
+                    playSE(5);
+                }
+                if (delayTime == 240) {
+                    gameState = replayState;
+                    delayTime = 0;
                 }
             }
-            for (int i = 0; i < oneals.length; i++) {
-                if (oneals[i] != null) {
-                    if (!oneals[i].isDead) {
-                        oneals[i].draw(g2);
-                    } else {
-                        deadInterval++;
-                        oneals[i].drawDead(g2);
-                        if (deadInterval == 90) {
-                            oneals[i] = null;
-                            deadInterval = 0;
-                        }
-                    }
-                }
-            }
+            drawEnemies(g2);
+            drawOneals(g2);
+
+//            if(het enemy) {
+//                if(di qua portal) {
+//                    if (delayTime == 90) {
+//                    stopMusic();
+//                    playSE(5);
+//                }
+//                if (delayTime == 240) {
+//                    gameState = replayState;
+//                    delayTime = 0;
+//                }
+            //TODO: HOAN THIEN
+//                }
+//            }
+        }
+        if (gameState == replayState) {
+            menu.draw(g2);
         }
         g2.dispose();
     }
 
-    public int getTextCenterX(String text, Graphics2D g2) {
-        int length = (int) g2.getFontMetrics().getStringBounds(text, g2).getWidth();
-        return screenWidth / 2 - length / 2;
-    }
 
     /*/
     _______________________________________
@@ -198,8 +206,8 @@ public class GamePanel extends JPanel implements Runnable {
      */
     public void playMusic(int i) {
         sound.setFile(i);
-        sound.play();
-        sound.loop();
+        sound.play(i);
+        sound.loop(i);
     }
 
     public void stopMusic() {
@@ -208,6 +216,49 @@ public class GamePanel extends JPanel implements Runnable {
 
     public void playSE(int i) {
         sound.setFile(i);
-        sound.play();
+        sound.play(i);
+    }
+
+    public void drawEnemies(Graphics2D g2) {
+        for (int i = 0; i < enemy.length; i++) {
+            if (enemy[i] != null) {
+                if (!enemy[i].isDead) {
+                    enemy[i].draw(g2);
+                } else {
+                    delayTime++;
+                    enemy[i].drawDead(g2);
+                    if (delayTime == 60) {
+                        enemy[i] = null;
+                        delayTime = 0;
+                    }
+                }
+            }
+        }
+    }
+
+    public void drawOneals(Graphics2D g2) {
+        for (int i = 0; i < oneals.length; i++) {
+            if (oneals[i] != null) {
+                if (!oneals[i].isDead) {
+                    oneals[i].draw(g2);
+                } else {
+                    delayTime++;
+                    oneals[i].drawDead(g2);
+                    if (delayTime == 60) {
+                        oneals[i] = null;
+                        delayTime = 0;
+                    }
+                }
+            }
+        }
+    }
+
+    public void resetGame() {
+        bomberman = new Bomberman(this, keyH);
+        tile.loadMap();
+        tile.createObject();
+        lengthEnemies = 0;
+        lengthOneal = 0;
+        setUpGame();
     }
 }

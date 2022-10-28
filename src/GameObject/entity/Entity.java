@@ -13,7 +13,6 @@ import main.GamePanel;
 
 import java.awt.*;
 import java.awt.image.BufferedImage;
-import java.awt.image.BufferedImageFilter;
 
 public class Entity extends Gameobject {
     GamePanel gp;
@@ -42,6 +41,21 @@ public class Entity extends Gameobject {
     }
 
     public void draw(Graphics2D g2) {
+        int ScreenX;
+        if (gp.bomberman.x <= gp.screenWidth / 2) {
+            ScreenX = x;
+            drawMove(ScreenX, g2);
+        } else if (gp.bomberman.x < gp.worldWidth - gp.screenWidth / 2 && x >= gp.screenWidth / 2) {
+            ScreenX = x + gp.screenWidth / 2 - gp.bomberman.x;
+            drawMove(ScreenX, g2);
+        } else if (x < gp.screenWidth / 2) {
+            ScreenX = gp.screenWidth / 2 + this.x - gp.bomberman.x;
+            drawMove(ScreenX, g2);
+
+        } else {
+            ScreenX = x - gp.worldWidth + gp.screenWidth;
+            drawMove(ScreenX, g2);
+        }
     }
 
     public void drawDead(Graphics2D g2) {
@@ -60,18 +74,31 @@ public class Entity extends Gameobject {
         }
         if (gp.bomberman.x <= gp.screenWidth / 2) {
             g2.drawImage(dead[deadNum], x, y, width, height, null);
-        } else if (gp.screenWidth / 2 <= gp.bomberman.x && gp.bomberman.x < gp.worldWidth - gp.screenWidth / 2 && x >= gp.screenWidth / 2) {
+        } else if (gp.bomberman.x < gp.worldWidth - gp.screenWidth / 2 && x >= gp.screenWidth / 2) {
             int ScreenX = x + gp.screenWidth / 2 - gp.bomberman.x;
             g2.drawImage(dead[deadNum], ScreenX, y, width, height, null);
-        } else if (gp.screenWidth / 2 <= gp.bomberman.x && x < gp.screenWidth / 2) {
+        } else if (x < gp.screenWidth / 2) {
             int ScreenX = gp.screenWidth / 2 + this.x - gp.bomberman.x;
             g2.drawImage(dead[deadNum], ScreenX, y, width, height, null);
-        } else if (gp.bomberman.x >= gp.worldWidth - gp.screenWidth / 2) {
+        } else {
             int ScreenX = x - gp.worldWidth + gp.screenWidth;
             g2.drawImage(dead[deadNum], ScreenX, y, width, height, null);
         }
     }
 
+    public void drawMove(int ScreenX, Graphics2D g2) {
+        if (direction.equals("left")) {
+            g2.drawImage(left[spriteNum], ScreenX, y, width, height, null);
+        } else if (direction.equals("right")) {
+            g2.drawImage(right[spriteNum], ScreenX, y, width, height, null);
+        } else {
+            if (preDirection.equals("left")) {
+                g2.drawImage(left[spriteNum], ScreenX, y, width, height, null);
+            } else {
+                g2.drawImage(right[spriteNum], ScreenX, y, width, height, null);
+            }
+        }
+    }
     public void updatePos() {
         switch (direction) {
             case "up" -> {
@@ -119,7 +146,6 @@ public class Entity extends Gameobject {
 
     public boolean collisionUp() {
         int a = x % gp.tileSize;
-        int b = y % gp.tileSize;
         int EntityX = x / gp.tileSize;
         int EntityY = y / gp.tileSize;
         if (this.getBound(x, y - 1).intersects(TileManager.obj[EntityY - 1][EntityX].getBound()) && (TileManager.obj[EntityY - 1][EntityX] instanceof Wall || TileManager.obj[EntityY - 1][EntityX] instanceof Brick || TileManager.obj[EntityY - 1][EntityX] instanceof BrickFlameItem || TileManager.obj[EntityY - 1][EntityX] instanceof BrickSpeedItem || TileManager.obj[EntityY - 1][EntityX] instanceof BrickBombItem || TileManager.obj[EntityY - 1][EntityX] instanceof Bomb || TileManager.obj[EntityY - 1][EntityX] instanceof BrickPortalItem)) {
@@ -133,7 +159,6 @@ public class Entity extends Gameobject {
 
     public boolean collisionDown() {
         int a = x % gp.tileSize;
-        int b = y % gp.tileSize;
         int EntityX = x / gp.tileSize;
         int EntityY = y / gp.tileSize;
         if (this.getBound(x, y + 1).intersects(TileManager.obj[EntityY + 1][EntityX].getBound()) && (TileManager.obj[EntityY + 1][EntityX] instanceof Wall || TileManager.obj[EntityY + 1][EntityX] instanceof Brick || TileManager.obj[EntityY + 1][EntityX] instanceof BrickFlameItem || TileManager.obj[EntityY + 1][EntityX] instanceof BrickSpeedItem || TileManager.obj[EntityY + 1][EntityX] instanceof BrickBombItem || TileManager.obj[EntityY + 1][EntityX] instanceof Bomb || TileManager.obj[EntityY + 1][EntityX] instanceof BrickPortalItem)) {

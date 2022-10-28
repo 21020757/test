@@ -180,7 +180,6 @@ public class Bomb extends Gameobject {
     }
 
     public void WallExploded(GamePanel gp) {
-        System.out.println(LeftFlame);
         int statusx = x / gp.tileSize;
         int statusy = y / gp.tileSize;
         for (int i = 1; i <= DownFlame; i++) {
