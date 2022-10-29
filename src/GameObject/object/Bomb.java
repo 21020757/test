@@ -137,17 +137,29 @@ public class Bomb extends Gameobject {
         } else if (this.x < gp.screenWidth / 2 && x > gp.screenWidth / 2) {
             int bombScreenX = this.x - x + gp.screenWidth / 2;
             bombX = bombScreenX;
-            g2.drawImage(grass, bombScreenX, this.y, gp.tileSize, gp.tileSize, null);
+            if (gp.tile.map[this.y/gp.tileSize][this.x/gp.tileSize] == 'x') {
+                g2.drawImage(portal, bombScreenX, this.y, gp.tileSize, gp.tileSize, null);
+            } else {
+                g2.drawImage(grass, bombScreenX, this.y, gp.tileSize, gp.tileSize, null);
+            }
             g2.drawImage(bombing[indexAniBomb], bombScreenX, this.y, gp.tileSize, gp.tileSize, null);
         } else if (this.x >= gp.screenWidth / 2 && this.x <= gp.worldWidth - gp.screenWidth / 2 && x >= gp.screenWidth / 2 && x <= gp.worldWidth - gp.screenWidth / 2) {
             int bombScreenX = gp.screenWidth / 2 + this.x - x;
             bombX = bombScreenX;
-            g2.drawImage(grass, bombScreenX, this.y, gp.tileSize, gp.tileSize, null);
+            if (gp.tile.map[this.y/gp.tileSize][this.x/gp.tileSize] == 'x') {
+                g2.drawImage(portal, bombScreenX, this.y, gp.tileSize, gp.tileSize, null);
+            } else {
+                g2.drawImage(grass, bombScreenX, this.y, gp.tileSize, gp.tileSize, null);
+            }
             g2.drawImage(bombing[indexAniBomb], bombScreenX, this.y, gp.tileSize, gp.tileSize, null);
         } else if (x > gp.worldWidth - gp.screenWidth / 2) {
             int bombScreenX = this.x - gp.worldWidth + gp.screenWidth;
             bombX = bombScreenX;
-            g2.drawImage(grass, bombScreenX, this.y, gp.tileSize, gp.tileSize, null);
+            if (gp.tile.map[this.y/gp.tileSize][this.x/gp.tileSize] == 'x') {
+                g2.drawImage(portal, bombScreenX, this.y, gp.tileSize, gp.tileSize, null);
+            } else {
+                g2.drawImage(grass, bombScreenX, this.y, gp.tileSize, gp.tileSize, null);
+            }
             g2.drawImage(bombing[indexAniBomb], bombScreenX, this.y, gp.tileSize, gp.tileSize, null);
         } else if (this.x > gp.worldWidth - gp.screenWidth / 2 && x <= gp.worldWidth - gp.screenWidth / 2) {
             int bombScreenX = this.x - x + gp.screenWidth / 2;
