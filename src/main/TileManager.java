@@ -1,4 +1,4 @@
-package GameObject.Tiles;
+package main;
 
 import GameObject.Gameobject;
 import GameObject.Item.BrickFlameItem;
@@ -7,7 +7,6 @@ import GameObject.Item.BrickSpeedItem;
 import GameObject.mapObject.Brick;
 import GameObject.mapObject.Grass;
 import GameObject.mapObject.Wall;
-import main.GamePanel;
 
 import java.awt.*;
 import java.io.BufferedReader;
@@ -16,7 +15,7 @@ import java.io.InputStreamReader;
 
 public class TileManager {
     GamePanel gp;
-    public static Gameobject obj[][];
+    public static Gameobject[][] obj;
 
     public char[][] map;
 

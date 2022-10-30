@@ -3,7 +3,7 @@ package GameObject.entity;
 import GameObject.Item.FlameItem;
 import GameObject.Item.PortalItem;
 import GameObject.Item.SpeedItem;
-import GameObject.Tiles.TileManager;
+import main.TileManager;
 import GameObject.mapObject.Grass;
 import main.GamePanel;
 import main.KeyHandler;
@@ -42,7 +42,7 @@ public class Bomberman extends Entity {
         y = gp.tileSize;
         speed = 2;
         direction = "down";
-        width = 32;
+        width = 48;
         height = 48;
         BombAmount = 1;
         count = 1;

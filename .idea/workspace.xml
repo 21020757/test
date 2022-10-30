@@ -1,7 +1,16 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="acc0c799-5ba4-49af-bcaa-95bc40c76a34" name="Changes" comment="images" />
+    <list default="true" id="acc0c799-5ba4-49af-bcaa-95bc40c76a34" name="Changes" comment="images">
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/GameObject/Tiles/TileManager.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/TileManager.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/GameObject/Tiles/map.txt" beforeDir="false" afterPath="$PROJECT_DIR$/src/GameObject/Tiles/map.txt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/GameObject/entity/Bomberman.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/GameObject/entity/Bomberman.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/GameObject/entity/Entity.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/GameObject/entity/Entity.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/GameObject/object/Bomb.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/GameObject/object/Bomb.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/GamePanel.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/GamePanel.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/KeyHandler.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/KeyHandler.java" afterDir="false" />
+    </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -120,7 +129,8 @@
       <workItem from="1666985571785" duration="748000" />
       <workItem from="1666986344369" duration="427000" />
       <workItem from="1667019073452" duration="139000" />
-      <workItem from="1667019246362" duration="739000" />
+      <workItem from="1667019246362" duration="1178000" />
+      <workItem from="1667115091384" duration="1464000" />
     </task>
     <task id="LOCAL-00001" summary="up">
       <created>1664879636637</created>

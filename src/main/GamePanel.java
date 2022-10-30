@@ -1,7 +1,6 @@
 package main;
 
 
-import GameObject.Tiles.TileManager;
 import GameObject.entity.Bomberman;
 import GameObject.entity.Enemies;
 import GameObject.entity.Oneal;
@@ -43,7 +42,7 @@ public class GamePanel extends JPanel implements Runnable {
     public final int worldHeight = tileSize * maxWorldRow;
     //FPS
     int FPS = 60;
-    TileManager tile = new TileManager(this);
+    public TileManager tile = new TileManager(this);
 
     //MENU
     public int gameState;
@@ -131,30 +130,28 @@ public class GamePanel extends JPanel implements Runnable {
     }
 
     public void update() {
-        if (gameState == playState) {
-            if (!bomberman.isDead) {
-                bomberman.update();
-            }
-            for (Enemies enemies : enemy) {
-                if (enemies != null) {
-                    checkEnemies = 0;
-                    if (!enemies.isDead) {
-                        enemies.update();
-                    }
-                } else {
-                    checkEnemies = 1;
+        if (!bomberman.isDead) {
+            bomberman.update();
+        }
+        for (Enemies enemies : enemy) {
+            if (enemies != null) {
+                checkEnemies = 0;
+                if (!enemies.isDead) {
+                    enemies.update();
                 }
+            } else {
+                checkEnemies = 1;
             }
+        }
 
-            for (Oneal oneal : oneals) {
-                if (oneal != null) {
-                    checkOneal = 0;
-                    if (!oneal.isDead) {
-                        oneal.update();
-                    }
-                } else {
-                    checkOneal = 1;
+        for (Oneal oneal : oneals) {
+            if (oneal != null) {
+                checkOneal = 0;
+                if (!oneal.isDead) {
+                    oneal.update();
                 }
+            } else {
+                checkOneal = 1;
             }
         }
     }

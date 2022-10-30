@@ -2,7 +2,7 @@ package GameObject.object;
 
 import GameObject.Gameobject;
 import GameObject.Item.*;
-import GameObject.Tiles.TileManager;
+import main.TileManager;
 import GameObject.mapObject.Brick;
 import GameObject.mapObject.Grass;
 import GameObject.mapObject.Wall;

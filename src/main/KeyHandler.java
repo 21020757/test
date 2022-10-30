@@ -1,7 +1,5 @@
 package main;
 
-import GameObject.Tiles.TileManager;
-
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 

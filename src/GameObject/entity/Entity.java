@@ -5,7 +5,7 @@ import GameObject.Item.BrickBombItem;
 import GameObject.Item.BrickFlameItem;
 import GameObject.Item.BrickPortalItem;
 import GameObject.Item.BrickSpeedItem;
-import GameObject.Tiles.TileManager;
+import main.TileManager;
 import GameObject.mapObject.Brick;
 import GameObject.mapObject.Wall;
 import GameObject.object.Bomb;
