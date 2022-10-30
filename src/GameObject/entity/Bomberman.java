@@ -142,7 +142,11 @@ public class Bomberman extends Entity {
                 if (((Bomb) TileManager.obj[bomby][bombx]).indexAniExplosion == 3) {
                     ((Bomb) TileManager.obj[bomby][bombx]).indexAniExplosion = 0;
                     gp.playSE(3);
-                    TileManager.obj[bomby][bombx] = new Grass(bombx, bomby);
+                    if (gp.tile.map[bomby][bombx] == 'x') {
+                        TileManager.obj[bomby][bombx] = new PortalItem(bombx,bomby);
+                    } else {
+                        TileManager.obj[bomby][bombx] = new Grass(bombx, bomby);
+                    }
                     BombAmount++;
                 }
             }

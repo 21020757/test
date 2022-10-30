@@ -19,7 +19,7 @@ public class Bomb extends Gameobject {
     public int UpFlame, DownFlame, LeftFlame, RightFlame;
     public boolean exploded;
     public int countToExplode = 0, intervalToExplode = 5;
-    public BufferedImage grass;
+    public BufferedImage grass,portal;
     public BufferedImage[] bombing = new BufferedImage[3];
     public BufferedImage[] fontExplosion = new BufferedImage[3];
     public BufferedImage[] upExplosion = new BufferedImage[3];
@@ -56,6 +56,7 @@ public class Bomb extends Gameobject {
     public void getBombImage() {
         try {
             grass = ImageIO.read(Objects.requireNonNull(getClass().getResourceAsStream("/res/sprites/map/grass.png")));
+            portal =  ImageIO.read(getClass().getResourceAsStream("/res/sprites/items/portal.png"));
             //Bomb
             bombing[0] = ImageIO.read(Objects.requireNonNull(getClass().getResourceAsStream("/res/sprites/object/bomb.png")));
             bombing[1] = ImageIO.read(Objects.requireNonNull(getClass().getResourceAsStream("/res/sprites/object/bomb_1.png")));
@@ -127,27 +128,47 @@ public class Bomb extends Gameobject {
         int bombX = this.x;
         int bombY = this.y;
         if (x < gp.screenWidth / 2) {
-            g2.drawImage(grass, this.x, this.y, gp.tileSize, gp.tileSize, null);
+            if (gp.tile.map[this.y/gp.tileSize][this.x/gp.tileSize] == 'x') {
+                g2.drawImage(portal, this.x, this.y, gp.tileSize, gp.tileSize, null);
+            } else {
+                g2.drawImage(grass, this.x, this.y, gp.tileSize, gp.tileSize, null);
+            }
             g2.drawImage(bombing[indexAniBomb], this.x, this.y, gp.tileSize, gp.tileSize, null);
         } else if (this.x < gp.screenWidth / 2 && x > gp.screenWidth / 2) {
             int bombScreenX = this.x - x + gp.screenWidth / 2;
             bombX = bombScreenX;
-            g2.drawImage(grass, bombScreenX, this.y, gp.tileSize, gp.tileSize, null);
+            if (gp.tile.map[this.y/gp.tileSize][this.x/gp.tileSize] == 'x') {
+                g2.drawImage(portal, bombScreenX, this.y, gp.tileSize, gp.tileSize, null);
+            } else {
+                g2.drawImage(grass, bombScreenX, this.y, gp.tileSize, gp.tileSize, null);
+            }
             g2.drawImage(bombing[indexAniBomb], bombScreenX, this.y, gp.tileSize, gp.tileSize, null);
         } else if (this.x >= gp.screenWidth / 2 && this.x <= gp.worldWidth - gp.screenWidth / 2 && x >= gp.screenWidth / 2 && x <= gp.worldWidth - gp.screenWidth / 2) {
             int bombScreenX = gp.screenWidth / 2 + this.x - x;
             bombX = bombScreenX;
-            g2.drawImage(grass, bombScreenX, this.y, gp.tileSize, gp.tileSize, null);
+            if (gp.tile.map[this.y/gp.tileSize][this.x/gp.tileSize] == 'x') {
+                g2.drawImage(portal, bombScreenX, this.y, gp.tileSize, gp.tileSize, null);
+            } else {
+                g2.drawImage(grass, bombScreenX, this.y, gp.tileSize, gp.tileSize, null);
+            }
             g2.drawImage(bombing[indexAniBomb], bombScreenX, this.y, gp.tileSize, gp.tileSize, null);
         } else if (x > gp.worldWidth - gp.screenWidth / 2) {
             int bombScreenX = this.x - gp.worldWidth + gp.screenWidth;
             bombX = bombScreenX;
-            g2.drawImage(grass, bombScreenX, this.y, gp.tileSize, gp.tileSize, null);
+            if (gp.tile.map[this.y/gp.tileSize][this.x/gp.tileSize] == 'x') {
+                g2.drawImage(portal, bombScreenX, this.y, gp.tileSize, gp.tileSize, null);
+            } else {
+                g2.drawImage(grass, bombScreenX, this.y, gp.tileSize, gp.tileSize, null);
+            }
             g2.drawImage(bombing[indexAniBomb], bombScreenX, this.y, gp.tileSize, gp.tileSize, null);
         } else if (this.x > gp.worldWidth - gp.screenWidth / 2 && x <= gp.worldWidth - gp.screenWidth / 2) {
             int bombScreenX = this.x - x + gp.screenWidth / 2;
             bombX = bombScreenX;
-            g2.drawImage(grass, bombScreenX, this.y, gp.tileSize, gp.tileSize, null);
+            if (gp.tile.map[this.y/gp.tileSize][this.x/gp.tileSize] == 'x') {
+                g2.drawImage(portal, bombScreenX, this.y, gp.tileSize, gp.tileSize, null);
+            } else {
+                g2.drawImage(grass, bombScreenX, this.y, gp.tileSize, gp.tileSize, null);
+            }
             g2.drawImage(bombing[indexAniBomb], bombScreenX, this.y, gp.tileSize, gp.tileSize, null);
         }
         if (this.exploded) {
