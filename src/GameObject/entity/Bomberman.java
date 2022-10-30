@@ -42,7 +42,7 @@ public class Bomberman extends Entity {
         y = gp.tileSize;
         speed = 2;
         direction = "down";
-        width = 48;
+        width = 32;
         height = 48;
         BombAmount = 1;
         count = 1;
