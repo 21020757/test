@@ -1,0 +1,19 @@
+<changelist name="Uncommitted_changes_before_Update_at_27-Oct-22_10_14_PM_[Changes]" date="1666883667246" recycled="true" deleted="true">
+  <option name="PATH" value="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Update_at_27-Oct-22_10_14_PM_[Changes]/shelved.patch" />
+  <option name="DESCRIPTION" value="Uncommitted changes before Update at 27-Oct-22 10:14 PM [Changes]" />
+  <binary>
+    <option name="BEFORE_PATH" value="out/production/testbtl/GameObject/entity/Enemies.class" />
+    <option name="AFTER_PATH" value="out/production/testbtl/GameObject/entity/Enemies.class" />
+    <option name="SHELVED_PATH" value="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Update_at_27-Oct-22_10_14_PM_[Changes]/Enemies.class" />
+  </binary>
+  <binary>
+    <option name="BEFORE_PATH" value="out/production/testbtl/main/GamePanel.class" />
+    <option name="AFTER_PATH" value="out/production/testbtl/main/GamePanel.class" />
+    <option name="SHELVED_PATH" value="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Update_at_27-Oct-22_10_14_PM_[Changes]/GamePanel.class" />
+  </binary>
+  <binary>
+    <option name="BEFORE_PATH" value="out/production/testbtl/GameObject/entity/Entity.class" />
+    <option name="AFTER_PATH" value="out/production/testbtl/GameObject/entity/Entity.class" />
+    <option name="SHELVED_PATH" value="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Update_at_27-Oct-22_10_14_PM_[Changes]/Entity.class" />
+  </binary>
+</changelist>

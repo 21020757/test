@@ -1,0 +1,41 @@
+Index: src/main/GamePanel.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>package main;\r\n\r\nimport GameObject.Tiles.TileManager;\r\nimport GameObject.entity.Bomberman;\r\nimport GameObject.entity.Enemies;\r\nimport GameObject.entity.Entity;\r\n\r\nimport javax.swing.*;\r\nimport java.awt.*;\r\n\r\n\r\npublic class GamePanel extends JPanel implements Runnable {\r\n    // SCREEN SETTINGS\r\n    public final int orignalTileSize = 16; //16x16 tile\r\n    public final int scale = 3;\r\n    public final int tileSize = orignalTileSize * scale; // Tile size --- 48x48\r\n    final int maxScreenCol = 16;\r\n    final int maxScreenRow = 13;\r\n    public final int screenWidth = tileSize * maxScreenCol;\r\n    public final int screenHeight = tileSize * maxScreenRow;\r\n    //Create object\r\n    Thread gameThread;\r\n    KeyHandler keyH = new KeyHandler(this);\r\n\r\n    public AssetSetter aSetter = new AssetSetter(this);\r\n    public Bomberman bomberman = new Bomberman(this, keyH);\r\n    public Entity enemy = new Enemies(this);\r\n    Sound sound = new Sound();\r\n\r\n    //World Settings\r\n    public final int maxWorldCol = 31;\r\n    public final int maxWorldRow = 13;\r\n    public final int worldWidth = tileSize * maxWorldCol;\r\n    public final int worldHeight = tileSize * maxWorldRow;\r\n    //FPS\r\n    int FPS = 60;\r\n    TileManager tile = new TileManager(this);\r\n\r\n    //MENU\r\n    public int gameState;\r\n    public final int titleState = 0;\r\n    public final int playState = 1;\r\n    public final int loadLevel = 2;\r\n    public final int pauseState = 3;\r\n    public int loadGameInterval = -1;\r\n    public int commandNum = 0;\r\n    Menu menu = new Menu(this);\r\n\r\n\r\n    public GamePanel() {\r\n        this.setPreferredSize(new Dimension(screenWidth, screenHeight));\r\n        this.setBackground(Color.BLACK);\r\n        this.setDoubleBuffered(true);\r\n        this.addKeyListener(keyH);\r\n        this.setFocusable(true);\r\n    }\r\n\r\n\r\n    public void setUpGame() {\r\n        gameState = titleState;\r\n        playMusic(0);\r\n    }\r\n\r\n    public void startGameThread() {\r\n        gameThread = new Thread(this);\r\n        gameThread.start();\r\n    }\r\n\r\n    @Override\r\n    public void run() {\r\n        double drawInterval = 1000000000 / FPS;\r\n        double nextDrawTime = System.nanoTime() + drawInterval;\r\n        while (gameThread != null) {\r\n\r\n            update();\r\n\r\n            repaint();\r\n\r\n            try {\r\n                double remainingTime = nextDrawTime - System.nanoTime();\r\n                remainingTime /= 1000000;\r\n                if (remainingTime < 0) {\r\n                    remainingTime = 0;\r\n                }\r\n                Thread.sleep((long) remainingTime);\r\n                nextDrawTime += drawInterval;\r\n            } catch (InterruptedException e) {\r\n                throw new RuntimeException(e);\r\n            }\r\n        }\r\n    }\r\n\r\n    public void update() {\r\n        bomberman.update();\r\n        if (enemy != null) {\r\n            enemy.update();\r\n        }\r\n    }\r\n\r\n    public void paintComponent(Graphics g) {\r\n        super.paintComponent(g);\r\n        Graphics2D g2 = (Graphics2D) g;\r\n        menu.draw(g2);\r\n        if (gameState == playState) {\r\n            //OTHERS\r\n            tile.draw(g2);\r\n            bomberman.draw(g2);\r\n            if (enemy != null) {\r\n                enemy.draw(g2);\r\n            }\r\n        }\r\n        g2.dispose();\r\n    }\r\n\r\n\r\n    public int getTextCenterX(String text, Graphics2D g2) {\r\n        int length = (int) g2.getFontMetrics().getStringBounds(text, g2).getWidth();\r\n        return screenWidth / 2 - length / 2;\r\n    }\r\n\r\n    /*/\r\n    _______________________________________\r\n    |                                     |\r\n    |            MUSIC SETTINGS           |\r\n    |_____________________________________|\r\n     */\r\n    public void playMusic(int i) {\r\n        sound.setFile(i);\r\n        sound.play();\r\n        sound.loop();\r\n    }\r\n\r\n    public void stopMusic() {\r\n        sound.stop();\r\n    }\r\n\r\n    public void playSE(int i) {\r\n        sound.setFile(i);\r\n        sound.play();\r\n    }\r\n}\r\n
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/src/main/GamePanel.java b/src/main/GamePanel.java
+--- a/src/main/GamePanel.java	(revision b80c6344eb4626b769c270beac5a5f94ba3574d8)
++++ b/src/main/GamePanel.java	(date 1666750824108)
+@@ -24,7 +24,7 @@
+ 
+     public AssetSetter aSetter = new AssetSetter(this);
+     public Bomberman bomberman = new Bomberman(this, keyH);
+-    public Entity enemy = new Enemies(this);
++    public Entity[] enemy = new Entity[3];
+     Sound sound = new Sound();
+ 
+     //World Settings
+@@ -92,8 +92,8 @@
+ 
+     public void update() {
+         bomberman.update();
+-        if (enemy != null) {
+-            enemy.update();
++        for(int i = 0; enemy[i] != null; i++) {
++            enemy[i].update();
+         }
+     }
+ 
+@@ -105,8 +105,8 @@
+             //OTHERS
+             tile.draw(g2);
+             bomberman.draw(g2);
+-            if (enemy != null) {
+-                enemy.draw(g2);
++            for(int i = 0; enemy[i] != null; i++) {
++                enemy[i].draw();
+             }
+         }
+         g2.dispose();

@@ -1,0 +1,124 @@
+Index: src/entity/Bomberman.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/src/entity/Bomberman.java b/src/entity/Bomberman.java
+--- a/src/entity/Bomberman.java	
++++ b/src/entity/Bomberman.java	
+@@ -21,8 +21,16 @@
+ 
+     Bomb bomb;
+ 
+-    public BufferedImage bomb0, bomb1, bomb2, exploded, exploded1, exploded2;
+-    public int frameBomb = 0, intervalBomb = 7, indexAniBomb = 0;
++    public BufferedImage bomb0, bomb1, bomb2;
++    public BufferedImage[] fontExplosion = new BufferedImage[3];
++    public BufferedImage[] upExplosion = new BufferedImage[3];
++    public BufferedImage[] rightExplosion = new BufferedImage[3];
++    public BufferedImage[] downExplosion = new BufferedImage[3];
++    public BufferedImage[] leftExplosion = new BufferedImage[3];
++
++
++    public int frameBomb = 0, intervalBomb = 7, indexAniBomb = 0, maxAniBomb = 2;
++    public int frameExplosion = 0, intervalExplosion = 3, indexAniExplosion = 0, maxAniExplosion = 3;
+ 
+     public Bomberman(GamePanel gp, KeyHandler keyH) {
+         this.gp = gp;
+@@ -59,7 +67,25 @@
+             bomb0 = ImageIO.read(Objects.requireNonNull(getClass().getResourceAsStream("/sprites/object/bomb.png")));
+             bomb1 = ImageIO.read(Objects.requireNonNull(getClass().getResourceAsStream("/sprites/object/bomb_1.png")));
+             bomb2 = ImageIO.read(Objects.requireNonNull(getClass().getResourceAsStream("/sprites/object/bomb_2.png")));
++            fontExplosion[0] = ImageIO.read(Objects.requireNonNull(getClass().getResourceAsStream("/sprites/object/bomb_exploded.png")));
++            fontExplosion[1] = ImageIO.read(Objects.requireNonNull(getClass().getResourceAsStream("/sprites/object/bomb_exploded1.png")));
++            fontExplosion[2] = ImageIO.read(Objects.requireNonNull(getClass().getResourceAsStream("/sprites/object/bomb_exploded2.png")));
++
++            upExplosion[0] = ImageIO.read(Objects.requireNonNull(getClass().getResourceAsStream("/sprites/object/explosion_vertical_top_last.png")));
++            upExplosion[1] = ImageIO.read(Objects.requireNonNull(getClass().getResourceAsStream("/sprites/object/explosion_vertical_top_last1.png")));
++            upExplosion[2] = ImageIO.read(Objects.requireNonNull(getClass().getResourceAsStream("/sprites/object/explosion_vertical_top_last2.png")));
+ 
++            downExplosion[0] = ImageIO.read(Objects.requireNonNull(getClass().getResourceAsStream("/sprites/object/explosion_vertical_down_last.png")));
++            downExplosion[1] = ImageIO.read(Objects.requireNonNull(getClass().getResourceAsStream("/sprites/object/explosion_vertical_down_last1.png")));
++            downExplosion[2] = ImageIO.read(Objects.requireNonNull(getClass().getResourceAsStream("/sprites/object/explosion_vertical_down_last2.png")));
++
++            leftExplosion[0] = ImageIO.read(Objects.requireNonNull(getClass().getResourceAsStream("/sprites/object/explosion_horizontal_left_last.png")));
++            leftExplosion[1] = ImageIO.read(Objects.requireNonNull(getClass().getResourceAsStream("/sprites/object/explosion_horizontal_left_last1.png")));
++            leftExplosion[2] = ImageIO.read(Objects.requireNonNull(getClass().getResourceAsStream("/sprites/object/explosion_horizontal_left_last2.png")));
++
++            rightExplosion[0] = ImageIO.read(Objects.requireNonNull(getClass().getResourceAsStream("/sprites/object/explosion_horizontal_right_last.png")));
++            rightExplosion[1] = ImageIO.read(Objects.requireNonNull(getClass().getResourceAsStream("/sprites/object/explosion_horizontal_right_last1.png")));
++            rightExplosion[2] = ImageIO.read(Objects.requireNonNull(getClass().getResourceAsStream("/sprites/object/explosion_horizontal_right_last2.png")));
+         } catch (IOException e) {
+             e.printStackTrace();
+         }
+@@ -91,11 +117,12 @@
+                     bomb = new Bomb();
+                     bomb.x = x;
+                     bomb.y = y;
++                    System.out.println(bomb.x + " " + bomb.y);
+                 }
+             }
+ 
+             spriteCounter++;
+-            if (spriteCounter > intervalImageChange) {
++            if (spriteCounter == intervalImageChange) {
+                 if (spriteNum == 1) {
+                     spriteNum = 2;
+                 } else if (spriteNum == 2) {
+@@ -112,7 +139,7 @@
+             if (frameBomb == intervalBomb) {
+                 frameBomb = 0;
+                 indexAniBomb++;
+-                if (indexAniBomb > 2) {
++                if (indexAniBomb > maxAniBomb) {
+                     indexAniBomb = 0;
+                     bomb.countToExplode++;
+                 }
+@@ -121,7 +148,15 @@
+                 }
+             }
+             if (bomb.exploded) {
+-                bomb = null;
++                frameExplosion++;
++                if (frameExplosion == intervalExplosion) {
++                    frameExplosion = 0;
++                    indexAniExplosion++;
++                    if (indexAniExplosion == maxAniExplosion) {
++                        indexAniExplosion = 0;
++                        bomb = null;
++                    }
++                }
+             }
+         }
+     }
+@@ -170,14 +205,24 @@
+         }
+ 
+         if (bomb != null) {
+-            if (indexAniBomb == 0) {
+-                bombImg = bomb0;
+-            } else if (indexAniBomb == 1) {
+-                bombImg = bomb1;
+-            } else if (indexAniBomb == 2) {
+-                bombImg = bomb2;
++            if (bomb.exploded) {
++                //Bom no
++                g2.drawImage(fontExplosion[indexAniExplosion], bomb.x, bomb.y, gp.tileSize, gp.tileSize, null);
++                g2.drawImage(upExplosion[indexAniExplosion], bomb.x, bomb.y - gp.tileSize, gp.tileSize, gp.tileSize, null);
++                g2.drawImage(downExplosion[indexAniExplosion], bomb.x, bomb.y + gp.tileSize, gp.tileSize, gp.tileSize, null);
++                g2.drawImage(leftExplosion[indexAniExplosion], bomb.x - gp.tileSize, bomb.y, gp.tileSize, gp.tileSize, null);
++                g2.drawImage(rightExplosion[indexAniExplosion], bomb.x + gp.tileSize, bomb.y, gp.tileSize, gp.tileSize, null);
++            } else {
++                if (indexAniBomb == 0) {
++                    bombImg = bomb0;
++                } else if (indexAniBomb == 1) {
++                    bombImg = bomb1;
++                } else if (indexAniBomb == 2) {
++                    bombImg = bomb2;
++                }
+             }
+             g2.drawImage(bombImg, bomb.x, bomb.y, gp.tileSize, gp.tileSize, null);
++
+         }
+ 
+         if (x >= 8 * 48 && x <= 23 * 48) {
